@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="WeightTracker.Views.MainPage"
+             BindingContext="{Binding MainModelView, Source={RelativeSource Self}}"
+             Shell.NavBarIsVisible="false">
+    <Grid RowDefinitions="*">
+        <ScrollView >
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" RowSpacing="5" >
+                
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                        <GradientStop Color="#baa4f5" Offset="0.1" />
+                        <GradientStop Color="#562fc2" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <StackLayout Orientation="Horizontal" Grid.Row="0"
+                             HorizontalOptions="Center" VerticalOptions="Start"
+                             Spacing="5" Margin="0,10,0,0">
+                    <ImageButton Source="calendar.png" 
+                                 HorizontalOptions="Center"
+                                 WidthRequest="40" HeightRequest="40"
+                                 Clicked="DateButton_Clicked"/>
+                    <Label x:Name="DateLabel"
+                           VerticalTextAlignment="Center"
+                           FontSize="22" 
+                           Text="{Binding Date}" TextColor="White" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                           
+                    <DatePicker  x:Name="datePicker" 
+                                 WidthRequest="1" HeightRequest="1"
+                                 Format="dd.MM.yyyy"
+                                 MaximumDate="{Binding MaxDate}" MinimumDate="{Binding MinDate}"
+                                 Date="{Binding SelectedDate}"
+                                 DateSelected="datePicker_DateSelected" />
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal" Grid.Row="0" 
+                             HorizontalOptions="Center"
+                             Margin="0,15,0,0" Spacing="10" Padding="0">
+                    
+                    <StackLayout Orientation="Vertical"
+                                 VerticalOptions="Center"
+                                 Spacing="0" Margin="0,20,0,0">
+                        <Label x:Name="KcalEaten" 
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" 
+                               FontAttributes="Bold" FontSize="26"
+                               Text="{Binding KcalEaten}" TextColor="White"/>
+                        <Label HorizontalOptions="Center"                               
+                               Text="потребление" TextColor="White"/>
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Vertical" 
+                                 Margin="0,50,0,0" Spacing="5">
+                        
+                        <Grid HorizontalOptions="Center">
+                            <Ellipse WidthRequest="150" HeightRequest="150" 
+                                     Stroke="LightGray" StrokeThickness="10"/>
+                            <Path x:Name="progressBar" 
+                                  WidthRequest="150" HeightRequest="150" 
+                                  Fill ="Transparent" StrokeThickness="10">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure StartPoint="70,0">
+                                            <ArcSegment x:Name="Arc" 
+                                                        Point="70,0" Size="70,70" 
+                                                        IsLargeArc ="False" 
+                                                        SweepDirection="CounterClockwise"/>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                            <Label x:Name="KcalRes"
+                                   HorizontalOptions="Center" VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   FontSize="36" FontAttributes="Bold" />
+                        </Grid>
+                        
+                        <Label x:Name="KcalLeft" Grid.Row="2"
+                               HorizontalOptions="Center"                               
+                               FontSize="24"
+                               Text="ккал осталось" TextColor="White"/>
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Vertical"
+                                 VerticalOptions="Center"
+                                 Spacing="0"  Margin="0,20,0,0" >
+                        <Label x:Name="KcalSpent" 
+                               HorizontalOptions="Center"
+                               WidthRequest="88.8"
+                               HorizontalTextAlignment="Center"                                
+                               FontAttributes="Bold" FontSize="26" 
+                               Text="{Binding KcalSpent}" TextColor="White">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="KcalSpent_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label HorizontalOptions="Center"                                
+                               WidthRequest="88.8"
+                               HorizontalTextAlignment="Center"                                
+                               Text="расход" TextColor="White"/>
+                    </StackLayout>
+                    
+                </StackLayout>
+
+                <Frame Grid.Row="1" 
+                       VerticalOptions="Center" 
+                       Margin="20,30,20,15" Padding="10,5"
+                       Style="{StaticResource DataFrame}" >
+                    
+                    <Grid ColumnDefinitions="*,*,*" 
+                          VerticalOptions="Center" HorizontalOptions="Fill"
+                          HeightRequest="80" >
+                        
+                        <StackLayout Orientation="Vertical" Grid.Column="0"
+                                     VerticalOptions="Center">
+                            <Label HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                   FontSize="22" FontAttributes="Bold"                                   
+                                   Text="{Binding PrText}" TextColor="{Binding PrColor}"/>
+                            <Label Text="белки" 
+                                   HorizontalOptions="Center" 
+                                   VerticalTextAlignment="Center" 
+                                   FontSize="16" FontAttributes="Bold"/>
+                        </StackLayout>
+                        
+                        <StackLayout Orientation="Vertical" Grid.Column="1"
+                                     VerticalOptions="Center">
+                            <Label HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                   FontSize="22" FontAttributes="Bold"                                   
+                                   Text="{Binding FatText}" TextColor="{Binding FatColor}"/>
+                            <Label Text="жиры" HorizontalOptions="Center" 
+                                   VerticalTextAlignment="Center" FontSize="16" FontAttributes="Bold"/>
+                        </StackLayout>
+                        
+                        <StackLayout Orientation="Vertical" Grid.Column="2"
+                                     VerticalOptions="Center">
+                            <Label HorizontalOptions="Fill" 
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                   FontSize="22" FontAttributes="Bold"
+                                   Text="{Binding CbText}" TextColor="{Binding CbColor}"/>
+                            <Label Text="углеводы" 
+                                   HorizontalOptions="Center" 
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                   FontSize="16" FontAttributes="Bold"/>
+                        </StackLayout>
+                        
+                    </Grid>
+                </Frame>
+
+                <Frame Grid.Row="2" 
+                       VerticalOptions="Center" 
+                       HeightRequest="80"
+                       Margin="20,5,20,10" 
+                       CornerRadius="40" Opacity="0.60" 
+                       BorderColor="#3d0cc4" BackgroundColor="#3d0cc4"
+                       IsVisible="{Binding StepCounterIsVisible}">
+
+                    <Grid ColumnDefinitions="Auto,*" 
+                          VerticalOptions="Center" HorizontalOptions="Fill"
+                          HeightRequest="60" >
+                        <Image Grid.Column="0" 
+                               WidthRequest="50" HeightRequest="50"
+                               Source="steps.png" />
+                        
+                        <StackLayout Orientation="Vertical" Grid.Column="1" >
+                            <Label x:Name="StepLabel" 
+                                   HorizontalOptions="Fill" 
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="End"
+                                   BindingContext="{Binding StepModelView}"
+                                   FontAttributes="Bold" FontSize="28" 
+                                   TextColor="White" Text="{Binding StepsText}"/>
+                            <Label x:Name="StepKcalLabel" 
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
+                                   BindingContext="{Binding StepModelView}"
+                                   FontSize="18"
+                                   TextColor="Gray" Text="{Binding Calories}"/>
+                        </StackLayout>
+                    </Grid>
+                    
+                </Frame>
+                
+                <Frame Grid.Row="3" 
+                       VerticalOptions="Center" 
+                       Margin="20,15,20,5" Padding="0"
+                       Style="{StaticResource DataFrame}" >
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Breakfast_Tapped"/>
+                    </Frame.GestureRecognizers>
+                    
+                    <StackLayout>
+                        <Label Style="{StaticResource PFCNameLabel}"
+                               Text="Завтрак" />
+
+                        <StackLayout Orientation="Horizontal" 
+                                     VerticalOptions="Center" HorizontalOptions="Center"
+                                     HeightRequest="60" 
+                                     Padding="0" Spacing="16" >
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding BrCal}"/>
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding BrPr}"/>
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding BrFat}"/>
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding BrCb}"/>
+                        </StackLayout>
+                        
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Row="4" 
+                       VerticalOptions="Center" 
+                       Margin="20,5,20,5" Padding="0"
+                       Style="{StaticResource DataFrame}" >
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Lunch_Tapped"/>
+                    </Frame.GestureRecognizers>
+
+                    <StackLayout>
+                        <Label Style ="{StaticResource PFCNameLabel}" 
+                               Text="Обед" />
+
+                        <StackLayout Orientation="Horizontal" 
+                                     VerticalOptions="Center" HorizontalOptions="Center"
+                                     HeightRequest="60" 
+                                     Padding="0" Spacing="16" >
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding LnCal}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding LnPr}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding LnFat}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding LnCb}" />
+                        </StackLayout>
+                        
+                    </StackLayout>
+                </Frame>
+                
+                <Frame Grid.Row="5" 
+                       VerticalOptions="Center" 
+                       Margin="20,5,20,5" Padding="0"
+                       Style="{StaticResource DataFrame}" >
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Dinner_Tapped"/>
+                    </Frame.GestureRecognizers>
+
+                    <StackLayout>
+                        <Label Style="{StaticResource PFCNameLabel}" 
+                            Text="Ужин" />
+                        
+                        <StackLayout Orientation="Horizontal" 
+                                     VerticalOptions="Center" HorizontalOptions="Center"
+                                     HeightRequest="60" 
+                                     Spacing="16" Padding="0" >
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding DnCal}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding DnPr}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding DnFat}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding DnCb}" />
+                        </StackLayout>
+                        
+                    </StackLayout>
+                </Frame>
+                
+                <Frame Grid.Row="6" 
+                       VerticalOptions="Center" 
+                       Margin="20,5,20,80" Padding="0"
+                       Style="{StaticResource DataFrame}" >
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Snack_Tapped"/>
+                    </Frame.GestureRecognizers>
+
+                    <StackLayout>
+                        <Label Style="{StaticResource PFCNameLabel}"
+                               Text="Перекус" />
+
+                        <StackLayout Orientation="Horizontal" 
+                                     VerticalOptions="Center" HorizontalOptions="Center"
+                                     HeightRequest="60"                                      
+                                     Spacing="16" Padding="0" >
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding SnCal}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding SnPr}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding SnFat}" />
+                            <Label Style="{StaticResource PFCLabel}" 
+                                   Text="{Binding SnCb}" />                            
+                        </StackLayout>
+                        
+                    </StackLayout>
+                    
+                </Frame>
+                
+            </Grid>
+            
+        </ScrollView>
+        <Frame Grid.Row="0" 
+               VerticalOptions="End" HorizontalOptions="Fill"
+               Padding="0"
+               BorderColor="Transparent" BackgroundColor="Transparent" >
+            <Grid x:Name="MyGrid" 
+                  ColumnDefinitions="*,*,*" ColumnSpacing="0"
+                  VerticalOptions="Fill" HorizontalOptions="Fill" 
+                  Padding="10" >
+                <ImageButton x:Name="GraphBtn" Grid.Column="0" 
+                         VerticalOptions="End" HorizontalOptions="Center"
+                         Source="{StaticResource IconGraph}" 
+                         Style="{StaticResource ActionButton}" 
+                         Clicked="GraphBtn_Clicked" />
+                <ImageButton x:Name="NewBtn" Grid.Column="1" 
+                         HorizontalOptions="Center"
+                         Source="{StaticResource IconAdd}" 
+                         Style="{StaticResource ActionButton}" 
+                         Clicked="NewBtn_Clicked" />
+                <ImageButton x:Name="SettingsBtn" Grid.Column="2" 
+                         VerticalOptions="End" HorizontalOptions="Center"
+                         Source="{StaticResource IconSetting}" 
+                         Style="{StaticResource ActionButton}" 
+                
+                         Clicked="SettingsBtn_Clicked" />
+            </Grid>
+        </Frame>
+    </Grid>
+    
+</ContentPage>

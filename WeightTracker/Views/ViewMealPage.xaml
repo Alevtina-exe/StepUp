@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightTracker.Views.ViewMealPage"
+             x:Name="self"
+             BindingContext="{x:Reference self}"
+             Title="{Binding MealName}">
+    <ListView ItemsSource="{Binding Dishes}"
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+              ItemTapped="ListView_ItemTapped"
+              RowHeight="80">
+        <ListView.ItemTemplate >
+            <DataTemplate>
+                <ViewCell >
+                    <Grid ColumnDefinitions="*,*" Padding="30,50,20,50" HeightRequest="160">
+                        <Label Text="{Binding NameForSearch}" FontSize="20" VerticalTextAlignment="Center"
+                                   FontAttributes="Bold" Grid.Column="0" />
+                        <Label Text="{Binding CurrentCalories}" FontSize="20" HorizontalTextAlignment="End"
+                                   TextColor="Gray" Grid.Column="1" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

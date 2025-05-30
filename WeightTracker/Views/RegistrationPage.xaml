@@ -1,0 +1,60 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightTracker.Views.RegistrationPage">
+
+    <VerticalStackLayout Padding="30" Spacing="15">
+
+        <Label Text="Регистрация пользователя"
+       FontSize="22"
+       HorizontalOptions="Center"
+       VerticalOptions="Center"/>
+        
+        <Entry x:Name="NameEntry" Placeholder="Имя" TextChanged="OnNameChanged"/>
+        <Label x:Name="NameErrorLabel" Text="Допустимы только буквы!" TextColor="Red" IsVisible="False"/>
+
+        <Entry x:Name="LoginEntry" Placeholder="Логин" TextChanged="OnLoginChanged"/>
+        <Label x:Name="LoginErrorLabel" Text="Логин содержит недопустимые символы! (только латиница, '.', '_')" TextColor="Red" IsVisible="False"/>
+
+        <Grid ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+
+            <Entry x:Name="PasswordEntry"
+           Placeholder="Пароль"
+           IsPassword="True"
+           TextChanged="OnPasswordChanged"
+           Grid.Column="0" />
+
+            <Button x:Name="ShowPasswordButton"
+            Text="👁"
+            Clicked="OnTogglePassword"
+            Grid.Column="1" />
+        </Grid>
+
+        <Label x:Name="PasswordErrorLabel"
+                Text="Пароль должен содержать минимум 8 символов, хотя бы одну букву и одну цифру, и не содержать кириллицу!"
+                TextColor="Red"
+                IsVisible="False"/>
+
+        <Grid ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Label Text=" Выберите дату рождения:" FontSize="14" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+            <DatePicker x:Name="BirthDatePicker" Grid.Column="1" HorizontalOptions="Center" DateSelected="OnDateSelected"/>
+        </Grid>
+        <Picker x:Name="GenderPicker" Title="Выберите пол" SelectedIndexChanged="OnGenderSelected">
+            <Picker.Items>
+                <x:String>Мужской</x:String>
+                <x:String>Женский</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <Button Text="Продолжить" x:Name="ContinueButton" IsEnabled="False" Clicked="OnContinueClicked"/>
+        <Label x:Name="ErrorLabel" IsVisible="False" HorizontalTextAlignment="Center" 
+               Text="Что-то пошло не так. Проверьте интернет-соединение" TextColor="Red"/>
+    </VerticalStackLayout>
+</ContentPage>

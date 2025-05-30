@@ -1,0 +1,61 @@
+<ContentPage  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="WeightTracker.Views.BarcodeScannerPage">
+    <Grid>
+        <!-- Фон -->
+        <BoxView Color="#40000000"/>
+        <!-- Полупрозрачный темный фон -->
+
+        <!-- Основной контейнер -->
+        <Frame HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Padding="0"
+               BackgroundColor="Transparent"
+               BorderColor="White"
+               CornerRadius="0"
+               HeightRequest="175"
+               WidthRequest="300">
+
+            <!-- Область сканирования -->
+            <zxing:CameraBarcodeReaderView
+                x:Name="barcodeView"
+                IsDetecting="True"
+                BarcodesDetected="OnBarcodeDetected"
+                
+                HeightRequest="175"
+                WidthRequest="300"
+                BackgroundColor="Transparent"/>
+        </Frame>
+
+        <!-- Визуальная рамка-маска -->
+        <Frame HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Padding="0"
+               BackgroundColor="Transparent"
+               BorderColor="#512bd4"
+               CornerRadius="0"
+               HeightRequest="125"
+               WidthRequest="250"/>
+
+        <!-- Текстовая подсказка -->
+        <Label Text="Поместите штрих-код в рамку"
+               TextColor="White"
+               FontSize="16"
+               HorizontalOptions="Center"
+               VerticalOptions="End"
+               Margin="0,0,0,50"/>
+
+        <!-- Кнопка закрытия -->
+        <Button Text="✕"
+                TextColor="White"
+                BackgroundColor="#80000000"
+                WidthRequest="40"
+                HeightRequest="40"
+                CornerRadius="20"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                Margin="20"
+                Clicked="Button_Clicked"/>
+    </Grid>
+</ContentPage>

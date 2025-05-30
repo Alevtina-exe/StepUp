@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightTracker.Views.SettingsPage"
+             xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+             Title="Настройки">
+    <sv:SettingsView HasUnevenRows="true">
+        
+        <sv:Section Title="Мой профиль">
+            <sv:LabelCell x:Name="NameText" Title="Имя" ValueText="" />
+            <sv:LabelCell x:Name="GenderText" Title="Пол" ValueText="" />
+            <sv:LabelCell x:Name="AgeText" Title="Возраст" ValueText="" />
+            <sv:LabelCell x:Name="HeightText" Title="Рост" ValueText="" />
+            <sv:LabelCell x:Name="WeightText" Title="Вес" ValueText="" />
+            <sv:LabelCell x:Name="KcaltText" Title="Дневная норма калорий" ValueText="" />
+        </sv:Section>
+        
+        <sv:Section Title="Данные авторизации">
+            <sv:LabelCell x:Name="UsernameText" Title="Логин" ValueText="" />
+            <sv:ButtonCell x:Name="ChangePass" 
+                           Title="Сменить пароль" 
+                           TitleColor="Grey"
+                           Command="{Binding ChangePassCommand}"/>
+            <sv:ButtonCell x:Name="ChangeAll" 
+                           Title="Изменить данные пользователя" 
+                           TitleColor="Grey"
+                           Command="{Binding ChangeAllCommand}"/>
+            <sv:ButtonCell x:Name="LeaveAcc" 
+                           Title="Выйти" 
+                           TitleColor="Red"
+                           Command="{Binding LeaveAccCommand}"/>
+            <sv:ButtonCell x:Name="DeleteAcc" 
+                           Title="Удалить аккаунт" 
+                           TitleColor="Red"
+                           Command="{Binding DeleteAccCommand}"/>
+        </sv:Section>
+    </sv:SettingsView>
+</ContentPage>

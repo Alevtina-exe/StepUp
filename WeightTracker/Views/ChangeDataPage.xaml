@@ -1,0 +1,25 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+             x:Class="WeightTracker.Views.ChangeDataPage"
+             Title="Изменение данных профиля">
+    <sv:SettingsView HasUnevenRows="true">
+        <sv:Section Title="Личные данные">
+            <sv:EntryCell x:Name="NameEntry" Title="Имя"  />
+
+            <sv:LabelCell x:Name="GenderEntry" Title="Пол" DescriptionFontSize="16" Tapped="GenderEntry_Tapped"/>
+            <sv:DatePickerCell x:Name="BirthDatePicker" Title="Дата рождения" />
+            <sv:EntryCell x:Name="HeightEntry" Title="Рост" Keyboard="Numeric" />
+            <sv:EntryCell x:Name="WeightEntry" Title="Вес" />
+        </sv:Section>
+        <sv:Section Title="КБЖУ">
+            <sv:EntryCell x:Name="KcalEntry" Title="Дневная норма калорий" Keyboard="Numeric" />
+            <sv:EntryCell x:Name="ProteinEntry" Title="Белки, %" Keyboard="Numeric" Tapped="ProteinEntry_Tapped" />
+            <sv:EntryCell x:Name="FatEntry" Title="Жиры, %" Keyboard="Numeric" Tapped="ProteinEntry_Tapped"/>
+            <sv:EntryCell x:Name="CarbonEntry" Title="Углеводы, %" Keyboard="Numeric" Tapped="ProteinEntry_Tapped"/>
+            <sv:ButtonCell Title="Сохранить изменения" TitleColor="Green" Tapped="ButtonCell_Tapped"/>
+            <sv:ButtonCell Title="Отмена" TitleColor="Red" Tapped="CancelButton_Tapped"/>
+            
+        </sv:Section>
+    </sv:SettingsView>
+</ContentPage>

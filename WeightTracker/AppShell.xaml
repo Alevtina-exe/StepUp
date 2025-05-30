@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell NavBarIsVisible="False"
+    x:Class="WeightTracker.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:WeightTracker.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="WeightTracker">
+    
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate local:LoginPage}"
+        Route="LoginPage" />
+    <ShellContent
+        Title="Registration"
+        ContentTemplate="{DataTemplate local:RegistrationPage}"
+        Route="RegistrationPage" />
+    <ShellContent
+        Title="AddProduct"
+        ContentTemplate="{DataTemplate local:AddProductPage}"
+        Route ="AddProductPage" />
+</Shell>

@@ -1,0 +1,120 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WeightTracker.Views"
+             x:Class="WeightTracker.Views.BodyDataPage">
+
+    <VerticalStackLayout Padding="30" Spacing="10">
+        <Label Text="Введите данные" FontSize="24" HorizontalOptions="Center" TextColor="Black"/>
+        <Entry x:Name="WeightEntry" Placeholder="Вес" Keyboard="Numeric" FontSize="14"
+               TextChanged="OnWeightChanged" TextColor="Black"/>
+        <Entry x:Name="HeightEntry" Placeholder="Рост" FontSize="14"
+               Keyboard="Numeric" TextChanged="OnHeightChanged" TextColor="Black"/>
+
+        <Label x:Name="UnitWarningLabel" Text="Выберите единицы измерения!" 
+       TextColor="Red" FontSize="16" IsVisible="False" />
+        <Label x:Name="WarningLabel" Text="" TextColor="Red" FontSize="18" IsVisible="False"/>
+
+        <Label x:Name="IMTLabel" Text="Ваш ИМТ:" FontSize="22" TextColor="Black" HorizontalOptions="Center"/>
+
+        <Grid x:Name="MyGrid" ColumnSpacing="0" HeightRequest="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*" />
+                <!-- Дефицит веса -->
+                <ColumnDefinition Width="6*" />
+                <!-- Нормальный вес -->
+                <ColumnDefinition Width="5*" />
+                <!-- Избыточный вес -->
+                <ColumnDefinition Width="5*" />
+                <!-- Ожирение 1 степени -->
+                <ColumnDefinition Width="5*" />
+                <!-- Ожирение 2 степени -->
+                <ColumnDefinition Width="4*" />
+                <!-- Ожирение 3 степени -->
+            </Grid.ColumnDefinitions>
+
+            <BoxView BackgroundColor="RoyalBlue" Grid.Column="0" />
+            <BoxView BackgroundColor="Green" Grid.Column="1" />
+            <BoxView BackgroundColor="Yellow" Grid.Column="2" />
+            <BoxView BackgroundColor="Orange" Grid.Column="3" />
+            <BoxView BackgroundColor="Red" Grid.Column="4" />
+            <BoxView BackgroundColor="DarkRed" Grid.Column="5" />
+
+            <!-- Индикатор текущего ИМТ -->
+            <BoxView x:Name="IMTIndicator" BackgroundColor="DarkSlateGray"
+             WidthRequest="2" HeightRequest="22"
+             IsVisible="false"
+             HorizontalOptions="Start" Grid.Column="0" />
+        </Grid>
+        <Label x:Name="IMTCategoryLabel" Text="" FontSize="20" HorizontalOptions="Center"/>
+        <Picker x:Name="SportPicker" Title="Выберите физ. нагрузку" SelectedIndexChanged="OnSportClicked">
+            <Picker.Items>
+                <x:String>Нет физ. нагрузки</x:String>
+                <x:String>Лёгкая физ. нагрузка</x:String>
+                <x:String>Средняя физ. нагрузка</x:String>
+                <x:String>Ежедневная физ. нагрузка</x:String>
+                <x:String>Профессиональный спорт</x:String>
+            </Picker.Items>
+        </Picker>
+        <VerticalStackLayout x:Name="HideableStack" IsVisible="false">
+            <Label Text="Рекомендованное КБЖУ: " FontSize="22" HorizontalOptions="Center" VerticalOptions="End" TextColor="Black"/>
+            <Grid ColumnSpacing="7">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="KcalLabel" FontSize="40" 
+                       FontAttributes="Bold" HorizontalTextAlignment="End" 
+                       TextColor="SandyBrown" Grid.Column="0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnKcalTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="ккал" TextColor="SandyBrown" FontSize="40" Grid.Column="1"
+                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+            </Grid>
+            <Label Text="вы можете изменить калораж нажав на него" FontSize="12" HorizontalOptions="Center" TextColor="Gray"/>
+            <Grid x:Name="ProteinGrid" ColumnSpacing="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="белки:" Grid.Column="0" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+                <Entry x:Name="ProteinEntry" TextChanged="OnPFCChanged"
+                       Grid.Column="1" HorizontalOptions="Center" Keyboard="Numeric"
+                       HorizontalTextAlignment="Center" WidthRequest="40" TextColor="Green" />
+                <Label x:Name="ProteinPercent" Text="%" Grid.Column="2" VerticalTextAlignment="Center"/>
+            </Grid>
+            <Grid x:Name="FatGrid" ColumnSpacing="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="жиры:" Grid.Column="0" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+                <Entry x:Name="FatEntry" TextChanged="OnPFCChanged" TextColor="Green" 
+                       WidthRequest="40" Grid.Column="1" HorizontalTextAlignment="Center"/>
+                <Label x:Name="FatPercent" Text="%" Grid.Column="2" VerticalTextAlignment="Center" />
+            </Grid>
+            <Grid x:Name="CarbonGrid" ColumnSpacing="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="углеводы:" Grid.Column="0" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+                <Entry x:Name="CarbonEntry" TextChanged="OnPFCChanged"
+                       Grid.Column="1" WidthRequest="40" Keyboard="Numeric"
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center" 
+                       TextColor="Green" />
+                <Label x:Name="CarbonPercent" Text="%" Grid.Column="2" VerticalTextAlignment="Center"  />
+            </Grid>
+        </VerticalStackLayout>
+        <VerticalStackLayout VerticalOptions="End" Spacing="5">
+            <Button Text="Продолжить" x:Name="SubmitButton" Clicked="OnSubmitClicked" IsEnabled="False" VerticalOptions="End"/>
+            <Button Text="Назад" x:Name="BackButton" Clicked="OnBackClicked" />
+            <Label x:Name="ErrorLabel" HorizontalTextAlignment ="Center" IsVisible="False"
+                   Text="Что-то пошло не так. Проверьте интернет-соединение" TextColor="Red"/>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

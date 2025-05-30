@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightTracker.Views.GraphPage"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             Title="Прогресс"
+             BindingContext="{Binding _graph, Source={RelativeSource Self}}">
+    
+    <ScrollView>
+        <VerticalStackLayout Margin="20,10" >
+
+            <Label Text="Фильтр" Style="{StaticResource Header}"/>
+            <material:PickerField Title="Промежуток" SelectedItem="{Binding SelectedInterval}"
+                                  SelectedValueChanged="PickerField_SelectedValueChanged" >
+                <material:PickerField.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Неделя</x:String>
+                        <x:String>Месяц</x:String>
+                        <x:String>Год</x:String>
+                    </x:Array>
+                </material:PickerField.ItemsSource>
+            </material:PickerField>
+
+            <Label Text="График" Style="{StaticResource Header}"/>
+            <Frame Style="{StaticResource DataFrame}" Padding="5,100,5,5">
+                <micro:ChartView x:Name="chartView" Chart="{Binding ChartData}" HeightRequest="300" >
+                    <micro:ChartView.GestureRecognizers>
+                        <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                        <TapGestureRecognizer Tapped="OnDoubleTapped" NumberOfTapsRequired="2" />
+                    </micro:ChartView.GestureRecognizers>
+                </micro:ChartView>
+            </Frame>
+            <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,10" >
+                <Button Text="&lt;" BackgroundColor="White" BorderColor="Gray" BorderWidth="1" TextColor="Black"
+                        Command="{Binding LeftButtonCommand}" IsEnabled="{Binding LeftEnabled}" HorizontalOptions="Start" Grid.Column="0"/>
+                <Label Text="{Binding Range}" HorizontalTextAlignment="Center" 
+                       VerticalTextAlignment="End" FontSize="24" Grid.Column="1"/>
+                <Button Text=">" x:Name="RightButton" BackgroundColor="White" BorderColor="Gray" BorderWidth="1" TextColor="Black"
+                        Command="{Binding RightButtonCommand}" IsEnabled="{Binding RightEnabled}" HorizontalOptions="End" Grid.Column="2"/>
+            </Grid>
+
+            <VerticalStackLayout Spacing="10" Margin="0,10,0,0">
+                <Label x:Name="IMTLabel" Text="Ваш ИМТ:" FontSize="22" TextColor="Black" HorizontalOptions="Center"/>
+
+                <Grid x:Name="MyGrid" ColumnSpacing="0" HeightRequest="20" ColumnDefinitions="10*,6*,5*,5*,4*">
+
+                    <BoxView BackgroundColor="RoyalBlue" Grid.Column="0" />
+                    <BoxView BackgroundColor="Green" Grid.Column="1" />
+                    <BoxView BackgroundColor="Yellow" Grid.Column="2" />
+                    <BoxView BackgroundColor="Orange" Grid.Column="3" />
+                    <BoxView BackgroundColor="Red" Grid.Column="4" />
+                    <BoxView BackgroundColor="DarkRed" Grid.Column="5" />
+
+                    <BoxView x:Name="IMTIndicator" BackgroundColor="DarkSlateGray"
+                     WidthRequest="2" HeightRequest="22" Margin="0"
+                     HorizontalOptions="Start" Grid.Column="0" />
+                </Grid>
+                <Label x:Name="IMTCategoryLabel" Text="" FontSize="20" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

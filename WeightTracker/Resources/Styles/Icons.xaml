@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+
+    <FontImageSource x:Key="IconClose" 
+        Color="{StaticResource Primary}"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf00d;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <FontImageSource x:Key="IconSetting" 
+        Color="White"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf013;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <FontImageSource x:Key="IconAdd" 
+        Color="White"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf0fe;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <FontImageSource x:Key="IconGraph" 
+        Color="White"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf1fe;"
+        Size="{StaticResource SizeTabIcon}" />
+
+            
+     <FontImageSource x:Key="IconDetail" 
+        Color="Black"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf105;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <FontImageSource x:Key="IconFavorite" 
+        Color="#512bd4"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf004;"
+        Size="{StaticResource SizeTabIcon}" />
+    
+    <FontImageSource x:Key="IconNotFavorite" 
+        Color="White"
+        FontFamily="FontAwesomeRegular"
+        Glyph="&#xf004;"
+        Size="{StaticResource SizeTabIcon}" />
+
+</ResourceDictionary>

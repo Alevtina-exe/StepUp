@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             x:Class="WeightTracker.Views.ProductPage"
+             BindingContext="{Binding ProductPageModelView, Source={RelativeSource Self}}">
+    <Grid RowDefinitions="Auto,*,Auto" >
+        <ScrollView Grid.Row="0" BackgroundColor="#baa4f5" >
+            <Grid RowDefinitions="Auto,Auto,Auto" >
+                <Image Source= "{Binding Image}" MaximumHeightRequest="300" BackgroundColor="LightGray"/>
+                <Label Text="{Binding NameForSearch}" HorizontalTextAlignment="Center" VerticalOptions="End"
+                   FontSize="30" TextColor="White">
+                    <Label.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="Transparent" Offset="0.1" />
+                            <GradientStop Color="Gray" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <ImageButton x:Name="favButton" 
+                             Margin="0,10,10,0"
+                             Source="{StaticResource IconNotFavorite}"
+                             BackgroundColor="Transparent"
+                             WidthRequest="50"
+                             HeightRequest="50"
+                             Clicked="favButton_Clicked"
+                             HorizontalOptions="End"
+                             VerticalOptions="Start"/>
+
+                <Frame Grid.Row="1"
+                       HorizontalOptions="Fill"
+                       HeightRequest="180"
+                       Padding="10" Margin="20,20"
+                       CornerRadius="30"
+                       BackgroundColor="White"
+                       BorderColor="#baa4f5"
+                       Opacity="0.8" >
+
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Grid x:Name="grid"
+                                  ColumnDefinitions="*"
+                                  WidthRequest="140" HeightRequest="140"/>
+                        <StackLayout Orientation="Vertical"
+                                     VerticalOptions="Center"
+                                     Spacing="5">
+                            <Label VerticalTextAlignment="Center"
+                                Text="{Binding Kcal}" />
+                            <StackLayout Orientation="Horizontal" 
+                                         Spacing="5">
+                                <Frame BackgroundColor="#9fd5bd"
+                                       BorderColor="#9fd5bd"
+                                       WidthRequest="5" HeightRequest="5"
+                                       CornerRadius="10" />
+                                <Label Text="{Binding Protein}"/>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal" 
+                                         Spacing="5">
+                                <Frame BackgroundColor="#fceda8"
+                                       BorderColor="#fceda8"
+                                       WidthRequest="10" HeightRequest="10"
+                                       CornerRadius="10" />
+                                <Label Text="{Binding Fat}"/>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal" 
+                                         Spacing="5">
+                                <Frame BackgroundColor="#e79bc3"
+                                       BorderColor="#e79bc3"
+                                       WidthRequest="10" HeightRequest="10"
+                                       CornerRadius="10" />
+                                <Label Text="{Binding Carbon}"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+        </ScrollView>
+        <StackLayout Orientation="Vertical" Grid.Row="2" Margin="20,0" 
+                     VerticalOptions="End" Spacing="10">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10"
+                  HorizontalOptions="Fill">
+                <Frame BorderColor="#5734D4" BackgroundColor="White"
+                           Padding="2" Grid.Column="0"
+                           CornerRadius="10">
+                    <Entry x:Name="entry"
+                        WidthRequest="60" Keyboard="Numeric" Text="{Binding Amount}" FontSize="20"
+                               VerticalTextAlignment="End" HorizontalTextAlignment="Center"
+                           TextChanged="Entry_TextChanged"/>
+                </Frame>
+                <Picker SelectedItem="{Binding SelectedItem}" 
+                        HorizontalOptions="Fill" Grid.Column="1"
+                        HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                    <Picker.Items>
+                        <x:String>100 г</x:String>
+                        <x:String>г</x:String>
+                        <x:String>порция</x:String>
+                    </Picker.Items>
+                </Picker>
+            </Grid>
+            <material:PickerField x:Name="PickMeal" 
+                                  Title="Приём пищи" VerticalOptions="End" 
+                                  SelectedItem="{Binding MealItem}">
+                <material:PickerField.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Завтрак</x:String>
+                        <x:String>Обед</x:String>
+                        <x:String>Ужин</x:String>
+                        <x:String>Перекус</x:String>
+                    </x:Array>
+                </material:PickerField.ItemsSource>
+            </material:PickerField>
+            <Button x:Name="AddButton" Text="Добавить" Clicked="AddButton_Clicked" HorizontalOptions="Fill"/>
+            <Button x:Name="DeleteButton" Text="Удалить" IsVisible="False" Clicked="DeleteButton_Clicked"/>
+
+        </StackLayout>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,24 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+             x:Class="WeightTracker.Views.ViewSportsPage" 
+             Title="Тренировки за сегодня" 
+             x:Name="self"
+             BindingContext="{x:Reference self}" >
+    <ListView ItemsSource="{Binding Sports}"
+              ItemTapped="ListView_ItemTapped" 
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+        <ListView.ItemTemplate >
+            <DataTemplate>
+                <ViewCell Height="100">
+                    <Grid ColumnDefinitions="*,*" Padding="30,50,20,50" HeightRequest="160">
+                        <Label Text="{Binding SportName}" FontSize="20" VerticalTextAlignment="Center"
+                                   FontAttributes="Bold" Grid.Column="0" />
+                        <Label Text="{Binding SportCals}" FontSize="20" HorizontalTextAlignment="End"
+                                   TextColor="Gray" Grid.Column="1" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>
