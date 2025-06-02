@@ -120,36 +120,45 @@
                         
                         <StackLayout Orientation="Vertical" Grid.Column="0"
                                      VerticalOptions="Center">
-                            <Label HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
-                                   FontSize="22" FontAttributes="Bold"                                   
-                                   Text="{Binding PrText}" TextColor="{Binding PrColor}"/>
                             <Label Text="белки" 
                                    HorizontalOptions="Center" 
                                    VerticalTextAlignment="Center" 
                                    FontSize="16" FontAttributes="Bold"/>
+                            <ProgressBar Progress="{Binding PrProgress}"
+                                         Margin="10,0"
+                                         ProgressColor="{Binding PrColor}"/>
+                            <Label HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                   FontSize="12"                                    
+                                   Text="{Binding PrText}" />
                         </StackLayout>
                         
                         <StackLayout Orientation="Vertical" Grid.Column="1"
                                      VerticalOptions="Center">
-                            <Label HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
-                                   FontSize="22" FontAttributes="Bold"                                   
-                                   Text="{Binding FatText}" TextColor="{Binding FatColor}"/>
                             <Label Text="жиры" HorizontalOptions="Center" 
                                    VerticalTextAlignment="Center" FontSize="16" FontAttributes="Bold"/>
+                            <ProgressBar Progress="{Binding FatProgress}"
+                                         Margin="10,0"
+                                         ProgressColor="{Binding FatColor}"/>
+                            <Label HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                   FontSize="12"                                 
+                                   Text="{Binding FatText}" />
                         </StackLayout>
                         
                         <StackLayout Orientation="Vertical" Grid.Column="2"
                                      VerticalOptions="Center">
-                            <Label HorizontalOptions="Fill" 
-                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
-                                   FontSize="22" FontAttributes="Bold"
-                                   Text="{Binding CbText}" TextColor="{Binding CbColor}"/>
                             <Label Text="углеводы" 
                                    HorizontalOptions="Center" 
                                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                                    FontSize="16" FontAttributes="Bold"/>
+                            <ProgressBar Progress="{Binding CbProgress}"
+                                         Margin="10,0"
+                                         ProgressColor="{Binding CbColor}"/>
+                            <Label HorizontalOptions="Fill" 
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                                   FontSize="12" 
+                                   Text="{Binding CbText}" />
                         </StackLayout>
                         
                     </Grid>

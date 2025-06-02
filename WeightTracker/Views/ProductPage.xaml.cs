@@ -14,11 +14,27 @@ public partial class ProductPage : ContentPage
 
 	public ProductPage(FoodProduct product, Meal meal)
 	{
-        InitializeComponent();
         Product = product;
         _database = new DatabaseModelView(new Services.FirestoreService());
-        ProductPageModelView = new ProductPageModelView(product, grid, _meal);
+        InitializeComponent();
         _meal = meal;
+        ProductPageModelView = new ProductPageModelView(product, grid, _meal);
+        if (Application.Current.Resources.TryGetValue("IconFavourite", out var favIcon) &&
+            Application.Current.Resources.TryGetValue("IconNotFavourite", out var notFavIcon))
+        {
+            if (UserModel.MainUser.FavDishes != null)
+            {
+                if (UserModel.MainUser.FavDishes.ContainsKey(product.Barcode))
+                {
+                    favButton.Source = (ImageSource)favIcon;
+                }
+                else
+                {
+                    favButton.Source = (ImageSource)notFavIcon;
+                }
+            }
+        }
+
         if (product.Serving != null)
         {
             _edited = true;
@@ -31,6 +47,7 @@ public partial class ProductPage : ContentPage
         else
         {
             _edited = false;
+            ProductPageModelView.SelectedItem = "100 ã";
         }
 
         NavigationPage.SetHasNavigationBar(this, false);
@@ -130,7 +147,7 @@ public partial class ProductPage : ContentPage
         AddButton_Clicked(sender, e);
     }
 
-    private void favButton_Clicked(object sender, EventArgs e)
+    private async void favButton_Clicked(object sender, EventArgs e)
     {
         if (Application.Current.Resources.TryGetValue("IconFavourite", out var favIcon) &&
             Application.Current.Resources.TryGetValue("IconNotFavourite", out var notFavIcon))
@@ -138,10 +155,14 @@ public partial class ProductPage : ContentPage
             if (favButton.Source == (ImageSource)notFavIcon)
             {
                 favButton.Source = (ImageSource)favIcon;
+                await _database.AddFavDish(Product.Barcode, false);
+                UserModel.MainUser.FavDishes.Add(Product.Barcode, Product.Barcode);
             }
             else
             {
                 favButton.Source = (ImageSource)notFavIcon;
+                await _database.AddFavDish(Product.Barcode, true);
+                UserModel.MainUser.FavDishes.Remove(Product.Barcode);
             }
         }
     }

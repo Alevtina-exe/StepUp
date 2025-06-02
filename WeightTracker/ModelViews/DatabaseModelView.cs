@@ -138,7 +138,17 @@ namespace WeightTracker.ModelViews
                 await fS.AddMeal(UserModel.MainUser.Username, DayResult.CurrentDay, meal, product, $"{amount}-{serving}");
             }
         }
-
+        public async Task AddFavDish(string id, bool delete)
+        {
+            if (!string.IsNullOrEmpty(id) && !delete)
+            {
+                await fS.UpdateUserField("Users", UserModel.MainUser.Username, $"FavDishes.{id}", id);
+            }
+            else
+            {
+                await fS.UpdateUserField("Users", UserModel.MainUser.Username, $"FavDishes.{id}", FieldValue.Delete);
+            }
+        }
     }
 }
 

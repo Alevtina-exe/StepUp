@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             x:Class="WeightTracker.Views.ProductPage"
+             x:Class="WeightTracker.Views.ProductPage" BackgroundColor="White"
              BindingContext="{Binding ProductPageModelView, Source={RelativeSource Self}}">
-    <Grid RowDefinitions="Auto,*,Auto" >
-        <ScrollView Grid.Row="0" BackgroundColor="#baa4f5" >
-            <Grid RowDefinitions="Auto,Auto,Auto" >
-                <Image Source= "{Binding Image}" MaximumHeightRequest="300" BackgroundColor="LightGray"/>
-                <Label Text="{Binding NameForSearch}" HorizontalTextAlignment="Center" VerticalOptions="End"
+    <Grid RowDefinitions="*,Auto" >
+        <ScrollView Grid.Row="0" >
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" BackgroundColor="#baa4f5" >
+                <Image Source= "{Binding Image}" MaximumHeightRequest="280" BackgroundColor="LightGray"/>
+                <Label Text="{Binding Name}" HorizontalTextAlignment="Center" VerticalOptions="End"
                    FontSize="30" TextColor="White">
                     <Label.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -18,67 +18,98 @@
                     </Label.Background>
                 </Label>
                 <ImageButton x:Name="favButton" 
-                             Margin="0,10,10,0"
-                             Source="{StaticResource IconNotFavorite}"
+                             Margin="0,15,15,0"
+                             Source="{StaticResource IconNotFavourite}"
                              BackgroundColor="Transparent"
-                             WidthRequest="50"
-                             HeightRequest="50"
+                             WidthRequest="40"
+                             HeightRequest="40"
                              Clicked="favButton_Clicked"
                              HorizontalOptions="End"
                              VerticalOptions="Start"/>
-
                 <Frame Grid.Row="1"
                        HorizontalOptions="Fill"
-                       HeightRequest="180"
-                       Padding="10" Margin="20,20"
+                       Margin="0" Padding="10"
+                       CornerRadius="0"
+                       BorderColor="#baa4f5"
+                       BackgroundColor="#baa4f5" >
+                    <Frame Grid.Row="1"
+                       HorizontalOptions="Fill"
+                       Padding="10" Margin="5,5"
                        CornerRadius="30"
                        BackgroundColor="White"
                        BorderColor="#baa4f5"
                        Opacity="0.8" >
 
-                    <StackLayout Orientation="Horizontal" Spacing="10">
-                        <Grid x:Name="grid"
-                                  ColumnDefinitions="*"
-                                  WidthRequest="140" HeightRequest="140"/>
-                        <StackLayout Orientation="Vertical"
+                        <StackLayout Orientation="Vertical" Spacing="10">
+                            <Grid ColumnDefinitions="Auto,*" >
+                                <Grid x:Name="grid" Grid.Column="0"
+                                      ColumnDefinitions="*"
+                                      WidthRequest="140" HeightRequest="140"/>
+                                <VerticalStackLayout VerticalOptions="Center"
+                                                     HorizontalOptions="Center"
+                                                     Grid.Column="1" >
+                                    <Label HorizontalTextAlignment="Center"
+                                           FontFamily="impact"
+                                           FontSize="36" TextColor="#b09a6d"
+                                           Text="{Binding Kcal}" />
+                                    <ProgressBar Progress="{Binding Progress}" HeightRequest="5"
+                                                 HorizontalOptions="Fill" ProgressColor="#b09a6d"/>
+                                    <Label HorizontalTextAlignment="Center" Margin="0,2,0,0"
+                                       FontFamily="impact"
+                                           TextColor="#b09a6d"
+                                       Text="{Binding Daily}" />
+
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <StackLayout Orientation="Vertical"
                                      VerticalOptions="Center"
+                                         Margin="20,0,0,0"
                                      Spacing="5">
-                            <Label VerticalTextAlignment="Center"
-                                Text="{Binding Kcal}" />
-                            <StackLayout Orientation="Horizontal" 
+                                <StackLayout Orientation="Horizontal" 
                                          Spacing="5">
-                                <Frame BackgroundColor="#9fd5bd"
-                                       BorderColor="#9fd5bd"
-                                       WidthRequest="5" HeightRequest="5"
-                                       CornerRadius="10" />
-                                <Label Text="{Binding Protein}"/>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal" 
+                                    <Frame BackgroundColor="#9fd5bd"
+                                           BorderColor="#9fd5bd"
+                                           WidthRequest="5" HeightRequest="5"
+                                           CornerRadius="10" />
+                                    <Label Text="{Binding Protein}"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" 
                                          Spacing="5">
-                                <Frame BackgroundColor="#fceda8"
-                                       BorderColor="#fceda8"
-                                       WidthRequest="10" HeightRequest="10"
-                                       CornerRadius="10" />
-                                <Label Text="{Binding Fat}"/>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal" 
-                                         Spacing="5">
-                                <Frame BackgroundColor="#e79bc3"
-                                       BorderColor="#e79bc3"
-                                       WidthRequest="10" HeightRequest="10"
-                                       CornerRadius="10" />
-                                <Label Text="{Binding Carbon}"/>
+                                    <Frame BackgroundColor="#fceda8"
+                                           BorderColor="#fceda8"
+                                           WidthRequest="10" HeightRequest="10"
+                                           CornerRadius="10" />
+                                    <Label Text="{Binding Fat}"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" 
+                                             Spacing="5">
+                                    <Frame BackgroundColor="#e79bc3"
+                                           BorderColor="#e79bc3"
+                                           WidthRequest="10" HeightRequest="10"
+                                           CornerRadius="10" />
+                                    <Label Text="{Binding Carbon}"/>
+                                </StackLayout>
                             </StackLayout>
                         </StackLayout>
-                    </StackLayout>
+                    </Frame>
                 </Frame>
-            </Grid>
-        </ScrollView>
-        <StackLayout Orientation="Vertical" Grid.Row="2" Margin="20,0" 
-                     VerticalOptions="End" Spacing="10">
+                <HorizontalStackLayout Grid.Row="2" Spacing="5" HorizontalOptions="Center" Padding="20,10">
+                    <Image Source="{Binding NutriscoreImage}" WidthRequest="100" />
+                    <Image Source="{Binding NovaImage}" HeightRequest="70" Margin="10,0,0,0" />
+                    <VerticalStackLayout Grid.Row="3" Margin="20,10" HorizontalOptions="Start">
+                        <Label Text="{Binding Brand}" FontSize="16" />
+                        <Label Text="{Binding Barcode}" FontSize="16"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+           
+        
+        <StackLayout Orientation="Vertical" Grid.Row="4" Padding="20,10" 
+                     VerticalOptions="End" Spacing="10" BackgroundColor="#d4c4ff" >
             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10"
-                  HorizontalOptions="Fill">
-                <Frame BorderColor="#5734D4" BackgroundColor="White"
+                  HorizontalOptions="Fill" HeightRequest="50">
+                <Frame BorderColor="#5734D4" BackgroundColor="Transparent"
                            Padding="2" Grid.Column="0"
                            CornerRadius="10">
                     <Entry x:Name="entry"
@@ -86,16 +117,11 @@
                                VerticalTextAlignment="End" HorizontalTextAlignment="Center"
                            TextChanged="Entry_TextChanged"/>
                 </Frame>
-                <Picker SelectedItem="{Binding SelectedItem}" 
-                        HorizontalOptions="Fill" Grid.Column="1"
-                        HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
-                    <Picker.Items>
-                        <x:String>100 г</x:String>
-                        <x:String>г</x:String>
-                        <x:String>порция</x:String>
-                    </Picker.Items>
-                </Picker>
-            </Grid>
+                        <Picker SelectedItem="{Binding SelectedItem}" 
+                                HorizontalOptions="Fill" Grid.Column="1"
+                                HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                                ItemsSource="{Binding MeasurementUnits}" />
+                    </Grid>
             <material:PickerField x:Name="PickMeal" 
                                   Title="Приём пищи" VerticalOptions="End" 
                                   SelectedItem="{Binding MealItem}">
@@ -108,10 +134,13 @@
                     </x:Array>
                 </material:PickerField.ItemsSource>
             </material:PickerField>
-            <Button x:Name="AddButton" Text="Добавить" Clicked="AddButton_Clicked" HorizontalOptions="Fill"/>
-            <Button x:Name="DeleteButton" Text="Удалить" IsVisible="False" Clicked="DeleteButton_Clicked"/>
+            <Button x:Name="AddButton" Text="Добавить" Clicked="AddButton_Clicked" HorizontalOptions="Fill"
+                    BackgroundColor="#562fc2" Opacity="0.8" CornerRadius="20"/>
+            <Button x:Name="DeleteButton" Text="Удалить" IsVisible="False" Clicked="DeleteButton_Clicked"
+                    BackgroundColor="#562fc2" Opacity="0.8" CornerRadius="20"/>
 
         </StackLayout>
-
+            </Grid>
+        </ScrollView>
     </Grid>
 </ContentPage>

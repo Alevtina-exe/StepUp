@@ -27,23 +27,90 @@
         Glyph="&#xf1fe;"
         Size="{StaticResource SizeTabIcon}" />
 
-            
-     <FontImageSource x:Key="IconDetail" 
+
+    <FontImageSource x:Key="IconDetail" 
         Color="Black"
         FontFamily="FontAwesomeSolid"
         Glyph="&#xf105;"
         Size="{StaticResource SizeTabIcon}" />
 
-    <FontImageSource x:Key="IconFavorite" 
-        Color="#512bd4"
-        FontFamily="FontAwesomeSolid"
-        Glyph="&#xf004;"
-        Size="{StaticResource SizeTabIcon}" />
+    <ImageSource x:Key="IconFavourite" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>heart_solid.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="IconNotFavourite" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>heart_regular.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="ANutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_a.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="BNutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_b.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="CNutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_c.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="DNutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_d.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="ENutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_e.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="UKNutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_uk.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
     
-    <FontImageSource x:Key="IconNotFavorite" 
-        Color="White"
-        FontFamily="FontAwesomeRegular"
-        Glyph="&#xf004;"
-        Size="{StaticResource SizeTabIcon}" />
+    <ImageSource x:Key="Nova1" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_1.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="Nova2" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_2.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="Nova3" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_3.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="Nova4" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_4.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="NovaUK" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_uk.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
 
 </ResourceDictionary>

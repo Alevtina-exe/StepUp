@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,103 +16,185 @@ public class OpenFoodFactsService
     {
         try
         {
-            // Формируем URL запроса
             string apiUrl = $"https://ru.openfoodfacts.org/api/v0/product/{barcode}.json";
-
-            // Отправляем GET-запрос
             HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
-
-            // Проверяем успешность запроса
             response.EnsureSuccessStatusCode();
 
-            // Читаем ответ как строку
             string responseBody = await response.Content.ReadAsStringAsync();
-
-            // Десериализуем JSON
             var jsonDoc = JsonDocument.Parse(responseBody);
             var root = jsonDoc.RootElement;
 
-            // Проверяем статус ответа
             if (root.GetProperty("status").GetInt32() == 0)
-            {
-                return null; // Продукт не найден
-            }
+                return null;
 
-            // Извлекаем данные о продукте
             var product = root.GetProperty("product");
-            var res = new FoodProduct
+            var nutriments = product.GetProperty("nutriments");
+
+            return new FoodProduct
             {
                 Barcode = barcode,
-                Name = product.GetProperty("product_name").GetString(),
-                Brands = product.GetProperty("brands").GetString(),
-                Cal100g = product.GetProperty("nutriments").GetProperty("energy-kcal_100g").GetInt32(),
-                Protein100g = product.GetProperty("nutriments").GetProperty("proteins_100g").GetDouble(),
-                Fat100g = product.GetProperty("nutriments").GetProperty("fat_100g").GetDouble(),
-                Carbon100g = product.GetProperty("nutriments").GetProperty("carbohydrates_100g").GetDouble(),
-                ImageUrl = product.GetProperty("image_url").GetString()
+                Name = product.TryGetProperty("product_name", out var nameElement) ? nameElement.GetString() : null,
+                Brands = product.TryGetProperty("brands", out var brandsElement) ? brandsElement.GetString() : null,
+                Cal100g = nutriments.TryGetProperty("energy-kcal_100g", out var calElement) ?
+                    ParseNutrientValue<double>(calElement, 0) : 0,
+                Protein100g = nutriments.TryGetProperty("proteins_100g", out var proteinElement) ?
+                    ParseNutrientValue<double>(proteinElement, 0) : 0,
+                Fat100g = nutriments.TryGetProperty("fat_100g", out var fatElement) ?
+                    ParseNutrientValue<double>(fatElement, 0) : 0,
+                Carbon100g = nutriments.TryGetProperty("carbohydrates_100g", out var carbElement) ?
+                    ParseNutrientValue<double>(carbElement, 0) : 0,
+                Sugars100g = nutriments.TryGetProperty("sugars_100g", out var sugarsElement) ?
+                    ParseNutrientValue<double>(sugarsElement, 0) : 0,
+                SaturatedFat100g = nutriments.TryGetProperty("saturated_fat_100g", out var satFatElement) ?
+                    ParseNutrientValue<double>(satFatElement, 0) : 0,
+                ImageUrl = product.TryGetProperty("image_url", out var imageElement) ?
+                    imageElement.GetString() : null,
+                ServingQuantity = product.TryGetProperty("serving_quantity", out var sqElement) ?
+                    ParseNutrientValue<double>(sqElement, 0) : 0,
+                NutriscoreGrade = product.TryGetProperty("nutriscore_grade", out var ngElement) ?
+                    ngElement.GetString() : null,
+                NovaGroup = product.TryGetProperty("nova_group", out var novaElement) ?
+                    ParseNutrientValue<int>(novaElement, 0).ToString() : null
             };
-            return res;
+            /*return new FoodProduct
+            {
+                Barcode = barcode,
+                Name = "dildo",
+                Brands = "zalupa co.",
+                Cal100g = 666,
+                Carbon100g = 100,
+                Protein100g = 20,
+                Fat100g = 20.6,
+                NutriscoreGrade = "c",
+                NovaGroup = "4",
+                Sugars100g = 50,
+                ImageUrl = null,
+                ServingQuantity = 20
+            };*/
         }
-        catch (HttpRequestException e)
+        catch (Exception e)
         {
-            Console.WriteLine($"Ошибка запроса: {e.Message}");
-            return null;
-        }
-        catch (KeyNotFoundException e)
-        {
-            Console.WriteLine($"Не найдено обязательное поле: {e.Message}");
+            Console.WriteLine($"Ошибка: {e.Message}");
             return null;
         }
     }
 
-
-    public async Task<ObservableCollection<FoodProduct>> SearchProductsByNameAsync(string productName)
+    public async Task<ObservableCollection<FoodProduct>> SearchProductsByNameAsync(string name)
     {
         try
         {
-            // Формируем URL запроса для поиска
-            string apiUrl = $"https://ru.openfoodfacts.org/cgi/search.pl?search_terms={Uri.EscapeDataString(productName)}&search_simple=1&json=1&page_size=10";
-
+            string apiUrl = $"https://ru.openfoodfacts.org/cgi/search.pl?search_terms={Uri.EscapeDataString(name)}&search_simple=1&action=process&json=1&page_size=20";
             HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
             response.EnsureSuccessStatusCode();
 
-            string responseBody = await response.Content.ReadAsStringAsync();
+            var responseBody = await response.Content.ReadAsStringAsync();
             var jsonDoc = JsonDocument.Parse(responseBody);
-            var products = jsonDoc.RootElement.GetProperty("products");
+            var root = jsonDoc.RootElement;
 
-            var result = new ObservableCollection<FoodProduct>();
+            if (!root.TryGetProperty("products", out var productsElement) || productsElement.GetArrayLength() == 0)
+                return new ObservableCollection<FoodProduct>();
 
-            foreach (var product in products.EnumerateArray())
+            var results = new ObservableCollection<FoodProduct>();
+            foreach (var productElement in productsElement.EnumerateArray())
             {
                 try
                 {
-                    var foodProduct = new FoodProduct
+                    if (!productElement.TryGetProperty("product_name", out var nameElement) ||
+                        string.IsNullOrEmpty(nameElement.GetString()) ||
+                        !productElement.TryGetProperty("nutriments", out var nutrimentsElement))
+                        continue;
+
+                    // Проверяем обязательные нутриенты
+                    if(
+                        !nutrimentsElement.TryGetProperty("energy-kcal_100g", out var calElement) ||
+                        !nutrimentsElement.TryGetProperty("proteins_100g", out var proteinElement) ||
+                        !nutrimentsElement.TryGetProperty("fat_100g", out var fatElement) ||
+                        !nutrimentsElement.TryGetProperty("carbohydrates_100g", out var carbElement))
+                        continue;
+
+                    double calories = ParseNutrientValue<double>(calElement, 0);
+                    double protein = ParseNutrientValue<double>(proteinElement, 0);
+                    double fat = ParseNutrientValue<double>(fatElement, 0);
+                    double carbs = ParseNutrientValue<double>(carbElement, 0);
+
+                    // Проверка корректности КБЖУ
+                    if (calories <= 0 || Math.Abs((protein + carbs) * 4 + fat * 9 - calories) > 10)
+                        continue;
+
+                    var product = new FoodProduct
                     {
-                        Barcode = product.TryGetProperty("code", out var code) ? code.GetString() : null,
-                        Name = product.TryGetProperty("product_name", out var name) ? name.GetString() : null,
-                        Brands = product.TryGetProperty("brands", out var brands) ? brands.GetString() : null,
-                        Cal100g = product.TryGetProperty("nutriments", out var nutriments) &&
-                                 nutriments.TryGetProperty("energy-kcal_100g", out var kcal) ?
-                                 kcal.GetInt32() : 0,
-                        ImageUrl = product.TryGetProperty("image_url", out var img) ? img.GetString() : null
+                        Name = nameElement.GetString(),
+                        Barcode = productElement.TryGetProperty("code", out var codeElement) ?
+                            codeElement.GetString() : null,
+                        Brands = productElement.TryGetProperty("brands", out var brandsElement) ?
+                            brandsElement.GetString() : null,
+                        Cal100g = calories,
+                        Protein100g = protein,
+                        Fat100g = fat,
+                        Carbon100g = carbs,
+                        Sugars100g = nutrimentsElement.TryGetProperty("sugars_100g", out var sugarsElement) ?
+                            ParseNutrientValue<double>(sugarsElement, 0) : 0,
+                        SaturatedFat100g = nutrimentsElement.TryGetProperty("saturated_fat_100g", out var satFatElement) ?
+                            ParseNutrientValue<double>(satFatElement, 0) : 0,
+                        ImageUrl = productElement.TryGetProperty("image_url", out var imageElement) ?
+                            imageElement.GetString() : null,
+                        ServingQuantity = productElement.TryGetProperty("serving_quantity", out var sqElement) ?
+                            ParseNutrientValue<double>(sqElement, 0) : 0,
+                        NutriscoreGrade = productElement.TryGetProperty("nutriscore_grade", out var ngElement) ?
+                            ngElement.GetString() : null,
+                        NovaGroup = productElement.TryGetProperty("nova_group", out var novaElement) ?
+                            ParseNutrientValue<int>(novaElement, 0).ToString() : null
                     };
 
-                    result.Add(foodProduct);
+                    results.Add(product);
+                    if (results.Count >= 10) break;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Ошибка парсинга продукта: {ex.Message}");
+                    Console.WriteLine($"Ошибка обработки продукта: {ex.Message}");
                 }
             }
-
-            return result;
+            return results;
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine($"Ошибка поиска: {ex.Message}");
+            Console.WriteLine($"Ошибка запроса: {e.Message}");
             return new ObservableCollection<FoodProduct>();
         }
     }
+
+    private static T ParseNutrientValue<T>(JsonElement element, T defaultValue) where T : struct
+    {
+        try
+        {
+            if (element.ValueKind == JsonValueKind.Number)
+            {
+                return typeof(T) switch
+                {
+                    Type t when t == typeof(double) => (T)(object)element.GetDouble(),
+                    Type t when t == typeof(int) => (T)(object)element.GetInt32(),
+                    Type t when t == typeof(decimal) => (T)(object)element.GetDecimal(),
+                    Type t when t == typeof(float) => (T)(object)element.GetSingle(),
+                    _ => defaultValue
+                };
+            }
+
+            if (element.ValueKind == JsonValueKind.String)
+            {
+                string stringValue = element.GetString();
+                if (!string.IsNullOrEmpty(stringValue))
+                {
+                    if (typeof(T) == typeof(double) && double.TryParse(stringValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double d))
+                        return (T)(object)d;
+                    if (typeof(T) == typeof(int) && int.TryParse(stringValue, out int i))
+                        return (T)(object)i;
+                }
+            }
+            return defaultValue;
+        }
+        catch
+        {
+            return defaultValue;
+        }
+    }
 }
-
-

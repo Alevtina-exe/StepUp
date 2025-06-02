@@ -31,10 +31,11 @@ public static class MauiProgram
 				fonts.AddFont("Font-Awesome-6-Brands.otf", "FontAwesomeBrands");
 				fonts.AddFont("Font-Awesome-6-Solid.otf", "FontAwesomeSolid");
 				fonts.AddFont("Font-Awesome-6-Regular.otf", "FontAwesomeRegular");
+				fonts.AddFont("impact.ttf", "impact");
 			});
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
     return builder.Build();
 	}
