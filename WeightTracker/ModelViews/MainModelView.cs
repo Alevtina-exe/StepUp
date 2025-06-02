@@ -34,7 +34,7 @@ public partial class MainModelView : INotifyPropertyChanged
     public string? BrCal => DayResult.CurrentDay.Breakfast["Kcal"].ToString() + " ккал";
     public string? BrPr => "Б: " + DayResult.CurrentDay.Breakfast["Pr"].ToString() + " г";
     public string? BrFat => "Ж: " + DayResult.CurrentDay.Breakfast["Fat"].ToString() + " г";
-    public string? BrCb => "У: " + DayResult.CurrentDay.Breakfast["Cb"].ToString() + " Г";
+    public string? BrCb => "У: " + DayResult.CurrentDay.Breakfast["Cb"].ToString() + " г";
 
     public string? LnCal => DayResult.CurrentDay.Lunch["Kcal"].ToString() + " ккал";
     public string? LnPr => "Б: " + DayResult.CurrentDay.Lunch["Pr"].ToString() + " г";
@@ -58,6 +58,10 @@ public partial class MainModelView : INotifyPropertyChanged
     public string CbText => Nutrients.CarbonLabelText;
     public Color CbColor => Nutrients.CarbonLabelTextColor;
 
+    public double PrProgress => Nutrients.TotalProtein / Nutrients.MaxProtein;
+    public double FatProgress => Nutrients.TotalFat / Nutrients.MaxFat;
+    public double CbProgress => Nutrients.TotalCarbon / Nutrients.MaxCarbon;
+
     public MainModelView() 
     {
         StepModelView = new StepModelView();
@@ -71,6 +75,9 @@ public partial class MainModelView : INotifyPropertyChanged
         OnPropertyChanged(nameof(PrColor));
         OnPropertyChanged(nameof(FatColor));
         OnPropertyChanged(nameof(CbColor));
+        OnPropertyChanged(nameof(PrProgress));
+        OnPropertyChanged(nameof(FatProgress));
+        OnPropertyChanged(nameof(CbProgress));
         OnPropertyChanged(nameof(KcalEaten));
         OnPropertyChanged(nameof(KcalRes));
     }

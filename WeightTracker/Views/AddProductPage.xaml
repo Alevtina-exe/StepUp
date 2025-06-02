@@ -4,12 +4,13 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="WeightTracker.Views.AddProductPage"
              BindingContext="{Binding ProductBaseModelView, Source={RelativeSource Self}}">
-    <Grid Padding="10" RowDefinitions="Auto, Auto, *">
+    <Grid Padding="10" RowDefinitions="Auto, *">
         <Grid ColumnDefinitions="*, Auto, Auto" Row="0" Margin="0,0,0,20">
             <Entry x:Name ="SearchEntry" Text="{Binding Query}" Placeholder="Введите название или штрих-код" Grid.Column="0"/>
             <ImageButton Command="{Binding SearchCommand}" Source="search_button.png" WidthRequest="40" HeightRequest="40"
                          Clicked="Button_Clicked" Grid.Column="1"/>
-            <ImageButton Command="{Binding ReadBarcodeCommand}" Source="barcode_scanner.png" WidthRequest="40" HeightRequest="40" Grid.Column="2"/>
+            <ImageButton Command="{Binding ReadBarcodeCommand}" Source="barcode_scanner.png" WidthRequest="40" HeightRequest="40"
+                         Clicked="Button_Clicked" Grid.Column="2"/>
         </Grid>
         <ListView ItemsSource="{Binding SearchResults}" Grid.Row="1" RowHeight="80"
                   ItemTapped="ListView_ItemTapped" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
@@ -26,6 +27,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Label x:Name="favDishes" Grid.Row="1"
+               Text="Или выберите продукт из списка избранных" 
+               TextColor="#512bd4" FontSize="24" HorizontalTextAlignment="Center"
+               VerticalOptions="Start" HorizontalOptions="Center" Padding="20,0">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </Label.GestureRecognizers>
+        </Label>
         <Label x:Name="SearchError" Text="Результаты не найдены" FontSize="22" Grid.Row="1" HorizontalTextAlignment="Center"
                Margin="0,30,10,0" IsVisible="{Binding IsVisible}"/>
     </Grid>

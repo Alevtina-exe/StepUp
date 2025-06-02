@@ -13,8 +13,6 @@ public partial class GraphPage : ContentPage
 {
 	private DatabaseModelView _database;
 	private GraphModelView _graph;
-    private Dictionary<string, float> weekMonthDict;
-    private Dictionary<string, float> yearDict;
 	public GraphPage()
 	{
 		InitializeComponent();

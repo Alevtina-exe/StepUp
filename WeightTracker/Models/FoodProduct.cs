@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maui.Graphics.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,22 +12,30 @@ namespace WeightTracker.Models
         public string? Barcode { get; set; }
         public string? Name { get; set; }
         public string? Brands { get; set; }
-        public int Cal100g { get; set; }
+        public double Cal100g { get; set; }
         public double Protein100g { get; set; }
         public double Fat100g { get; set; }
+        public double SaturatedFat100g { get; set; }
         public double Carbon100g { get; set; }
+        public double Sugars100g { get; set; }
+        public double ServingQuantity {  get; set; }
+        public string? NutriscoreGrade { get; set; }
+        public string? NovaGroup { get; set; }
         public string? Kcal { 
             get 
-            { 
-                if (Cal100g == 0) return "";
-                return Cal100g.ToString() + " ккал"; 
+            {
+                return Math.Round(Cal100g, 1).ToString() + " ккал"; 
             } 
         }
         public string NameForSearch
         {
             get
             {
-                if (Name != null) return Name;
+                if (Name != null)
+                {
+                    if (Name.Length > 24) return Name.Substring(0, 21) + "...";
+                    return Name;
+                }
                 return "Продукт не найден";
             }
         }

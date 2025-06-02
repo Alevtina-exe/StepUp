@@ -40,6 +40,8 @@ namespace WeightTracker.Models
         public int FatPercent { get; set; }
         [FirestoreProperty]
         public string RegistrationDate { get; set; }
+        [FirestoreProperty]
+        public Dictionary<string, object> FavDishes { get; set; } = new Dictionary<string, object>();
     }
     public class DateTimeToTimestampConverter : IFirestoreConverter<DateTime>
     {

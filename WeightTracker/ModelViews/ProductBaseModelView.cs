@@ -79,6 +79,7 @@ namespace WeightTracker.ModelViews
                 {
                     SearchResults.Clear();
                     SearchResults = await service.SearchProductsByNameAsync(Query);
+                    OnPropertyChanged(nameof(SearchResults));
                 }
                 if (SearchResults.Count == 0)
                 {

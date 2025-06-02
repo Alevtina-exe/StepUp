@@ -12,11 +12,7 @@
 
         <Entry x:Name="UsernameEntry" Placeholder="Логин"/>
 
-        <Grid ColumnSpacing="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="50" />
-            </Grid.ColumnDefinitions>
+        <Grid ColumnSpacing="5" ColumnDefinitions="*, Auto">
 
             <Entry x:Name="PasswordEntry"
                    Placeholder="Пароль"
@@ -25,15 +21,21 @@
 
             <Button x:Name="ShowPasswordButton"
                     Text="👁"
+                    FontSize="22"
+                    VerticalOptions="Fill"
+                    HorizontalOptions="Center"
                     Clicked="OnTogglePassword"
+                    BackgroundColor="Transparent"
+                    CornerRadius="1"
+                    Padding="0"
                     Grid.Column="1" />
         </Grid>
 
-        <Button Text="Войти" Clicked="OnLoginClicked" />
+        <Button Text="Войти" Clicked="OnLoginClicked" CornerRadius="40" Opacity="0.8" HorizontalOptions="Fill" />
 
         <Label 
             Text="Нет аккаунта? Создать новый" 
-            TextColor="Blue"
+            TextColor="Gray"
             HorizontalOptions="Center">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnLabelTapped" />

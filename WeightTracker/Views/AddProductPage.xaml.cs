@@ -20,6 +20,7 @@ public partial class AddProductPage : ContentPage
 
     private void Button_Clicked(object sender, EventArgs e)
     {
+        favDishes.IsVisible = false;
         SearchEntry.HideSoftInputAsync(CancellationToken.None);
     }
 
@@ -29,5 +30,8 @@ public partial class AddProductPage : ContentPage
             await Navigation.PushAsync(new ProductPage(ProductBaseModelView.SelectedItem, _meal));
     }
 
-
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        Navigation.PushAsync(new ViewMealPage(_meal, true));
+    }
 }
