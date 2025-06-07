@@ -1,8 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Microcharts;
-using Microcharts.Maui;
 using SkiaSharp;
 using System.Windows.Input;
 using WeightTracker.Models;
@@ -13,11 +10,25 @@ public partial class GraphModelView : ObservableObject
 {
     private Dictionary<string, float> weekMonthDict;
     private Dictionary<string, float> yearDict;
+
     private DateTime _firstDay;
     private DateTime _lastDay;
     private DateTime _regDay = DTWork.FromId(UserModel.MainUser.RegistrationDate);
+
     public ICommand RightButtonCommand { get; }
     public ICommand LeftButtonCommand { get; }
+
+    [ObservableProperty]
+    private string range;
+    [ObservableProperty]
+    LineChart chartData;
+    [ObservableProperty]
+    bool rightEnabled = false;
+    [ObservableProperty]
+    bool leftEnabled = true;
+    [ObservableProperty]
+    public string selectedInterval = "Неделя";
+
     public GraphModelView(Dictionary<string, float> weekMonthDict, Dictionary<string, float> yearDict)
     {
         this.weekMonthDict = weekMonthDict;
@@ -43,7 +54,7 @@ public partial class GraphModelView : ObservableObject
                     ValueLabel = yearDict[str_date].ToString(),
                     Color = SKColor.Parse("#3BBD1E")
                 });
-                date = date.AddMonths(-1);
+                date = (new DateTime(date.Year, date.Month, 1)).AddDays(-1);
             } while (date.Year != lastDay.Year - 1 &&
             date.Date >= _regDay.Date);
             _firstDay = DTWork.Max(new DateTime(lastDay.Year, 1, 1), _regDay); 
@@ -102,17 +113,6 @@ public partial class GraphModelView : ObservableObject
             Entries = entries
         };
     }
-
-    [ObservableProperty]
-    private string range;
-    [ObservableProperty]
-    LineChart chartData;
-    [ObservableProperty]
-    bool rightEnabled = false;
-    [ObservableProperty]
-    bool leftEnabled = true;
-    [ObservableProperty]
-    public string selectedInterval = "Неделя";
 
     private float _zoomLevel = 1.0f;
     public float ZoomLevel

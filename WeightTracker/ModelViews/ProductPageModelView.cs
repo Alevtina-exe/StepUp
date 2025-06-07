@@ -1,10 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Maui.Controls.Shapes;
-using System;
+﻿using Microsoft.Maui.Controls.Shapes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using WeightTracker.Models;
@@ -15,8 +12,9 @@ namespace WeightTracker.ModelViews
     public class ProductPageModelView : INotifyPropertyChanged
     {
         private readonly FoodProduct _product;
-        private double _selectedItem;
+
         private double _amount;
+        private string serving_name;
         private double _currentPortion_gr;
         private Meal _mealItem;
         private double _proteinPercentage;
@@ -24,32 +22,34 @@ namespace WeightTracker.ModelViews
         private Path _prpath;
         private Path _fatpath;
         private Path _cbpath;
+        public ObservableCollection<string> MeasurementUnits { get; }
 
-        public ProductPageModelView(FoodProduct product, Grid grid, Meal meal)
+        public ProductPageModelView(FoodProduct product, Meal meal)
         {
             try
             {
                 _product = product ?? throw new ArgumentNullException(nameof(product));
 
-                // Проверка обязательных значений
                 if (_product.Cal100g <= 0)
                     throw new ArgumentException("Калорийность продукта должна быть больше 0");
 
-                SelectedItem = "100 г";
-                _amount = 1;
                 _mealItem = meal;
 
-                // Расчет процентов
+                MeasurementUnits = new ObservableCollection<string> { "100 г", "г" };
+
                 ProteinPercentage = _product.Protein100g * 4.0 / _product.Cal100g;
                 FatPercentage = _product.Fat100g * 9.0 / _product.Cal100g;
 
-                // Добавление варианта "порция" если есть ServingQuantity
                 if (_product.ServingQuantity > 0 && _product.ServingQuantity != 100)
                 {
-                    MeasurementUnits.Add($"порция ({_product.ServingQuantity} г)");
+                    serving_name = $"порция ({_product.ServingQuantity} г)";
+                    MeasurementUnits.Add(serving_name);
                 }
-
-                CreateDiagramm(grid);
+                else
+                {
+                    serving_name = "";
+                }
+                _selectedItem = "100 г";
             }
             catch (Exception ex)
             {
@@ -58,21 +58,24 @@ namespace WeightTracker.ModelViews
             }
         }
 
+        private string _selectedItem;
         public string SelectedItem
         {
-            get => DoublePortionToString(_selectedItem);
+            get => _selectedItem;
             set
             {
                 try
                 {
-                    _selectedItem = StringPortionToDouble(value.Length > 5 ? value.Split()[0] : value);
-                    CurrentPortion_gr = _selectedItem * _amount;
+                    if (value != null && MeasurementUnits.Contains(value)) {
+                        _selectedItem = value;
+                        CurrentPortion_gr = StringPortionToDouble(_selectedItem) * _amount;                     
+                    }
                     OnPropertyChanged();
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"Ошибка в SelectedItem: {ex}");
-                    _selectedItem = 100; // Значение по умолчанию
+                    _selectedItem = "100 г"; 
                 }
             }
         }
@@ -85,7 +88,7 @@ namespace WeightTracker.ModelViews
                 if (double.TryParse(value, out var w) && w > 0)
                 {
                     _amount = w;
-                    CurrentPortion_gr = _selectedItem * _amount;
+                    CurrentPortion_gr = StringPortionToDouble(_selectedItem) * _amount;
                 }
             }
         }
@@ -106,7 +109,7 @@ namespace WeightTracker.ModelViews
             }
         }
 
-        public ObservableCollection<string> MeasurementUnits { get; } = new ObservableCollection<string> { "100 г", "г" };
+
 
         public string MealItem
         {
@@ -169,7 +172,7 @@ namespace WeightTracker.ModelViews
             {
                 try
                 {
-                    string score = "1"; // Значение по умолчанию
+                    string score = "1"; 
                     if (!string.IsNullOrEmpty(_product?.NovaGroup))
                     {
                         score = _product.NovaGroup;
@@ -238,18 +241,16 @@ namespace WeightTracker.ModelViews
             );
         }
 
-        private void CreateDiagramm(Grid grid)
+        public void CreateDiagramm(Grid grid)
         {
             try
             {
                 if (grid == null) return;
 
-                // Удаляем старые элементы
                 SafeRemoveFromGrid(grid, _prpath);
                 SafeRemoveFromGrid(grid, _fatpath);
                 SafeRemoveFromGrid(grid, _cbpath);
 
-                // Проверка на 100% для каждого компонента
                 if (ProteinPercentage >= 100)
                 {
                     _prpath = CreateFullCircle(Color.FromArgb("#9fd5bd"));
@@ -274,7 +275,6 @@ namespace WeightTracker.ModelViews
                     return;
                 }
 
-                // Создаем диаграмму с тремя сегментами
                 _prpath = CreatePath(Color.FromArgb("#9fd5bd"), GetPointOnCircle(0), FatStartPoint, ProteinILA);
                 _fatpath = CreatePath(Color.FromArgb("#fceda8"), FatStartPoint, CarbonStartPoint, FatILA);
                 _cbpath = CreatePath(Color.FromArgb("#e79bc3"), CarbonStartPoint, GetPointOnCircle(0), CarbonILA);
@@ -347,33 +347,26 @@ namespace WeightTracker.ModelViews
             }
         }
 
-        private double StringPortionToDouble(string portion)
+        public double StringPortionToDouble(string portion)
         {
             if (string.IsNullOrEmpty(portion)) return 100.0;
 
             try
             {
-                return portion switch
+                switch (portion)
                 {
-                    "100 г" => 100.0,
-                    "г" => 1.0,
-                    "порция" => _product?.ServingQuantity ?? 100.0,
-                    _ when portion.Contains("порция") && portion.Contains("(") =>
-                        double.TryParse(Regex.Match(portion, @"\d+").Value, out var weight) ? weight : 100.0,
-                    _ => 100.0
-                };
+                    case "100 г":
+                        return 100.0;
+                    case "г":
+                        return 1.0;
+                    default:
+                        return _product?.ServingQuantity ?? 100.0;
+                }
             }
             catch
             {
                 return 100.0;
             }
-        }
-
-        private string DoublePortionToString(double portion)
-        {
-            if (Math.Abs(portion - 100) < 0.1) return "100 г";
-            if (Math.Abs(portion - 1) < 0.1) return "г";
-            return $"порция ({_product.ServingQuantity} г)";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

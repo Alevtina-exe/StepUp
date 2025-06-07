@@ -14,26 +14,14 @@ public partial class ProductPage : ContentPage
 
 	public ProductPage(FoodProduct product, Meal meal)
 	{
-        Product = product;
-        _database = new DatabaseModelView(new Services.FirestoreService());
         InitializeComponent();
+
+        _database = new DatabaseModelView(new Services.FirestoreService());
+        Product = product;
         _meal = meal;
-        ProductPageModelView = new ProductPageModelView(product, grid, _meal);
-        if (Application.Current.Resources.TryGetValue("IconFavourite", out var favIcon) &&
-            Application.Current.Resources.TryGetValue("IconNotFavourite", out var notFavIcon))
-        {
-            if (UserModel.MainUser.FavDishes != null)
-            {
-                if (UserModel.MainUser.FavDishes.ContainsKey(product.Barcode))
-                {
-                    favButton.Source = (ImageSource)favIcon;
-                }
-                else
-                {
-                    favButton.Source = (ImageSource)notFavIcon;
-                }
-            }
-        }
+
+        ProductPageModelView = new ProductPageModelView(product, _meal);
+        BindingContext = ProductPageModelView;
 
         if (product.Serving != null)
         {
@@ -42,16 +30,26 @@ public partial class ProductPage : ContentPage
             PickMeal.IsVisible = false;
             AddButton.Text = "Изменить";
             ProductPageModelView.SelectedItem = product.Serving;
-            ProductPageModelView.Amount = Math.Round(product.Amount / ProductPageModelView.CurrentPortion_gr, 2).ToString();
+            ProductPageModelView.Amount = Math.Round(product.Amount / ProductPageModelView.StringPortionToDouble(Product.Serving), 2).ToString();
         }
         else
         {
             _edited = false;
-            ProductPageModelView.SelectedItem = "100 г";
+            ProductPageModelView.Amount = "1";
+        }
+
+        ProductPageModelView.CreateDiagramm(grid);
+
+        if (Application.Current.Resources.TryGetValue("IconFavourite", out var favIcon) &&
+            Application.Current.Resources.TryGetValue("IconNotFavourite", out var notFavIcon))
+        {
+            favButton.Source = UserModel.MainUser.FavDishes?.ContainsKey(product.Barcode) == true
+                ? (ImageSource)favIcon
+                : (ImageSource)notFavIcon;
         }
 
         NavigationPage.SetHasNavigationBar(this, false);
-	}
+    }
 
     private void Entry_TextChanged(object sender, TextChangedEventArgs e)
     {

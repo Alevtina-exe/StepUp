@@ -1,12 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Google.Cloud.Firestore;
-using Google.Type;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WeightTracker.Models;
 using WeightTracker.Services;
 using DateTime = System.DateTime;
@@ -16,6 +9,7 @@ namespace WeightTracker.ModelViews
     internal partial class DatabaseModelView
     {
         static FirestoreService fS;
+        private readonly OpenFoodFactsService _service;
         public DatabaseModelView(FirestoreService ffirestoreService)
         {
             fS = ffirestoreService;
@@ -120,7 +114,8 @@ namespace WeightTracker.ModelViews
                     averageWeight += dict[DTWork.DateId(date)];
                     date = date.AddDays(1);
                 }
-                yearDict.Add(date.ToString("MMM, yyyy"), MathF.Round(averageWeight / count, 1));
+                yearDict.Add(date.AddDays(-1).ToString("MMM, yyyy"), MathF.Round(averageWeight / count, 1));
+                month = date.Month;
                 if (date.Date.AddDays(-1) == DateTime.Now.Date)
                 {
                     return yearDict;

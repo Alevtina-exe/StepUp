@@ -12,23 +12,24 @@
 
         <Entry x:Name="UsernameEntry" Placeholder="Логин"/>
 
-        <Grid ColumnSpacing="5" ColumnDefinitions="*, Auto">
+        <Grid ColumnSpacing="5" ColumnDefinitions="*, 30">
 
             <Entry x:Name="PasswordEntry"
                    Placeholder="Пароль"
                    IsPassword="True"
                 Grid.Column="0" />
 
-            <Button x:Name="ShowPasswordButton"
-                    Text="👁"
-                    FontSize="22"
-                    VerticalOptions="Fill"
-                    HorizontalOptions="Center"
-                    Clicked="OnTogglePassword"
-                    BackgroundColor="Transparent"
-                    CornerRadius="1"
-                    Padding="0"
-                    Grid.Column="1" />
+            <ImageButton x:Name="ShowPasswordButton"
+                         Opacity="0.8"
+                        Source="eye.png"
+                        HeightRequest="30"
+                        Margin="2"
+                        VerticalOptions="Fill"
+                        HorizontalOptions="Center"
+                        Clicked="OnTogglePassword"
+                        BackgroundColor="Transparent"
+                        CornerRadius="1"
+                        Grid.Column="1" />
         </Grid>
 
         <Button Text="Войти" Clicked="OnLoginClicked" CornerRadius="40" Opacity="0.8" HorizontalOptions="Fill" />

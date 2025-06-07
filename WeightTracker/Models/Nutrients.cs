@@ -14,10 +14,11 @@ public class Nutrients
         {
             if (DayResult.CurrentDay != null)
             {
-                return Convert.ToSingle(DayResult.CurrentDay.Breakfast["Pr"]) +
+                return MathF.Round(
+                       Convert.ToSingle(DayResult.CurrentDay.Breakfast["Pr"]) +
                        Convert.ToSingle(DayResult.CurrentDay.Lunch["Pr"]) +
                        Convert.ToSingle(DayResult.CurrentDay.Dinner["Pr"]) +
-                       Convert.ToSingle(DayResult.CurrentDay.Snack["Pr"]);
+                       Convert.ToSingle(DayResult.CurrentDay.Snack["Pr"]), 1);
             }
             else { return 0; }
         }
@@ -28,10 +29,11 @@ public class Nutrients
         {
             if (DayResult.CurrentDay != null)
             {
-                return Convert.ToSingle(DayResult.CurrentDay.Breakfast["Fat"]) +
+                return MathF.Round(
+                       Convert.ToSingle(DayResult.CurrentDay.Breakfast["Fat"]) +
                        Convert.ToSingle(DayResult.CurrentDay.Lunch["Fat"]) +
                        Convert.ToSingle(DayResult.CurrentDay.Dinner["Fat"]) +
-                       Convert.ToSingle(DayResult.CurrentDay.Snack["Fat"]);
+                       Convert.ToSingle(DayResult.CurrentDay.Snack["Fat"]), 1);
             }
             else { return 0; }
         }
@@ -42,10 +44,11 @@ public class Nutrients
         {
             if (DayResult.CurrentDay != null)
             {
-                return Convert.ToSingle(DayResult.CurrentDay.Breakfast["Cb"]) +
+                return MathF.Round(
+                       Convert.ToSingle(DayResult.CurrentDay.Breakfast["Cb"]) +
                        Convert.ToSingle(DayResult.CurrentDay.Lunch["Cb"]) +
                        Convert.ToSingle(DayResult.CurrentDay.Dinner["Cb"]) +
-                       Convert.ToSingle(DayResult.CurrentDay.Snack["Cb"]);
+                       Convert.ToSingle(DayResult.CurrentDay.Snack["Cb"]), 1);
             }
             else { return 0; }
         }

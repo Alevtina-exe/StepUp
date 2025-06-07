@@ -4,6 +4,7 @@
              x:Class="WeightTracker.Views.GraphPage"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             xmlns:charts="clr-namespace:Microcharts;assembly=Microcharts.Maui"
              Title="Прогресс"
              BindingContext="{Binding _graph, Source={RelativeSource Self}}">
     
@@ -58,6 +59,24 @@
                 </Grid>
                 <Label x:Name="IMTCategoryLabel" Text="" FontSize="20" HorizontalOptions="Center"/>
             </VerticalStackLayout>
+            <!--" charts:BarChart ItemsSource="{Binding GroupedData}">
+                    <charts:BarChart.Series>
+                        < Первая группа столбцов >
+                        <charts:BarSeries 
+            ItemsSource="{Binding Group1Data}"
+            XValuePath="Category"
+            YValuePath="Value"
+            Color="#3498db"/>
+
+                        < Вторая группа столбцов >
+                        <charts:BarSeries 
+            ItemsSource="{Binding Group2Data}"
+            XValuePath="Category"
+            YValuePath="Value"
+            Color="#e74c3c"/>
+                    </charts:BarChart.Series>
+                </charts:BarChart -->
+
         </VerticalStackLayout>
     </ScrollView>
 

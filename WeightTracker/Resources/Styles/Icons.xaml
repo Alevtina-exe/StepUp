@@ -113,4 +113,16 @@
         </x:Arguments>
     </ImageSource>
 
+    <ImageSource x:Key="Еуе" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>еуе.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="ЕуеSlash" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>eye_slash.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
 </ResourceDictionary>

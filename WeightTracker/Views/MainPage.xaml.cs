@@ -85,6 +85,7 @@ public partial class MainPage : ContentPage
     private async void datePicker_DateSelected(object sender, DateChangedEventArgs e)
     {
         await database.StartWorkWithDay(datePicker.Date);
+        
         datePicker.IsVisible = false;
         MainModelView.RefreshAll();
         double progress = 1 - (double)DayResult.CurrentDay.KcalRes / UserModel.MainUser.CaloriePlan;

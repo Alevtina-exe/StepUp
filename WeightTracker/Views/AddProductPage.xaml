@@ -27,7 +27,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Label x:Name="favDishes" Grid.Row="1"
+        <Label x:Name="favDishes" Grid.Row="1" Opacity="0.8"
                Text="Или выберите продукт из списка избранных" 
                TextColor="#512bd4" FontSize="24" HorizontalTextAlignment="Center"
                VerticalOptions="Start" HorizontalOptions="Center" Padding="20,0">

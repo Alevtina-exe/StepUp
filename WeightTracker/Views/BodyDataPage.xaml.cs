@@ -223,7 +223,8 @@ public partial class BodyDataPage : ContentPage
                 ErrorLabel.IsVisible = true;
                 return;
             }
-            await Navigation.PushAsync(new MainPage());
+            Navigation.InsertPageBefore(new MainPage(), this);
+            await Navigation.PopAsync();
         }
     }
     private async void OnKcalTapped(object sender, EventArgs e)

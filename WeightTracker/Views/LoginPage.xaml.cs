@@ -13,12 +13,14 @@ namespace WeightTracker.Views;
 public partial class LoginPage : ContentPage
 {
     private readonly DatabaseModelView mv;
+    private readonly OpenFoodFactsService _foodService;
     public LoginPage()
     {
         InitializeComponent();
         NavigationPage.SetHasNavigationBar(this, false);
         var firestoreService = new FirestoreService();
         mv = new DatabaseModelView(firestoreService);
+        _foodService = new OpenFoodFactsService();
         BindingContext = mv;
     }
     private async void OnLoginClicked(object sender, EventArgs e)
@@ -54,8 +56,8 @@ public partial class LoginPage : ContentPage
                 if (DateTime.Now.Month * 30 + DateTime.Now.Day < user.Month * 30 + user.Day) age--;
                 UserModel.MainUser.Age = age;
                 await mv.StartWorkWithDay(DateTime.Now);
-                await SecureStorage.SetAsync("username", UsernameEntry.Text.Trim());
-                await Navigation.PushAsync(new MainPage());
+                Navigation.InsertPageBefore(new MainPage(), this);
+                await Navigation.PopAsync();
             }
             else
             {
@@ -77,7 +79,8 @@ public partial class LoginPage : ContentPage
     private void OnTogglePassword(object sender, EventArgs e)
     {
         PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
-        ShowPasswordButton.Text = PasswordEntry.IsPassword ? "👁" : "❌"; // Меняем иконку
+        ShowPasswordButton.Source = ImageSource.FromFile(PasswordEntry.IsPassword ? "eye.png" : "eye_slash.png");
+        ShowPasswordButton.Margin = new Thickness(PasswordEntry.IsPassword ? 2 : 0);
     }
 
     private async void OnLabelTapped(object sender, TappedEventArgs e)
