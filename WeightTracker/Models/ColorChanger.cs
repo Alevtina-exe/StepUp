@@ -13,8 +13,8 @@ public class ColorChanger
     private Path targetPath;
     private Label targetLabel;
     private Label targetLabel2;
-    private int duration = 2500; // Время в миллисекундах
-    private int steps = 100; // Количество шагов анимации
+    private int duration = 2000; 
+    private int steps = 100; 
     private int currentStep = 0;
     private double _progress;
 
@@ -56,13 +56,14 @@ public class ColorChanger
         {
             if(currentStep == 0)
             {
+                targetPath.IsVisible = false;
                 targetPath.Data = new PathGeometry
                 {
                     Figures = new PathFigureCollection
                     {
                         new PathFigure
                         {
-                            StartPoint = new Point(70, 0),
+                            StartPoint = new Point(70, 0),                            
                             Segments = new PathSegmentCollection
                             {
                                 new ArcSegment
@@ -76,14 +77,10 @@ public class ColorChanger
                         }
                     }
                 };
-            }
- 
-            targetLabel.Text = DayResult.CurrentDay.KcalRes.ToString();
-            if(currentStep == 0)
-            {
                 targetLabel.TextColor = Colors.Green;
                 targetLabel2.TextColor = Colors.Green;
             }
+            targetLabel.Text = DayResult.CurrentDay.KcalRes.ToString();
             return;
         }
         if (targetPath.Data is EllipseGeometry)
@@ -118,9 +115,14 @@ public class ColorChanger
                 ArcSegment? arc = figure.Segments.OfType<ArcSegment>().FirstOrDefault();
                 if (arc != null)
                 {
+                    if(currentStep == 0)
+                    {
+                        targetPath.IsVisible = false;
+                    }
                     if(currentStep == 1)
                     {
                         arc.SweepDirection = SweepDirection.Clockwise;
+                        targetPath.IsVisible = true;
                     }
                     if (currentStep == steps)
                     {

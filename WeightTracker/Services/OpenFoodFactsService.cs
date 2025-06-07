@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using WeightTracker.Models;
 
 namespace WeightTracker.Services;
@@ -104,7 +101,6 @@ public class OpenFoodFactsService
                         !productElement.TryGetProperty("nutriments", out var nutrimentsElement))
                         continue;
 
-                    // Проверяем обязательные нутриенты
                     if(
                         !nutrimentsElement.TryGetProperty("energy-kcal_100g", out var calElement) ||
                         !nutrimentsElement.TryGetProperty("proteins_100g", out var proteinElement) ||
@@ -117,7 +113,6 @@ public class OpenFoodFactsService
                     double fat = ParseNutrientValue<double>(fatElement, 0);
                     double carbs = ParseNutrientValue<double>(carbElement, 0);
 
-                    // Проверка корректности КБЖУ
                     if (calories <= 0 || Math.Abs((protein + carbs) * 4 + fat * 9 - calories) > 10)
                         continue;
 
@@ -161,6 +156,21 @@ public class OpenFoodFactsService
             Console.WriteLine($"Ошибка запроса: {e.Message}");
             return new ObservableCollection<FoodProduct>();
         }
+    }
+
+    public async Task<ObservableCollection<FoodProduct>> ObservableDishCollection(Dictionary<string, object> dict, bool isFav)
+    {
+        var Dishes = new ObservableCollection<FoodProduct>();
+        foreach (var dishes in dict)
+        {
+            double amount = isFav ? 100 : double.Parse(dishes.Value.ToString().Split('-')[0]);
+            string? serving = isFav ? null : dishes.Value.ToString().Split('-')[1];
+            var res = await GetProductByBarcodeAsync(dishes.Key);
+            res.Amount = amount;
+            res.Serving = serving;
+            Dishes.Add(res);
+        }
+        return Dishes;
     }
 
     private static T ParseNutrientValue<T>(JsonElement element, T defaultValue) where T : struct

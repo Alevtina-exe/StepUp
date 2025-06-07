@@ -22,6 +22,7 @@
                     <ImageButton Source="calendar.png" 
                                  HorizontalOptions="Center"
                                  WidthRequest="40" HeightRequest="40"
+                                 Opacity="0.8"
                                  Clicked="DateButton_Clicked"/>
                     <Label x:Name="DateLabel"
                            VerticalTextAlignment="Center"
@@ -167,7 +168,7 @@
                 <Frame Grid.Row="2" 
                        VerticalOptions="Center" 
                        HeightRequest="80"
-                       Margin="20,5,20,10" 
+                       Margin="20,5,20,10" Padding="20,15,20,20"
                        CornerRadius="40" Opacity="0.60" 
                        BorderColor="#3d0cc4" BackgroundColor="#3d0cc4"
                        IsVisible="{Binding StepCounterIsVisible}">
@@ -177,6 +178,7 @@
                           HeightRequest="60" >
                         <Image Grid.Column="0" 
                                WidthRequest="50" HeightRequest="50"
+                               Margin="0,5,0,0"
                                Source="steps.png" />
                         
                         <StackLayout Orientation="Vertical" Grid.Column="1" >
@@ -191,7 +193,7 @@
                                    HorizontalTextAlignment="Center" VerticalTextAlignment="Start"
                                    BindingContext="{Binding StepModelView}"
                                    FontSize="18"
-                                   TextColor="Gray" Text="{Binding Calories}"/>
+                                   TextColor="LightGray" Text="{Binding Calories}"/>
                         </StackLayout>
                     </Grid>
                     
@@ -199,7 +201,7 @@
                 
                 <Frame Grid.Row="3" 
                        VerticalOptions="Center" 
-                       Margin="20,15,20,5" Padding="0"
+                       Margin="15,15,15,5" Padding="0"
                        Style="{StaticResource DataFrame}" >
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="Breakfast_Tapped"/>
@@ -228,7 +230,7 @@
 
                 <Frame Grid.Row="4" 
                        VerticalOptions="Center" 
-                       Margin="20,5,20,5" Padding="0"
+                       Margin="15,5" Padding="0"
                        Style="{StaticResource DataFrame}" >
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="Lunch_Tapped"/>
@@ -257,7 +259,7 @@
                 
                 <Frame Grid.Row="5" 
                        VerticalOptions="Center" 
-                       Margin="20,5,20,5" Padding="0"
+                       Margin="15,5" Padding="0"
                        Style="{StaticResource DataFrame}" >
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="Dinner_Tapped"/>
@@ -286,7 +288,7 @@
                 
                 <Frame Grid.Row="6" 
                        VerticalOptions="Center" 
-                       Margin="20,5,20,80" Padding="0"
+                       Margin="15,5,15,80" Padding="0"
                        Style="{StaticResource DataFrame}" >
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="Snack_Tapped"/>

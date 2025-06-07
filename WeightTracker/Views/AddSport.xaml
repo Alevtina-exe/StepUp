@@ -1,28 +1,35 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="WeightTracker.Views.AddSport" >
-    <StackLayout Spacing="5" Padding="10" BackgroundColor="White" Opacity="0.5" >
-        <Label Text="Добавить физ. нагрузку" x:Name ="text" FontSize="16" HorizontalTextAlignment="Center"/>
-        <Entry x:Name="NameEntry" Placeholder="Название" TextChanged="Entry_TextChanged"/>
-        <Entry x:Name="KcalEntry" Placeholder="Количество калорий" Keyboard="Numeric" TextChanged="Entry_TextChanged"/>
-        <Label x:Name="ErrorLabel" TextColor="Red" HorizontalOptions="Center" IsVisible="False"/>
-        <StackLayout Orientation="Horizontal" Spacing="5"  HorizontalOptions="Center">
-            <Button Text="Отмена" Clicked="Button_Clicked_1" CornerRadius="0"
-                    BackgroundColor="#ccbbfc" TextColor="Red"
-                    FontSize="13"
-                    BorderColor="#512bd4" BorderWidth="2"
+               x:Class="WeightTracker.Views.AddSport" 
+               Color="Transparent">
+    <VerticalStackLayout>
+        <Frame CornerRadius="20" BorderColor="#ccbbfc" BackgroundColor="#ccbbfc">
+            <StackLayout Spacing="5" BackgroundColor="Transparent" Opacity="0.8" >
+                <Label Text="Добавить физ. нагрузку" x:Name ="text" FontSize="16" HorizontalTextAlignment="Center" TextColor="Black"/>
+                <Entry x:Name="NameEntry" 
+                       Placeholder="Название" TextChanged="Entry_TextChanged" 
+                       PlaceholderColor="Black"/>
+                <Entry x:Name="KcalEntry" 
+                       Placeholder="Количество калорий" Keyboard="Numeric" 
+                       PlaceholderColor="Black"
+                       TextChanged="Entry_TextChanged"/>
+                <Label x:Name="ErrorLabel" TextColor="Red" HorizontalOptions="Center" IsVisible="False"/>
+                <StackLayout Orientation="Horizontal" Spacing="5"  HorizontalOptions="Center">
+                    <Button Text="Отмена" Clicked="Button_Clicked_1"
+                     BackgroundColor="#562fc2" TextColor="White"
+                    FontSize="13" CornerRadius="20" 
                     WidthRequest="80"/>
-            <Button Text="OK" Clicked="Button_Clicked" CornerRadius="0"
-                    BackgroundColor="#ccbbfc" TextColor="Green"
-                    BorderColor="#512bd4" BorderWidth="2"
+                    <Button Text="OK" Clicked="Button_Clicked" CornerRadius="20"
+                     BackgroundColor="#562fc2" TextColor="White"
                     WidthRequest="80"/>
-            <Button x:Name ="delButton" Text="Удалить" Clicked="delButton_Clicked" CornerRadius="0"
+                    <Button x:Name ="delButton" Text="Удалить" Clicked="delButton_Clicked" CornerRadius="20"
                     FontSize="13"
-                    BackgroundColor="#ccbbfc" TextColor="Gray"
-                    BorderColor="#512bd4" BorderWidth="2"
+                    BackgroundColor="#562fc2" TextColor="White"
                     WidthRequest="80"/>
 
-        </StackLayout> 
-    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+    </VerticalStackLayout>
 </toolkit:Popup>

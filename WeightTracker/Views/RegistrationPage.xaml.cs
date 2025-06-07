@@ -33,7 +33,8 @@ public partial class RegistrationPage : ContentPage
     private void OnTogglePassword(object sender, EventArgs e)
     {
         PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
-        ShowPasswordButton.Text = PasswordEntry.IsPassword ? "👁" : "🔒";
+        ShowPasswordButton.Source = ImageSource.FromFile(PasswordEntry.IsPassword ? "eye.png" : "eye_slash.png");
+        ShowPasswordButton.Margin = new Thickness(PasswordEntry.IsPassword ? 2 : 0);
     }
 
 
