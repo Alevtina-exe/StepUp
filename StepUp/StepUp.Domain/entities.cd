@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="StepUp.Domain.Entities.DayResult">
+    <Position X="3" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAiQAAAAAAAAAAAEAAIBAgAJCAAAAABAACAAAAYBEA=</HashCode>
+      <FileName>Entities\DayResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StepUp.Domain.Entities.FoodItem">
+    <Position X="6.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAASAAAAAAEAAAAAAAAAUAQAAgAAAIAAAACAAAAAAAA=</HashCode>
+      <FileName>Entities\FoodItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StepUp.Domain.Entities.FoodProduct">
+    <Position X="9.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAEAAAAAAAAAAAQAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Entities\FoodProduct.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StepUp.Domain.Entities.Meal">
+    <Position X="4.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAAABCAAAAAAAAAAAoBAIAAAEAAAAAgBEAAA=</HashCode>
+      <FileName>Entities\Meal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StepUp.Domain.Entities.Nutrients">
+    <Position X="9.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAIAAAABAAAAAAABAAAAAAAACEAAA=</HashCode>
+      <FileName>Entities\Nutrients.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StepUp.Domain.Entities.Sport">
+    <Position X="4.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Entities\Sport.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StepUp.Domain.Entities.User">
+    <Position X="1.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABCBAAICAAEEAAAUAISAAAAACAAAAEAAAAAA=</HashCode>
+      <FileName>Entities\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
