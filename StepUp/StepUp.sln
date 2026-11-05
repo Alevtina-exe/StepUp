@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11822.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Maui", "StepUp.Maui\StepUp.Maui.csproj", "{6FA21EF8-7713-4071-A069-285DDD2A41C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Domain", "StepUp.Domain\StepUp.Domain.csproj", "{D13928C0-4C0E-4A26-BD1A-F8B7AAE59248}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.ViewModels", "StepUp.ViewModels\StepUp.ViewModels.csproj", "{45E0299B-F178-4CAE-9F9A-5C46CB3DD55A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Data", "StepUp.Data\StepUp.Data.csproj", "{C95F7559-6BFE-46F7-8EB1-5A8D1874DA4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Application", "StepUp.Application\StepUp.Application.csproj", "{56061ED1-0224-46D9-8C06-08C7AF1FE05A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Contracts", "StepUp.Contracts\StepUp.Contracts.csproj", "{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FA21EF8-7713-4071-A069-285DDD2A41C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA21EF8-7713-4071-A069-285DDD2A41C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA21EF8-7713-4071-A069-285DDD2A41C3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6FA21EF8-7713-4071-A069-285DDD2A41C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA21EF8-7713-4071-A069-285DDD2A41C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D13928C0-4C0E-4A26-BD1A-F8B7AAE59248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D13928C0-4C0E-4A26-BD1A-F8B7AAE59248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D13928C0-4C0E-4A26-BD1A-F8B7AAE59248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D13928C0-4C0E-4A26-BD1A-F8B7AAE59248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E0299B-F178-4CAE-9F9A-5C46CB3DD55A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E0299B-F178-4CAE-9F9A-5C46CB3DD55A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E0299B-F178-4CAE-9F9A-5C46CB3DD55A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E0299B-F178-4CAE-9F9A-5C46CB3DD55A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C95F7559-6BFE-46F7-8EB1-5A8D1874DA4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C95F7559-6BFE-46F7-8EB1-5A8D1874DA4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C95F7559-6BFE-46F7-8EB1-5A8D1874DA4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C95F7559-6BFE-46F7-8EB1-5A8D1874DA4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56061ED1-0224-46D9-8C06-08C7AF1FE05A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56061ED1-0224-46D9-8C06-08C7AF1FE05A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56061ED1-0224-46D9-8C06-08C7AF1FE05A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56061ED1-0224-46D9-8C06-08C7AF1FE05A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B0778C3-CE51-4182-8986-883ACC0FA3CA}
+	EndGlobalSection
+EndGlobal

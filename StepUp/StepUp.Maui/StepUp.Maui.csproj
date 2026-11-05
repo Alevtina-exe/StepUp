@@ -1,0 +1,159 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net10.0-android</TargetFrameworks>
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>StepUp</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+    <!-- Display name -->
+		<ApplicationTitle>StepUp!</ApplicationTitle>
+
+
+
+		<!-- App Identifier -->
+		<ApplicationId>com.DaryaO.StepUp</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <ApplicationId>com.DaryaO.StepUp</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+	  <ApplicationId>com.DaryaO.StepUp</ApplicationId>
+	</PropertyGroup>
+  <PropertyGroup>
+    <RuntimeIdentifier>android-arm64</RuntimeIdentifier>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AndroidTargetSdkVersion>34</AndroidTargetSdkVersion>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.png" BaseSize="512,512" />
+
+    <!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\AppIcon\appicon.png" Color="#FFFFFF" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Remove="Raw\**" />
+	  <AndroidResource Remove="Resources\Pictures\**" />
+	  <Compile Remove="Raw\**" />
+	  <Compile Remove="Resources\Pictures\**" />
+	  <EmbeddedResource Remove="Raw\**" />
+	  <EmbeddedResource Remove="Resources\Pictures\**" />
+	  <MauiCss Remove="Raw\**" />
+	  <MauiCss Remove="Resources\Pictures\**" />
+	  <MauiXaml Remove="Raw\**" />
+	  <MauiXaml Remove="Resources\Pictures\**" />
+	  <None Remove="Raw\**" />
+	  <None Remove="Resources\Pictures\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiFont Remove="Resources\Fonts\Font-Awesome-6-Regular.otf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Platforms\Android\google-services.json" />
+	  <None Remove="Resources\Images\no_image.jpeg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidAsset Include="Resources\Fonts\Font-Awesome-6-Regular.otf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Include="Platforms/Android/Resources/values/attrs.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <GoogleServicesJson Include="Platforms\Android\google-services.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.6.0.1" ExcludeAssets="All" />
+    <PackageReference Include="AiForms.Maui.SettingsView" Version="9.0.12" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="15.0.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="Grpc.Core.Api" Version="2.85.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.120" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.120" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.14" />
+		<PackageReference Include="SkiaSharp" Version="4.154.0" />
+		<PackageReference Include="UraniumUI.Material" Version="3.0.0" />
+		<PackageReference Include="ZXing.Net.Maui" Version="0.10.4" />
+		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.10.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Pages\BarcodeScannerPage.xaml.cs">
+	    <DependentUpon>BarcodeScannerPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\CalorieViewPage.xaml.cs">
+	    <DependentUpon>CalorieViewPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\AddProductPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\AddNewPage.xaml">
+	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\BarcodeScannerPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ChangeDataPage.xaml">
+	    <Generator></Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\MenuBar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProductPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ViewMealPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ViewSportsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="Resources\Layout\" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\StepUp.Application\StepUp.Application.csproj" />
+	  <ProjectReference Include="..\StepUp.Data\StepUp.Data.csproj" />
+	  <ProjectReference Include="..\StepUp.Domain\StepUp.Domain.csproj" />
+	  <ProjectReference Include="..\StepUp.ViewModels\StepUp.ViewModels.csproj" />
+	</ItemGroup>
+
+</Project>
