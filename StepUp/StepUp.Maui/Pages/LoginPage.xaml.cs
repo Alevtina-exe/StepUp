@@ -6,10 +6,10 @@ using StepUp.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using WeightTracker.ModelViews;
-using WeightTracker.Services;
+using StepUp.Maui.ModelViews;
+using StepUp.Maui.Services;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 
 public partial class LoginPage : ContentPage
 {

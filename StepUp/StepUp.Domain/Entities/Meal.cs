@@ -21,7 +21,7 @@ public class Meal
 
     public int TotalKcal => (int)Math.Round(Items.Sum(i => i.TotalNutrients.Calories), 0);
     public double TotalProtein => Math.Round(Items.Sum(i => i.TotalNutrients.Proteins), 1);
-    public double TotalFat => Math.Round(Items.Sum(i => i.TotalNutrients.Fats), 1);
+    public double TotalFat => Math.Round(Items.Sum(i => i.TotalNutrients.Fat), 1);
     public double TotalCarbon => Math.Round(Items.Sum(i => i.TotalNutrients.Carbohydrates), 1);
 
     public void AddItem(FoodItem item)
@@ -30,7 +30,7 @@ public class Meal
         int index = _items.FindIndex(i => i.Id == item.Id);
         if (index >= 0)
         {
-            _items[index].AddToAmount(item.AmountGrams);
+            _items[index].AddToAmount(item.Amount);
         }
         else _items.Add(item);
     }

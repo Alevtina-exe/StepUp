@@ -1,6 +1,6 @@
 using StepUp.Models;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 
 public partial class CalorieViewPage : ContentPage
 {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell NavBarIsVisible="False"
-    x:Class="WeightTracker.AppShell"
+    x:Class="StepUp.Maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:WeightTracker.Views"
+    xmlns:local="clr-namespace:StepUp.Maui.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="WeightTracker">
+    Title="StepUp.Maui">
     
     <ShellContent
         Title="Home"

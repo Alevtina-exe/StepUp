@@ -1,7 +1,7 @@
-﻿using WeightTracker.Services;
-using WeightTracker.Views;
+﻿using StepUp.Maui.Services;
+using StepUp.Maui.Views;
 
-namespace WeightTracker;
+namespace StepUp.Maui;
 
 public partial class App : Application
 {

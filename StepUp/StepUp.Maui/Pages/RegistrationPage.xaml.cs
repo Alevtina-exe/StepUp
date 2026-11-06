@@ -5,10 +5,10 @@ using StepUp.Models;
 using System.Collections.ObjectModel;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
-using WeightTracker.ModelViews;
-using WeightTracker.Services;
+using StepUp.Maui.ModelViews;
+using StepUp.Maui.Services;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 public partial class RegistrationPage : ContentPage
 {
     bool _errorOccured = false;

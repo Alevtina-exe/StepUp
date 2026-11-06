@@ -4,7 +4,6 @@ using Android.Content.PM;
 using Android.Hardware;
 using Android.OS;
 using Android.Runtime;
-using Microsoft.Maui.Controls;
 
 [Service(ForegroundServiceType = ForegroundService.TypeHealth, Exported = false)]
 public class StepCounterService : Service, ISensorEventListener

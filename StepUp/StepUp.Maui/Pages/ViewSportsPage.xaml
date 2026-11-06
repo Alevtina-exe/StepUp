@@ -1,7 +1,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
-             x:Class="WeightTracker.Views.ViewSportsPage" 
+             x:Class="StepUp.Maui.Views.ViewSportsPage" 
              Title="Тренировки за сегодня" 
              x:Name="self"
              BindingContext="{x:Reference self}" >
