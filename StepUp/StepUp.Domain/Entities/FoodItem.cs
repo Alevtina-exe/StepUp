@@ -6,7 +6,8 @@ public class FoodItem
     public string ProductId { get; }
     public string Name { get; }
     public string? Barcode { get; }
-    public double AmountGrams { get; private set; }
+    public double Amount { get; private set; }
+    public Serving Serving { get; private set; }
     public Nutrients NutrientsPer100g { get; }
 
     public FoodItem(
@@ -14,41 +15,52 @@ public class FoodItem
         Guid mealId,
         string name,
         string? barcode,
-        double amountGrams,
-        Nutrients nutrientsPer100g)
+        Nutrients nutrientsPer100g,
+        Serving? serving,
+        double amount = 1)
     {
         Id = Guid.NewGuid();
         if (string.IsNullOrWhiteSpace(productId))
             throw new ArgumentException("Id продукта обязателен.", nameof(productId));
-        if (amountGrams < 0)
-            throw new ArgumentException("Количество не может быть отрицательным.", nameof(amountGrams));
+        if (amount < 0)
+            throw new ArgumentException("Количество не может быть отрицательным.", nameof(amount));
 
         ProductId = productId;
         MealId = mealId;
         Name = name;
         Barcode = barcode;
-        AmountGrams = amountGrams;
+        Amount = amount;
         NutrientsPer100g = nutrientsPer100g
             ?? throw new ArgumentNullException(nameof(nutrientsPer100g));
+        if(serving != null)
+        {
+            Serving = serving;
+            Amount = amount;
+        }
+        else
+        {
+            Serving = new Serving("г", 1);
+            Amount = 100;
+        }
     }
 
-    public FoodItem(FoodProduct product, Guid mealId, double amountGrams)
-        : this(product.Id, mealId, product.Name, product.Barcode, amountGrams, product.NutrientsPer100g)
-    {
-    }
+    public FoodItem(FoodProduct product, Guid mealId, double amount = 1, Serving? serving = null)
+        : this(product.Id, mealId, product.Name, product.Barcode, 
+               product.NutrientsPer100g,serving ?? product.MainServing, amount)
+    {  }
+    public Nutrients TotalNutrients => NutrientsPer100g.CalculatePerAmount(Serving*Amount);
 
-    public Nutrients TotalNutrients => NutrientsPer100g.CalculatePerAmount(AmountGrams);
-
-    public void ChangeAmount(double newAmountGrams)
+    public void ChangeAmount(double newAmount)
     {
-        if (newAmountGrams < 0)
-            throw new ArgumentException("Количество не может быть отрицательным.", nameof(newAmountGrams));
-        AmountGrams = newAmountGrams;
+        if (newAmount < 0)
+            throw new ArgumentException("Количество не может быть отрицательным.", nameof(newAmount));
+        Amount = newAmount;
     }
-    public void AddToAmount(double amountGrams)
+    public void AddToAmount(double amount)
     {
-        if(amountGrams < 0)
-            throw new ArgumentException("Количество не может быть отрицательным.", nameof(amountGrams));
-        AmountGrams += amountGrams;
+        if(amount < 0)
+            throw new ArgumentException("Количество не может быть отрицательным.", nameof(amount));
+        Amount += amount;
     }
+    public void ChangeServing(Serving serving) => Serving = serving;
 }

@@ -5,10 +5,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using WeightTracker.ModelViews;
+using StepUp.Maui.ModelViews;
 using static Android.Icu.Text.CaseMap;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 
 public partial class ViewSportsPage : ContentPage, INotifyPropertyChanged
 {

@@ -1,9 +1,9 @@
 using AndroidX.Core.App;
 using Microsoft.Maui.Controls;
 using System.Threading.Tasks;
-using WeightTracker.Models;
-using WeightTracker.ModelViews;
-namespace WeightTracker.Views;
+using StepUp.Maui.Models;
+using StepUp.Maui.ModelViews;
+namespace StepUp.Maui.Views;
 
 public partial class AddProductPage : ContentPage
 {

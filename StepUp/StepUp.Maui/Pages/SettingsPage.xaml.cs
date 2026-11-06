@@ -3,9 +3,9 @@ using CommunityToolkit.Maui.Core;
 using StepUp.Models;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using WeightTracker.ModelViews;
+using StepUp.Maui.ModelViews;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 
 public partial class SettingsPage : ContentPage
 {

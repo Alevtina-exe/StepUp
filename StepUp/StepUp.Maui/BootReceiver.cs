@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using AndroidX.Core.Content;
 
-namespace StepUp;
+namespace StepUp.Maui;
 
 
 [BroadcastReceiver(Enabled = true, Exported = false)]
@@ -17,4 +17,4 @@ public class BootReceiver : BroadcastReceiver
     }
 }
 
-// Name = "com.DaryaO.WeightTracker.BootReceiver",
+// Name = "com.DaryaO.StepUp.Maui.BootReceiver",

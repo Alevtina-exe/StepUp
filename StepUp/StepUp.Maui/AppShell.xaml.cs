@@ -1,4 +1,4 @@
-﻿namespace WeightTracker;
+﻿namespace StepUp.Maui;
 
 public partial class AppShell : Shell
 {

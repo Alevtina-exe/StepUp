@@ -4,10 +4,10 @@ using SkiaSharp;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Maui.Alerts;
-using WeightTracker.ModelViews;
+using StepUp.Maui.ModelViews;
 using StepUp.Models;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 
 public partial class GraphPage : ContentPage
 {

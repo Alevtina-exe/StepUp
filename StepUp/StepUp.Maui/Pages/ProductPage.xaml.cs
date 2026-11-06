@@ -1,8 +1,8 @@
 using StepUp.Models;
 using System.Threading.Tasks;
-using WeightTracker.ModelViews;
+using StepUp.Maui.ModelViews;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 
 public partial class ProductPage : ContentPage
 {

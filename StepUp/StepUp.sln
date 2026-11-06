@@ -7,13 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Maui", "StepUp.Maui\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Domain", "StepUp.Domain\StepUp.Domain.csproj", "{D13928C0-4C0E-4A26-BD1A-F8B7AAE59248}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.ViewModels", "StepUp.ViewModels\StepUp.ViewModels.csproj", "{45E0299B-F178-4CAE-9F9A-5C46CB3DD55A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Presentation", "StepUp.Presentation\StepUp.Presentation.csproj", "{45E0299B-F178-4CAE-9F9A-5C46CB3DD55A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Data", "StepUp.Data\StepUp.Data.csproj", "{C95F7559-6BFE-46F7-8EB1-5A8D1874DA4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Application", "StepUp.Application\StepUp.Application.csproj", "{56061ED1-0224-46D9-8C06-08C7AF1FE05A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Contracts", "StepUp.Contracts\StepUp.Contracts.csproj", "{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepUp.Infrastructure", "StepUp.Infrastructure\StepUp.Infrastructure.csproj", "{A9B24418-52AE-4671-AEA6-FB5B03DDDA71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFB145B-5CEE-4FB9-B8EA-F0661BDCA9A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9B24418-52AE-4671-AEA6-FB5B03DDDA71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9B24418-52AE-4671-AEA6-FB5B03DDDA71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9B24418-52AE-4671-AEA6-FB5B03DDDA71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9B24418-52AE-4671-AEA6-FB5B03DDDA71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

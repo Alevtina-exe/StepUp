@@ -1,8 +1,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:WeightTracker.Models"  
+             xmlns:models="clr-namespace:StepUp.Maui.Models"  
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="WeightTracker.Views.AddProductPage"
+             x:Class="StepUp.Maui.Views.AddProductPage"
              BindingContext="{Binding ProductBaseModelView, Source={RelativeSource Self}}">
     <Grid Padding="10" RowDefinitions="Auto, *">
         <Grid ColumnDefinitions="*, Auto, Auto" Row="0" Margin="0,0,0,20">

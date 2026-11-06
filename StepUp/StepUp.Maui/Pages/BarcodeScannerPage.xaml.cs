@@ -3,7 +3,7 @@ using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
 using ZXing.Net.Maui.Readers;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 public partial class BarcodeScannerPage : ContentPage
 {
     public BarcodeScannerPage()

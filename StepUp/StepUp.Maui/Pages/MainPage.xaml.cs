@@ -1,11 +1,11 @@
 using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Handlers;
-using StepUp.Models;
 using System.Threading.Tasks;
-using WeightTracker.ModelViews;
-using WeightTracker.Services;
+using StepUp.Maui.ModelViews;
+using StepUp.Maui.Services;
+using StepUp.Maui.Utils;
 
-namespace WeightTracker.Views;
+namespace StepUp.Maui.Views;
 
 public partial class MainPage : ContentPage
 {
