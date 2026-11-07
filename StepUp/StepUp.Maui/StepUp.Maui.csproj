@@ -116,9 +116,6 @@
 	  <Compile Update="Pages\BarcodeScannerPage.xaml.cs">
 	    <DependentUpon>BarcodeScannerPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\CalorieViewPage.xaml.cs">
-	    <DependentUpon>CalorieViewPage.xaml</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 

@@ -21,11 +21,11 @@ namespace StepUp.Domain.Entities
             Gender = gender;
             SportLevel = sportLevel;
             RegistrationDate = registrationDate;
-            Password = password;
+            ChangePassword(password);
         }
         public Guid Id { get; }
         public string Email { get; } = null!;
-        public string Password { get; } = null!;
+        public string Password { get; private set; } = null!;
         public DateTime RegistrationDate { get; }
 
         public string FullName { get; private set; } = null!;
@@ -94,6 +94,13 @@ namespace StepUp.Domain.Entities
             ProteinPercent = proteinPercent;
             FatPercent = fatPercent;
             CarbonPercent = carbonPercent;
+        }
+
+        public void ChangePassword(string newPasswordHash)
+        {
+            if (string.IsNullOrWhiteSpace(newPasswordHash))
+                throw new ArgumentException("Пароль не может быть пустым.", nameof(newPasswordHash));
+            Password = newPasswordHash;
         }
 
         public void ChangeGender(Gender gender) => Gender = gender;

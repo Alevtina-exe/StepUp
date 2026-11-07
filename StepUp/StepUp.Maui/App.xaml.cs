@@ -1,14 +1,11 @@
-﻿using StepUp.Maui.Services;
-using StepUp.Maui.Views;
+﻿using StepUp.Maui.Views;
 
 namespace StepUp.Maui;
 
-public partial class App : Application
+public partial class App : Microsoft.Maui.Controls.Application
 {
 	public App()
 	{
 		InitializeComponent();
-        MainPage = new NavigationPage(new LoginPage());
-		
-    }
+	}
 }

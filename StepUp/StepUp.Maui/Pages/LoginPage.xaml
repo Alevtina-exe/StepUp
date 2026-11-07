@@ -1,47 +1,63 @@
-﻿<ContentPage 
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="StepUp.Maui.Views.LoginPage">
-             
+﻿<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="StepUp.Maui.Views.LoginPage">
 
-    <VerticalStackLayout Padding="30,0,30,150" Spacing="15" VerticalOptions="Center" >
-        <Label Text="Вход в аккаунт:"
-       FontSize="32"
-       HorizontalOptions="Center"
-       VerticalOptions="Center"/>
+    <VerticalStackLayout
+        Padding="30,0,30,150"
+        Spacing="15"
+        VerticalOptions="Center">
+        <Label
+            Text="Вход в аккаунт:"
+            Style="{StaticResource TitleLabel}" />
 
-        <Entry x:Name="UsernameEntry" Placeholder="Логин"/>
+        <Entry
+            x:Name="UsernameEntry"
+            Placeholder="Логин" />
 
-        <Grid ColumnSpacing="5" ColumnDefinitions="*, 30">
-
-            <Entry x:Name="PasswordEntry"
-                   Placeholder="Пароль"
-                   IsPassword="True"
+        <Grid
+            ColumnSpacing="5"
+            ColumnDefinitions="*, 30">
+            <Entry
+                x:Name="PasswordEntry"
+                Placeholder="Пароль"
+                IsPassword="True"
                 Grid.Column="0" />
-
-            <ImageButton x:Name="ShowPasswordButton"
-                         Opacity="0.8"
-                        Source="eye.png"
-                        HeightRequest="30"
-                        Margin="2"
-                        VerticalOptions="Fill"
-                        HorizontalOptions="Center"
-                        Clicked="OnTogglePassword"
-                        BackgroundColor="Transparent"
-                        CornerRadius="1"
-                        Grid.Column="1" />
+            <ImageButton
+                x:Name="ShowPasswordButton"
+                Opacity="0.8"
+                Source="eye.png"
+                HeightRequest="30"
+                Margin="2"
+                VerticalOptions="Fill"
+                HorizontalOptions="Center"
+                Clicked="OnTogglePassword"
+                BackgroundColor="Transparent"
+                CornerRadius="1"
+                Grid.Column="1" />
         </Grid>
 
-        <Button Text="Войти" Clicked="OnLoginClicked" CornerRadius="40" Opacity="0.8" HorizontalOptions="Fill" />
+        <Button
+            Text="Войти"
+            Clicked="OnLoginClicked"
+            CornerRadius="40"
+            Opacity="0.8"
+            HorizontalOptions="Fill" />
 
-        <Label 
-            Text="Нет аккаунта? Создать новый" 
-            TextColor="Gray"
+        <Label
+            Text="Нет аккаунта? Создать новый"
+            TextColor="{StaticResource TextSecondary}"
             HorizontalOptions="Center">
             <Label.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnLabelTapped" />
+                <TapGestureRecognizer
+                    Tapped="OnLabelTapped" />
             </Label.GestureRecognizers>
         </Label>
-        <Label x:Name="ErrorLabel" TextColor="Red" IsVisible="False" HorizontalTextAlignment="Center" FontSize="14"/>
+        <Label
+            x:Name="ErrorLabel"
+            TextColor="Red"
+            IsVisible="False"
+            HorizontalTextAlignment="Center"
+            FontSize="14" />
     </VerticalStackLayout>
 </ContentPage>

@@ -1,145 +1,234 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             x:Class="StepUp.Maui.Views.ProductPage" BackgroundColor="White"
-             BindingContext="{Binding ProductPageModelView, Source={RelativeSource Self}}">
-    <Grid RowDefinitions="*,Auto" >
-        <ScrollView Grid.Row="0" >
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" BackgroundColor="#baa4f5" >
-                <Image Source= "{Binding Image}" MaximumHeightRequest="280" BackgroundColor="LightGray"/>
-                <Label Text="{Binding Name}" HorizontalTextAlignment="Center" VerticalOptions="End"
-                   FontSize="30" TextColor="White">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    x:Class="StepUp.Maui.Views.ProductPage"
+    BackgroundColor="White">
+    <Grid
+        RowDefinitions="*,Auto">
+        <ScrollView
+            Grid.Row="0">
+            <Grid
+                RowDefinitions="Auto,Auto,Auto,Auto,*"
+                BackgroundColor="{StaticResource PrimaryLight}">
+                <Image
+                    Source="{Binding Image}"
+                    MaximumHeightRequest="280"
+                    BackgroundColor="LightGray" />
+                <Label
+                    Text="{Binding Name}"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="End"
+                    FontSize="30"
+                    TextColor="White">
                     <Label.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="Transparent" Offset="0.1" />
-                            <GradientStop Color="Gray" Offset="1.0" />
+                        <LinearGradientBrush
+                            StartPoint="0,0"
+                            EndPoint="0,1">
+                            <GradientStop
+                                Color="Transparent"
+                                Offset="0.1" />
+                            <GradientStop
+                                Color="Gray"
+                                Offset="1.0" />
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <ImageButton x:Name="favButton" 
-                             Margin="0,15,15,0"
-                             Source="{StaticResource IconNotFavourite}"
-                             BackgroundColor="Transparent"
-                             WidthRequest="40"
-                             HeightRequest="40"
-                             Clicked="favButton_Clicked"
-                             HorizontalOptions="End"
-                             VerticalOptions="Start"/>
-                <Frame Grid.Row="1"
-                       HorizontalOptions="Fill"
-                       Margin="0" Padding="10"
-                       CornerRadius="0"
-                       BorderColor="#baa4f5"
-                       BackgroundColor="#baa4f5" >
-                    <Frame Grid.Row="1"
-                       HorizontalOptions="Fill"
-                       Padding="10" Margin="5,5"
-                       CornerRadius="30"
-                       BackgroundColor="White"
-                       BorderColor="#baa4f5"
-                       Opacity="0.8" >
-
-                        <StackLayout Orientation="Vertical" Spacing="10">
-                            <Grid ColumnDefinitions="Auto,*" >
-                                <Grid x:Name="grid" Grid.Column="0"
-                                      ColumnDefinitions="*"
-                                      WidthRequest="140" HeightRequest="140"/>
-                                <VerticalStackLayout VerticalOptions="Center"
-                                                     HorizontalOptions="Center"
-                                                     Grid.Column="1" >
-                                    <Label HorizontalTextAlignment="Center"
-                                           FontFamily="impact"
-                                           FontSize="36" TextColor="#b09a6d"
-                                           Text="{Binding Kcal}" />
-                                    <ProgressBar Progress="{Binding Progress}" HeightRequest="5"
-                                                 HorizontalOptions="Fill" ProgressColor="#b09a6d"/>
-                                    <Label HorizontalTextAlignment="Center" Margin="0,2,0,0"
-                                       FontFamily="impact"
-                                           TextColor="#b09a6d"
-                                       Text="{Binding Daily}" />
-
+                <ImageButton
+                    x:Name="favButton"
+                    Margin="0,15,15,0"
+                    Source="{StaticResource IconNotFavourite}"
+                    BackgroundColor="Transparent"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    Clicked="favButton_Clicked"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start" />
+                <Frame
+                    Grid.Row="1"
+                    HorizontalOptions="Fill"
+                    Margin="0"
+                    Padding="10"
+                    CornerRadius="0"
+                    BorderColor="{StaticResource PrimaryLight}"
+                    BackgroundColor="{StaticResource PrimaryLight}">
+                    <Frame
+                        Style="{StaticResource WhiteCardFrame}">
+                        <StackLayout
+                            Orientation="Vertical"
+                            Spacing="10">
+                            <Grid
+                                ColumnDefinitions="Auto,*">
+                                <Grid
+                                    x:Name="grid"
+                                    Grid.Column="0"
+                                    ColumnDefinitions="*"
+                                    WidthRequest="140"
+                                    HeightRequest="140" />
+                                <VerticalStackLayout
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Grid.Column="1">
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        FontFamily="impact"
+                                        FontSize="36"
+                                        TextColor="{StaticResource NutriKcal}"
+                                        Text="{Binding Kcal}" />
+                                    <ProgressBar
+                                        Progress="{Binding Progress}"
+                                        HeightRequest="5"
+                                        HorizontalOptions="Fill"
+                                        ProgressColor="{StaticResource NutriKcal}" />
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        Margin="0,2,0,0"
+                                        FontFamily="impact"
+                                        TextColor="{StaticResource NutriKcal}"
+                                        Text="{Binding Daily}" />
                                 </VerticalStackLayout>
                             </Grid>
 
-                            <StackLayout Orientation="Vertical"
-                                     VerticalOptions="Center"
-                                         Margin="20,0,0,0"
-                                     Spacing="5">
-                                <StackLayout Orientation="Horizontal" 
-                                         Spacing="5">
-                                    <Frame BackgroundColor="#9fd5bd"
-                                           BorderColor="#9fd5bd"
-                                           WidthRequest="5" HeightRequest="5"
-                                           CornerRadius="10" />
-                                    <Label Text="{Binding Protein}"/>
+                            <StackLayout
+                                Orientation="Vertical"
+                                VerticalOptions="Center"
+                                Margin="20,0,0,0"
+                                Spacing="5">
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+                                    <Frame
+                                        BackgroundColor="{StaticResource NutriProtein}"
+                                        BorderColor="{StaticResource NutriProtein}"
+                                        WidthRequest="5"
+                                        HeightRequest="5"
+                                        CornerRadius="10" />
+                                    <Label
+                                        Text="{Binding Protein}" />
                                 </StackLayout>
-                                <StackLayout Orientation="Horizontal" 
-                                         Spacing="5">
-                                    <Frame BackgroundColor="#fceda8"
-                                           BorderColor="#fceda8"
-                                           WidthRequest="10" HeightRequest="10"
-                                           CornerRadius="10" />
-                                    <Label Text="{Binding Fat}"/>
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+                                    <Frame
+                                        BackgroundColor="{StaticResource NutriFat}"
+                                        BorderColor="{StaticResource NutriFat}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        CornerRadius="10" />
+                                    <Label
+                                        Text="{Binding Fat}" />
                                 </StackLayout>
-                                <StackLayout Orientation="Horizontal" 
-                                             Spacing="5">
-                                    <Frame BackgroundColor="#e79bc3"
-                                           BorderColor="#e79bc3"
-                                           WidthRequest="10" HeightRequest="10"
-                                           CornerRadius="10" />
-                                    <Label Text="{Binding Carbon}"/>
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+                                    <Frame
+                                        BackgroundColor="{StaticResource NutriCarbon}"
+                                        BorderColor="{StaticResource NutriCarbon}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        CornerRadius="10" />
+                                    <Label
+                                        Text="{Binding Carbon}" />
                                 </StackLayout>
                             </StackLayout>
                         </StackLayout>
                     </Frame>
                 </Frame>
-                <HorizontalStackLayout Grid.Row="2" Spacing="5" HorizontalOptions="Center" Padding="20,10">
-                    <Image Source="{Binding NutriscoreImage}" WidthRequest="100" />
-                    <Image Source="{Binding NovaImage}" HeightRequest="70" Margin="10,0,0,0" />
-                    <VerticalStackLayout Grid.Row="3" Margin="20,10" HorizontalOptions="Start">
-                        <Label Text="{Binding Brand}" FontSize="16" TextColor="#5d5d5d" FontAttributes="Bold"/>
-                        <Label Text="{Binding Barcode}" FontSize="16" TextColor="#5d5d5d" FontAttributes="Bold"/>
+
+                <HorizontalStackLayout
+                    Grid.Row="2"
+                    Spacing="5"
+                    HorizontalOptions="Center"
+                    Padding="20,10">
+                    <Image
+                        Source="{Binding NutriscoreImage}"
+                        WidthRequest="100" />
+                    <Image
+                        Source="{Binding NovaImage}"
+                        HeightRequest="70"
+                        Margin="10,0,0,0" />
+                    <VerticalStackLayout
+                        Grid.Row="3"
+                        Margin="20,10"
+                        HorizontalOptions="Start">
+                        <Label
+                            Text="{Binding Brand}"
+                            FontSize="16"
+                            TextColor="{StaticResource TextSecondary}"
+                            FontAttributes="Bold" />
+                        <Label
+                            Text="{Binding Barcode}"
+                            FontSize="16"
+                            TextColor="{StaticResource TextSecondary}"
+                            FontAttributes="Bold" />
                     </VerticalStackLayout>
                 </HorizontalStackLayout>
 
-           
-        
-        <StackLayout Orientation="Vertical" Grid.Row="4" Padding="20,10" 
-                     VerticalOptions="End" Spacing="10" BackgroundColor="#d4c4ff" >
-            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10"
-                  HorizontalOptions="Fill" HeightRequest="50">
-                <Frame BorderColor="#5734D4" BackgroundColor="Transparent"
-                           Padding="2" Grid.Column="0"
-                           CornerRadius="10">
-                    <Entry x:Name="entry"
-                        WidthRequest="60" Keyboard="Numeric" Text="{Binding Amount, Mode=TwoWay}" FontSize="20"
-                               VerticalTextAlignment="End" HorizontalTextAlignment="Center"
-                           TextChanged="Entry_TextChanged"/>
-                </Frame>
-                        <Picker SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
-                                HorizontalOptions="Fill" Grid.Column="1"
-                                HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                                ItemsSource="{Binding MeasurementUnits}" />
+                <StackLayout
+                    Orientation="Vertical"
+                    Grid.Row="4"
+                    Padding="20,10"
+                    VerticalOptions="End"
+                    Spacing="10"
+                    BackgroundColor="{StaticResource ProductBottomPanel}">
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="10"
+                        HorizontalOptions="Fill"
+                        HeightRequest="50">
+                        <Frame
+                            BorderColor="{StaticResource PrimaryDark}"
+                            BackgroundColor="Transparent"
+                            Padding="2"
+                            Grid.Column="0"
+                            CornerRadius="10">
+                            <Entry
+                                x:Name="entry"
+                                WidthRequest="60"
+                                Keyboard="Numeric"
+                                Text="{Binding Amount, Mode=TwoWay}"
+                                FontSize="20"
+                                VerticalTextAlignment="End"
+                                HorizontalTextAlignment="Center"
+                                TextChanged="Entry_TextChanged" />
+                        </Frame>
+                        <Picker
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                            HorizontalOptions="Fill"
+                            Grid.Column="1"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            ItemsSource="{Binding MeasurementUnits}" />
                     </Grid>
-            <material:PickerField x:Name="PickMeal" 
-                                  Title="Приём пищи" VerticalOptions="End" 
-                                  SelectedItem="{Binding MealItem}">
-                <material:PickerField.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Завтрак</x:String>
-                        <x:String>Обед</x:String>
-                        <x:String>Ужин</x:String>
-                        <x:String>Перекус</x:String>
-                    </x:Array>
-                </material:PickerField.ItemsSource>
-            </material:PickerField>
-            <Button x:Name="AddButton" Text="Добавить" Clicked="AddButton_Clicked" HorizontalOptions="Fill"
-                    BackgroundColor="#562fc2" Opacity="0.8" CornerRadius="20"/>
-            <Button x:Name="DeleteButton" Text="Удалить" IsVisible="False" Clicked="DeleteButton_Clicked"
-                    BackgroundColor="#562fc2" Opacity="0.8" CornerRadius="20"/>
-
-        </StackLayout>
+                    <material:PickerField
+                        x:Name="PickMeal"
+                        Title="Приём пищи"
+                        VerticalOptions="End"
+                        SelectedItem="{Binding MealItem}">
+                        <material:PickerField.ItemsSource>
+                            <x:Array
+                                Type="{x:Type x:String}">
+                                <x:String>Завтрак</x:String>
+                                <x:String>Обед</x:String>
+                                <x:String>Ужин</x:String>
+                                <x:String>Перекус</x:String>
+                            </x:Array>
+                        </material:PickerField.ItemsSource>
+                    </material:PickerField>
+                    <Button
+                        x:Name="AddButton"
+                        Text="Добавить"
+                        Clicked="AddButton_Clicked"
+                        HorizontalOptions="Fill"
+                        CornerRadius="20" />
+                    <Button
+                        x:Name="DeleteButton"
+                        Text="Удалить"
+                        IsVisible="False"
+                        Clicked="DeleteButton_Clicked"
+                        CornerRadius="20" />
+                </StackLayout>
             </Grid>
         </ScrollView>
     </Grid>
