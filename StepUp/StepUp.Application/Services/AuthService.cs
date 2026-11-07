@@ -1,6 +1,6 @@
 ﻿using StepUp.Application.Interfaces.Repositories;
 using StepUp.Application.Interfaces.Services;
-using StepUp.Domain.Enums;
+using StepUp.Application.Models;
 
 namespace StepUp.Application.Services
 {
@@ -14,31 +14,30 @@ namespace StepUp.Application.Services
         private readonly ICurrentUserProvider _userProvider = userProvider;
         private readonly IClock _clock = clock;
 
-        public async Task<User> RegisterAsync(
-            string fullName, string email, string password,
-            DateTime birthDate, Gender gender, double weight, double height,
-            int caloriePlan, int proteinPercent, int fatPercent, int carbonPercent,
-            SportLevel sportLevel, CancellationToken ct = default)
+        public async Task<User> RegisterAsync(RegisterRequest request, CancellationToken ct = default)
         {
-            var passwordErrors = PasswordPolicy.Validate(password);
-            if (passwordErrors.Count != 0)
+            var passwordErrors = PasswordPolicy.Validate(request.Password);
+            if (passwordErrors.Any())
                 throw new InvalidOperationException(string.Join("\n", passwordErrors));
-            if (await _userRep.ExistsByEmailAsync(email, ct))
+
+            if (await _userRep.ExistsByEmailAsync(request.Email, ct))
                 throw new InvalidOperationException("Пользователь с таким email уже существует.");
+
             var user = new User(
-                fullName: fullName,
-                email: email,
-                password: _passwordHasher.Hash(password),
-                birthDate: birthDate.Date,
-                gender: gender,
-                weight: weight,
-                height: height,
-                caloriePlan: caloriePlan,
-                carbonPercent: carbonPercent,
-                proteinPercent: proteinPercent,
-                fatPercent: fatPercent,
-                sportLevel: sportLevel,
+                fullName: request.Name,
+                email: request.Email,
+                password: _passwordHasher.Hash(request.Password), 
+                birthDate: request.BirthDate,
+                gender: request.Gender,
+                weight: request.Weight,
+                height: request.Height,
+                caloriePlan: request.CaloriePlan,
+                carbonPercent: request.CarbonPercent,
+                proteinPercent: request.ProteinPercent,
+                fatPercent: request.FatPercent,
+                sportLevel: request.SportLevel,
                 registrationDate: _clock.UtcNow);
+
             await _userRep.AddAsync(user, ct);
             _userProvider.SetUser(user.Id);
             return user;
@@ -55,6 +54,9 @@ namespace StepUp.Application.Services
             throw new InvalidOperationException("Неверный пароль");
         }
 
+        public async Task<bool> IsUserExistsAsync(string email, CancellationToken ct = default) =>
+            await _userRep.ExistsByEmailAsync(email, ct);
+
         public void Logout()
         {
             _userProvider.Clear();
@@ -65,9 +67,9 @@ namespace StepUp.Application.Services
             var passwordErrors = PasswordPolicy.Validate(newPassword);
             if (passwordErrors.Any())
                 throw new InvalidOperationException(string.Join("\n", passwordErrors));
-            var user = await _userRep.GetByIdAsync(_userProvider.UserId, ct) ?? throw new InvalidOperationException("Пользователя не существует.");
+            var user = await _userRep.GetByIdAsync(_userProvider.RequireUserId(), ct) ?? throw new InvalidOperationException("Пользователя не существует.");
             if (!_passwordHasher.Verify(oldPassword, user.Password)) throw new InvalidOperationException("Пароли не совпадают.");
-            user.Password = _passwordHasher.Hash(newPassword);
+            user.ChangePassword(_passwordHasher.Hash(newPassword));
             await _userRep.UpdateAsync(user, ct);
         }
     }

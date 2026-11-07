@@ -8,6 +8,9 @@ using StepUp.Application.Interfaces.Services;
 using StepUp.Data;
 using StepUp.Infrastructure;
 using StepUp.Maui.Services;
+using StepUp.Maui.Views;
+using StepUp.Presentation;
+using StepUp.Presentation.Interfaces;
 using System.Reflection;
 using UraniumUI;
 using ZXing.Net.Maui.Controls;
@@ -49,8 +52,14 @@ public static class MauiProgram
 
         builder.Services.AddInfrastructure(builder.Configuration);
 		builder.Services.AddApplication();
+		builder.Services.AddViewModels();
 
         builder.Services.AddSingleton<ICurrentUserProvider, CurrentUserProvider>();
+        builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
+        builder.Services.AddSingleton<IDialogService, MauiDialogService>();
+
+        builder.Services.AddTransient<RegistrationPage>();
+		builder.Services.AddTransient<BodyDataPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

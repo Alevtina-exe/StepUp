@@ -1,68 +1,144 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="StepUp.Maui.Views.RegistrationPage">
+﻿<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Views.RegistrationPage"
+    x:DataType="vm:RegistrationViewModel">
 
-    <VerticalStackLayout Padding="30" Spacing="15">
+    <VerticalStackLayout
+        Padding="30"
+        Spacing="15">
+        <Label
+            Text="Регистрация пользователя"
+            Style="{StaticResource TitleLabel}" />
 
-        <Label Text="Регистрация пользователя"
-       FontSize="22"
-       HorizontalOptions="Center"
-       VerticalOptions="Center"/>
+        <Entry
+            x:Name="NameEntry"
+            Placeholder="Имя"
+            Text="{Binding Name, Mode=TwoWay}" />
+        <Label
+            x:Name="NameErrorLabel"
+            Text="Допустимы только буквы!"
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding NameErrorVisible}"/>
+
+        <Entry
+            x:Name="EmailEntry"
+            Placeholder="Email"
+            Text="{Binding Email, Mode=TwoWay}" />
+        <Label
+            x:Name="LoginErrorLabel"
+            Text="Неверный формат почты."
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding EmailErrorVisible}" />
+
+        <Grid
+            ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="30" />
+            </Grid.ColumnDefinitions>
+
+            <Entry
+                x:Name="PasswordEntry"
+                Placeholder="Пароль"
+                IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                Text="{Binding Password, Mode=TwoWay}"
+                Grid.Column="0" />
+            <ImageButton
+                x:Name="ShowPasswordButton"
+                Source="{Binding EyeIcon}"
+                HeightRequest="30"
+                Margin="2"
+                VerticalOptions="Fill"
+                HorizontalOptions="Center"
+                Command="{Binding TogglePasswordVisibilityCommand}"
+                BackgroundColor="Transparent"
+                Grid.Column="1" />
+        </Grid>
+        <Label
+            x:Name="PasswordCheckErrorLabel"
+            Text="Пароль должен содержать минимум 8 символов, хотя бы одну букву и одну цифру, и не содержать кириллицу!"
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding PasswordErrorVisible}" />
         
-        <Entry x:Name="NameEntry" Placeholder="Имя" TextChanged="OnNameChanged"/>
-        <Label x:Name="NameErrorLabel" Text="Допустимы только буквы!" TextColor="Red" IsVisible="False"/>
-
-        <Entry x:Name="LoginEntry" Placeholder="Логин" TextChanged="OnLoginChanged"/>
-        <Label x:Name="LoginErrorLabel" Text="Логин содержит недопустимые символы! (только латиница, '.', '_')" TextColor="Red" IsVisible="False"/>
-
-        <Grid ColumnSpacing="5">
+        <Grid
+            ColumnSpacing="5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="30" />
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="30" />
             </Grid.ColumnDefinitions>
 
-            <Entry x:Name="PasswordEntry"
-                   Placeholder="Пароль"
-                   IsPassword="True"
-                   TextChanged="OnPasswordChanged"
-                   Grid.Column="0" />
-
-            <ImageButton x:Name="ShowPasswordButton"
-                         Opacity="0.8"
-                        Source="eye.png"
-                        HeightRequest="30"
-                        Margin="2"
-                        VerticalOptions="Fill"
-                        HorizontalOptions="Center"
-                        Clicked="OnTogglePassword"
-                        BackgroundColor="Transparent"
-                        CornerRadius="1"
-                        Grid.Column="1" />
+            <Entry
+                x:Name="CheckPasswordEntry"
+                Placeholder="Повторите пароль"
+                IsPassword="{Binding IsCheckPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                Text="{Binding CheckPassword, Mode=TwoWay}"
+                Grid.Column="0" />
+            <ImageButton
+                x:Name="ShowCheckPasswordButton"
+                Source="{Binding CheckEyeIcon}"
+                Command="{Binding ToggleCheckPasswordVisibilityCommand}"
+                HeightRequest="30"
+                Margin="2"
+                VerticalOptions="Fill"
+                HorizontalOptions="Center"
+                BackgroundColor="Transparent"
+                Grid.Column="1" />
         </Grid>
+        <Label
+            x:Name="PasswordErrorLabel"
+            Text="Пароли не совпадают"
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding CheckPasswordErrorVisible}" />
 
-        <Label x:Name="PasswordErrorLabel"
-                Text="Пароль должен содержать минимум 8 символов, хотя бы одну букву и одну цифру, и не содержать кириллицу!"
-                TextColor="Red"
-                IsVisible="False"/>
-
-        <Grid ColumnSpacing="5">
+        <Grid
+            ColumnSpacing="5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition
+                    Width="3*" />
+                <ColumnDefinition
+                    Width="2*" />
             </Grid.ColumnDefinitions>
-            <Label Text=" Выберите дату рождения:" FontSize="14" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-            <DatePicker x:Name="BirthDatePicker" Grid.Column="1" HorizontalOptions="Center" DateSelected="OnDateSelected"/>
+            <Label
+                Text=" Выберите дату рождения:"
+                FontSize="14"
+                Grid.Column="0"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Start" />
+            <DatePicker
+                x:Name="BirthDatePicker"
+                Grid.Column="1"
+                HorizontalOptions="Center"
+                Date="{Binding BirthDate, Mode=TwoWay}"
+                MinimumDate="{Binding MinDate}"
+                MaximumDate="{Binding MaxDate}"/>
         </Grid>
-        <Picker x:Name="GenderPicker" Title="Выберите пол" TitleColor="#c8c8c8" SelectedIndexChanged="OnGenderSelected">
-            <Picker.Items>
-                <x:String>Мужской</x:String>
-                <x:String>Женский</x:String>
-            </Picker.Items>
-        </Picker>
+        <Picker
+            x:Name="GenderPicker"
+            Title="Выберите пол"
+            SelectedItem="{Binding Gender, Mode=TwoWay}" 
+            ItemsSource="{Binding Genders}"/>
 
-        <Button Text="Продолжить" x:Name="ContinueButton" IsEnabled="False" Clicked="OnContinueClicked"
-                CornerRadius="30" Opacity="0.8"/>
-        <Label x:Name="ErrorLabel" IsVisible="False" HorizontalTextAlignment="Center" 
-               Text="Что-то пошло не так. Проверьте интернет-соединение" TextColor="Red"/>
+        <Button
+            Text="Продолжить"
+            Command="{Binding ContinueCommand}"
+            CornerRadius="30"
+            Opacity="0.8" />
+        <Label
+            IsVisible="{Binding ExistingEmailErrorVisible}"
+            HorizontalTextAlignment="Center"
+            Text="Пользователь с заданной почтой уже существует"
+            Style="{StaticResource ErrorLabel}"/>
+        <Label
+            Text="Что-то пошло не так. Повторите попытку позже"
+            IsVisible="{Binding ErrorMessageVisible}"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource ErrorLabel}" />
     </VerticalStackLayout>
 </ContentPage>
