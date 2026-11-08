@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\DatabaseViewModel.cs" />
+    <Compile Remove="ViewModels\GraphViewModel.cs" />
+    <Compile Remove="ViewModels\ProductBaseViewModel.cs" />
+    <Compile Remove="ViewModels\ProductPageViewModel.cs" />
+    <Compile Remove="ViewModels\StepViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
   </ItemGroup>
 

@@ -227,34 +227,51 @@
     </Style>
 
     <Style
-        TargetType="Frame"
+        TargetType="Border"
         x:Key="DataFrame">
+
         <Setter
-            Property="CornerRadius"
-            Value="10" />
-        <Setter
-            Property="HasShadow"
-            Value="False" />
+            Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle
+                    CornerRadius="10" />
+            </Setter.Value>
+        </Setter>
+
         <Setter
             Property="BackgroundColor"
             Value="{StaticResource White}" />
         <Setter
             Property="Opacity"
             Value="0.60" />
+
+        <Setter
+            Property="StrokeThickness"
+            Value="0" />
     </Style>
 
     <Style
-        TargetType="Frame"
+        TargetType="Border"
         x:Key="WhiteCardFrame">
+
         <Setter
-            Property="CornerRadius"
-            Value="30" />
+            Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle
+                    CornerRadius="30" />
+            </Setter.Value>
+        </Setter>
+
+        <Setter
+            Property="Stroke"
+            Value="{StaticResource PrimaryLight}" />
+        <Setter
+            Property="StrokeThickness"
+            Value="1" />
+
         <Setter
             Property="BackgroundColor"
             Value="{StaticResource White}" />
-        <Setter
-            Property="BorderColor"
-            Value="{StaticResource PrimaryLight}" />
         <Setter
             Property="Opacity"
             Value="0.8" />
@@ -335,6 +352,29 @@
         <Setter
             Property="Padding"
             Value="0, 10, 0, 5" />
+    </Style>
+
+    <Style
+        x:Key="PopupMenuButton"
+        TargetType="Button">
+        <Setter
+            Property="CornerRadius"
+            Value="20" />
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource PrimaryDark}" />
+        <Setter
+            Property="TextColor"
+            Value="White" />
+        <Setter
+            Property="FontAttributes"
+            Value="Bold" />
+        <Setter
+            Property="Opacity"
+            Value="0.6" />
+        <Setter
+            Property="Padding"
+            Value="14,12" />
     </Style>
 
 </ResourceDictionary>

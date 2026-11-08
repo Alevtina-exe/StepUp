@@ -1,96 +1,37 @@
-using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Handlers;
-using System.Threading.Tasks;
-using StepUp.Maui.ModelViews;
-using StepUp.Maui.Services;
+using StepUp.Maui.Popups;
 using StepUp.Maui.Utils;
 
 namespace StepUp.Maui.Views;
 
 public partial class MainPage : ContentPage
 {
-	private DatabaseModelView database;
-    public MainModelView MainModelView { get; set; }
-    public MainPage()
+    private readonly MainViewModel _vm;
+    public MainPage(MainViewModel vm)
     {
 		InitializeComponent();
-        NavigationPage.SetHasNavigationBar(this, false);
-        MainModelView = new MainModelView();
-        var shadowEffect = new Shadow
-        {
-            Brush = new SolidColorBrush(Colors.Black),
-            Offset = new Point(5, 5),
-            Radius = 10,
-            Opacity = 0.5f
-        };
-        MyGrid.Shadow = shadowEffect;
-        BindingContext = MainModelView;
-		database = new DatabaseModelView(new FirestoreService());
-        
+        _vm = vm;
+        BindingContext = vm;
+        _vm.PropertyChanged += ViewModel_PropertyChanged;
     }
-	protected async override void OnAppearing() 
+	protected override async void OnAppearing() 
 	{
 		base.OnAppearing();
-        MainModelView.RefreshAll();
-        double progress = 1 - (double)DayResult.CurrentDay.KcalRes / UserModel.MainUser.CaloriePlan;
-        ColorChanger colorChanger = new ColorChanger(progressBar, KcalRes, KcalLeft, progress);
-        await colorChanger.AnimateColor();
-        
+        await _vm.InitializeAsync();
+        AnimateAll();
     }
-    private async void GraphBtn_Clicked(object sender, EventArgs e)
-	{
-		await Navigation.PushAsync(new GraphPage());
-	}
-	private async void SettingsBtn_Clicked(object sender, EventArgs e)
-	{
-		await Navigation.PushAsync(new SettingsPage());
-	}
-
-    private async void KcalSpent_Tapped(object sender, TappedEventArgs e)
+    private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        await Navigation.PushAsync(new ViewSportsPage());
-    }
-    private async void NewBtn_Clicked(object sender, EventArgs e)
-    {
-        var popup = new MenuBar();
-        await this.ShowPopupAsync(popup);
-        switch (MenuBar.type)
+        if (e.PropertyName == nameof(MainViewModel.CurrDayRes))
         {
-            case 1:
-                await this.ShowPopupAsync(new AddSport(UserModel.MainUser.Weight));
-                break;
-            case 2:
-                await Navigation.PushAsync(new AddProductPage(Meal.Breakfast));
-                break;
-            case 3:
-                await Navigation.PushAsync(new AddProductPage(Meal.Lunch));
-                break;
-            case 4:
-                await Navigation.PushAsync(new AddProductPage(Meal.Dinner));
-                break;
-            case 5:
-                await Navigation.PushAsync(new AddProductPage(Meal.Snack));
-                break;
-            case 6:
-                await this.ShowPopupAsync(new AddSport());
-                MainModelView.RefreshSport();
-                MainModelView.RefreshCPFC();
-                break;
-            default:
-                break;
+            AnimateAll();
         }
-        OnAppearing();
     }
-
-    private async void datePicker_DateSelected(object sender, DateChangedEventArgs e)
+    protected override void OnDisappearing()
     {
-        await database.StartWorkWithDay(datePicker.Date);
-        
-        datePicker.IsVisible = false;
-        MainModelView.RefreshAll();
-        double progress = 1 - (double)DayResult.CurrentDay.KcalRes / UserModel.MainUser.CaloriePlan;
-        ColorChanger colorChanger = new ColorChanger(progressBar, KcalRes, KcalLeft, progress);
-        await colorChanger.AnimateColor();
+        base.OnDisappearing();
+        _vm.PropertyChanged -= ViewModel_PropertyChanged;
     }
 
     private void DateButton_Clicked(object sender, EventArgs e)
@@ -99,25 +40,138 @@ public partial class MainPage : ContentPage
         handler?.PlatformView?.PerformClick();
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private void DateButton_Tapped(object sender, TappedEventArgs e)
     {
         DateButton_Clicked(sender, e);
     }
 
-    private async void Breakfast_Tapped(object sender, TappedEventArgs e)
+    private async void NewBtn_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ViewMealPage(Meal.Breakfast));
+        var popup = new MenuBar();
+        await this.ShowPopupAsync(popup);
+
+        if (MenuBar.type > 0)
+        {
+            await _vm.HandleMenuSelectionCommand.ExecuteAsync(MenuBar.type);
+        }
     }
-    private async void Lunch_Tapped(object sender, TappedEventArgs e)
+
+
+    private void AnimateAll()
     {
-        await Navigation.PushAsync(new ViewMealPage(Meal.Lunch));
+        AnimateInt(
+            targetValue: _vm.KcalEaten,
+            setter: v => _vm.KcalEaten = v,
+            animationName: "AnimKcalEaten"
+        );
+
+        AnimateInt(
+            targetValue: _vm.KcalBurnt,
+            setter: v => _vm.KcalBurnt = v,
+            animationName: "AnimKcalBurnt"
+        );
+
+        AnimateInt(
+            targetValue: _vm.KcalRes,
+            setter: v => _vm.KcalRes = v,
+            animationName: "AnimKcalRes"
+        );
+
+        AnimateMacros();
+        AnimateKcalCircle();
     }
-    private async void Dinner_Tapped(object sender, TappedEventArgs e)
+    private void AnimateInt(int targetValue, Action<int> setter, string animationName, uint duration = 1500)
     {
-        await Navigation.PushAsync(new ViewMealPage(Meal.Dinner));
+        this.AbortAnimation(animationName);
+
+        if (targetValue == 0)
+        {
+            setter(0);
+            return;
+        }
+
+        setter(0);
+
+        var animation = new Animation(
+            callback: v =>
+            {
+                int currentValue = (int)Math.Round(v * targetValue);
+                setter(currentValue);
+            },
+            start: 0,
+            end: 1,
+            easing: Easing.CubicOut 
+        );
+
+        animation.Commit(
+            owner: this,
+            name: animationName,
+            rate: 16, 
+            length: duration
+        );
     }
-    private async void Snack_Tapped(object sender, TappedEventArgs e)
+
+    private void AnimateMacros()
     {
-        await Navigation.PushAsync(new ViewMealPage(Meal.Snack));
+        double targetPr = _vm.PrProgress;
+        double targetFat = _vm.FatProgress;
+        double targetCb = _vm.CbProgress;
+
+        _vm.PrProgress = 0;
+        _vm.FatProgress = 0;
+        _vm.CbProgress = 0;
+
+        var animation = new Animation(
+            callback: v =>
+            {
+                _vm.PrProgress = v * targetPr;
+                _vm.FatProgress = v * targetFat;
+                _vm.CbProgress = v * targetCb;
+            },
+            start: 0,
+            end: 1,
+            easing: Easing.CubicOut 
+        );
+
+        animation.Commit(this, "MacrosAnim", 16, 1000);
+    }
+
+    private void AnimateKcalCircle()
+    {
+        double targetProgress = _vm.KcalProgress;
+        int targetKcalRes = _vm.KcalRes;
+
+        Arc.Point = new Point(70, 0);
+        Arc.IsLargeArc = false;
+        progressBar.Stroke = new SolidColorBrush(Colors.Green);
+        KcalResLabel.Text = "0";
+        KcalLeft.TextColor = Colors.Green;
+
+        var animation = new Animation(
+            callback: v =>
+            {
+                double currentProgress = v * targetProgress;
+
+                double angle = (Math.PI * 2 * currentProgress) - (Math.PI / 2);
+                double x = 70 + 70 * Math.Cos(angle);
+                double y = 70 + 70 * Math.Sin(angle);
+
+                Arc.Point = new Point(x, y);
+                Arc.IsLargeArc = currentProgress > 0.5;
+                Arc.SweepDirection = SweepDirection.Clockwise;
+
+                var currentColor = ColorInterpolator.GetColor(currentProgress);
+                progressBar.Stroke = new SolidColorBrush(currentColor);
+                KcalResLabel.TextColor = currentColor;
+                KcalLeft.TextColor = currentColor;
+
+                KcalResLabel.Text = ((int)(v * targetKcalRes)).ToString();
+            },
+            start: 0,
+            end: 1,
+            easing: Easing.CubicOut 
+        );
+
+        animation.Commit(this, "KcalCircleAnim", 16, 1500);
     }
 }

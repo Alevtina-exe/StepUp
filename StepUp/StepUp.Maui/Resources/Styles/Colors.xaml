@@ -30,6 +30,8 @@
     <Color
         x:Key="ProductBottomPanel">#d4c4ff</Color>
     <Color
+        x:Key="PopupBackground">#ccbbfc</Color>
+    <Color
         x:Key="CardBackground">#E6FFFFFF</Color>
     <!-- Semi-transparent white -->
 

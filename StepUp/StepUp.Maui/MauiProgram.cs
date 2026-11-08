@@ -60,6 +60,18 @@ public static class MauiProgram
 
         builder.Services.AddTransient<RegistrationPage>();
 		builder.Services.AddTransient<BodyDataPage>();
+		builder.Services.AddTransient<LoginPage>();
+		builder.Services.AddTransient<MainPage>();
+
+		builder.Services.AddTransient<AddProductPage>();
+		builder.Services.AddTransient<BarcodeScannerPage>();
+		builder.Services.AddTransient<ChangeDataPage>();
+		builder.Services.AddTransient<GraphPage>();
+		builder.Services.AddTransient<ProductPage>();
+		builder.Services.AddTransient<SettingsPage>();
+		builder.Services.AddTransient<ViewMealPage>();
+		builder.Services.AddTransient<ViewSportsPage>();
+		
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -27,8 +27,9 @@
                 Text="Ваш ИМТ:"
                 FontSize="22"
                 HorizontalOptions="Center" />
+
             <Label
-                Text="{Binding BmiValue, StringFormat='ИМТ: {0:F1}'}"
+                Text="{Binding BmiResult.Value, StringFormat='ИМТ: {0:F1}'}"
                 IsVisible="{Binding IsFormValid}"
                 HorizontalOptions="Center" />
 
@@ -73,7 +74,7 @@
             </Grid>
 
             <Label
-                Text="{Binding ImtCategoryText}"
+                Text="{Binding BmiCategoryText}"
                 FontSize="20"
                 HorizontalOptions="Center" />
 

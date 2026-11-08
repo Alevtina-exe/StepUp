@@ -1,35 +1,53 @@
-<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="StepUp.Maui.Views.MenuBar" Color="Transparent" >
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:enums="clr-namespace:StepUp.Presentation.Enums;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Popups.MenuBar"
+    x:TypeArguments="enums:MenuAction">
+
     <VerticalStackLayout>
-    <Frame CornerRadius="20" BorderColor="#ccbbfc" BackgroundColor="#ccbbfc">
-        <VerticalStackLayout Spacing="5" BackgroundColor="#ccbbfc">
-            <Button Text="Измерение веса" Clicked="AddWeight_Clicked"
-                        CornerRadius="20"
-                        BackgroundColor="#562fc2" TextColor="White"
-                        FontAttributes="Bold" Opacity="0.6" />
-            <Button Text="Завтрак" Clicked="AddBreakfast_Clicked" 
-                        CornerRadius="20"
-                        BackgroundColor="#562fc2" TextColor="White"
-                        FontAttributes="Bold" Opacity="0.6" />
-            <Button Text="Обед" Clicked="AddLunch_Clicked" 
-                        CornerRadius="20"
-                        BackgroundColor="#562fc2" TextColor="White"
-                        FontAttributes="Bold" Opacity="0.6" />
-            <Button Text="Ужин" Clicked="AddDinner_Clicked" 
-                        CornerRadius="20"
-                        BackgroundColor="#562fc2" TextColor="White" 
-                        FontAttributes="Bold" Opacity="0.6" />
-            <Button Text="Перекус" Clicked="AddSnack_Clicked" 
-                        CornerRadius="20"
-                        BackgroundColor="#562fc2" TextColor="White" 
-                        FontAttributes="Bold" Opacity="0.6" />
-            <Button Text="Физическая нагрузка" Clicked="AddSport_Clicked" 
-                        CornerRadius="20"
-                        BackgroundColor="#562fc2" TextColor="White" 
-                        FontAttributes="Bold" Opacity="0.6" />
-        </VerticalStackLayout>
-    </Frame>
+        <Border
+            StrokeShape="RoundRectangle 20"
+            Stroke="{StaticResource Primary}"
+            BackgroundColor="{StaticResource PopupBackground}">
+
+            <VerticalStackLayout
+                Spacing="5"
+                BackgroundColor="{StaticResource PopupBackground}"
+                Padding="10">
+
+                <Button
+                    Text="Измерение веса"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddWeight_Clicked" />
+
+                <Button
+                    Text="Завтрак"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddBreakfast_Clicked" />
+
+                <Button
+                    Text="Обед"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddLunch_Clicked" />
+
+                <Button
+                    Text="Ужин"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddDinner_Clicked" />
+
+                <Button
+                    Text="Перекус"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddSnack_Clicked" />
+
+                <Button
+                    Text="Физическая нагрузка"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddSport_Clicked" />
+
+            </VerticalStackLayout>
+        </Border>
     </VerticalStackLayout>
 </toolkit:Popup>

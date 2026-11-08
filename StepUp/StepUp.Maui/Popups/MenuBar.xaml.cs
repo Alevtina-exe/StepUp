@@ -1,44 +1,17 @@
 using CommunityToolkit.Maui.Views;
+using StepUp.Presentation.Enums;
 
-namespace StepUp.Maui.Views;
-
-public partial class MenuBar : Popup
+namespace StepUp.Maui.Popups
 {
-    static public int type;
-	public MenuBar()
-	{
-		InitializeComponent();
-        type = 0;
-	}
-    private void AddBreakfast_Clicked(object sender, EventArgs e)
+    public partial class MenuBar : Popup<MenuAction>
     {
-        type = 2;
-        this.Close();
-    }
-    private void AddLunch_Clicked(object sender, EventArgs e)
-    {
-        type = 3;
-        this.Close();
-    }
-    private void AddDinner_Clicked(object sender, EventArgs e)
-    {
-        type = 4;
-        this.Close();
-    }
-    private void AddSnack_Clicked(object sender, EventArgs e)
-    {
-        type = 5;
-        this.Close();
-    }
-    private void AddWeight_Clicked(object sender, EventArgs e)
-    {
-        type = 1;
-        this.Close();
-    }
-    private void AddSport_Clicked(object sender, EventArgs e)
-    {
-        type = 6;
-        this.Close();
-        
+        public MenuBar() => InitializeComponent();
+
+        private async void AddWeight_Clicked(object sender, EventArgs e) => await CloseAsync(MenuAction.ChangeWeight);
+        private async void AddBreakfast_Clicked(object sender, EventArgs e) => await CloseAsync(MenuAction.Breakfast);
+        private async void AddLunch_Clicked(object sender, EventArgs e) => await CloseAsync(MenuAction.Lunch);
+        private async void AddDinner_Clicked(object sender, EventArgs e) => await CloseAsync(MenuAction.Dinner);
+        private async void AddSnack_Clicked(object sender, EventArgs e) => await CloseAsync(MenuAction.Snack);
+        private async void AddSport_Clicked(object sender, EventArgs e) => await CloseAsync(MenuAction.Sport);
     }
 }

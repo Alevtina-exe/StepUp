@@ -1,47 +1,56 @@
 ﻿<ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="StepUp.Maui.Views.LoginPage">
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Views.LoginPage"
+    x:DataType="vm:LoginViewModel">
 
     <VerticalStackLayout
         Padding="30,0,30,150"
         Spacing="15"
         VerticalOptions="Center">
+
         <Label
             Text="Вход в аккаунт:"
             Style="{StaticResource TitleLabel}" />
 
         <Entry
-            x:Name="UsernameEntry"
-            Placeholder="Логин" />
+            x:Name="EmailEntry"
+            Placeholder="Email"
+            Text="{Binding Email, Mode=TwoWay}" />
+        <Label
+            x:Name="EmailErrorLabel"
+            Text="Неверный формат почты."
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding EmailErrorVisible}" />
 
         <Grid
             ColumnSpacing="5"
             ColumnDefinitions="*, 30">
+
             <Entry
                 x:Name="PasswordEntry"
                 Placeholder="Пароль"
-                IsPassword="True"
+                IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                Text="{Binding Password, Mode=TwoWay}"
                 Grid.Column="0" />
             <ImageButton
                 x:Name="ShowPasswordButton"
-                Opacity="0.8"
-                Source="eye.png"
+                Source="{Binding EyeIcon}"
                 HeightRequest="30"
                 Margin="2"
                 VerticalOptions="Fill"
                 HorizontalOptions="Center"
-                Clicked="OnTogglePassword"
+                Command="{Binding TogglePasswordVisibilityCommand}"
                 BackgroundColor="Transparent"
-                CornerRadius="1"
                 Grid.Column="1" />
         </Grid>
 
         <Button
             Text="Войти"
-            Clicked="OnLoginClicked"
+            Command="{Binding LoginCommand}"
             CornerRadius="40"
-            Opacity="0.8"
             HorizontalOptions="Fill" />
 
         <Label
@@ -50,14 +59,19 @@
             HorizontalOptions="Center">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer
-                    Tapped="OnLabelTapped" />
+                    Command="{Binding GoToRegisterPageCommand}" />
             </Label.GestureRecognizers>
         </Label>
+
         <Label
-            x:Name="ErrorLabel"
-            TextColor="Red"
-            IsVisible="False"
+            IsVisible="{Binding NotExistingEmailErrorVisible}"
             HorizontalTextAlignment="Center"
-            FontSize="14" />
+            Text="Пользователя с заданной почтой не существует"
+            Style="{StaticResource ErrorLabel}" />
+        <Label
+            Text="{Binding ErrorMessage}"
+            IsVisible="{Binding ErrorMessageVisible}"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource ErrorLabel}" />
     </VerticalStackLayout>
 </ContentPage>

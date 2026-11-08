@@ -2,8 +2,11 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    xmlns:converters="clr-namespace:StepUp.Maui.Converters"
+    xmlns:enums="clr-namespace:StepUp.Domain.Enums;assembly=StepUp.Domain"
     x:Class="StepUp.Maui.Views.MainPage"
-    Shell.NavBarIsVisible="false">
+    x:DataType="vm:MainViewModel">
     <Grid
         RowDefinitions="*">
         <ScrollView>
@@ -19,6 +22,7 @@
                     VerticalOptions="Start"
                     Spacing="5"
                     Margin="0,10,0,0">
+
                     <ImageButton
                         Source="calendar.png"
                         HorizontalOptions="Center"
@@ -30,11 +34,11 @@
                         x:Name="DateLabel"
                         VerticalTextAlignment="Center"
                         FontSize="22"
-                        Text="{Binding Date}"
+                        Text="{Binding DateString}"
                         TextColor="White">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer
-                                Tapped="TapGestureRecognizer_Tapped" />
+                                Tapped="DateButton_Tapped" />
                         </Label.GestureRecognizers>
                     </Label>
                     <DatePicker
@@ -44,8 +48,7 @@
                         Format="dd.MM.yyyy"
                         MaximumDate="{Binding MaxDate}"
                         MinimumDate="{Binding MinDate}"
-                        Date="{Binding SelectedDate}"
-                        DateSelected="datePicker_DateSelected" />
+                        Date="{Binding Date}" />
                 </StackLayout>
 
                 <StackLayout
@@ -55,11 +58,13 @@
                     Margin="0,15,0,0"
                     Spacing="10"
                     Padding="0">
+
                     <StackLayout
                         Orientation="Vertical"
                         VerticalOptions="Center"
                         Spacing="0"
                         Margin="0,20,0,0">
+
                         <Label
                             x:Name="KcalEaten"
                             HorizontalOptions="Center"
@@ -78,6 +83,7 @@
                         Orientation="Vertical"
                         Margin="0,50,0,0"
                         Spacing="5">
+
                         <Grid
                             HorizontalOptions="Center">
                             <Ellipse
@@ -90,7 +96,8 @@
                                 WidthRequest="150"
                                 HeightRequest="150"
                                 Fill="Transparent"
-                                StrokeThickness="10">
+                                StrokeThickness="10"
+                                Stroke="Green">
                                 <Path.Data>
                                     <PathGeometry>
                                         <PathFigure
@@ -100,13 +107,13 @@
                                                 Point="70,0"
                                                 Size="70,70"
                                                 IsLargeArc="False"
-                                                SweepDirection="CounterClockwise" />
+                                                SweepDirection="Clockwise" />
                                         </PathFigure>
                                     </PathGeometry>
                                 </Path.Data>
                             </Path>
                             <Label
-                                x:Name="KcalRes"
+                                x:Name="KcalResLabel"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"
                                 HorizontalTextAlignment="Center"
@@ -134,11 +141,11 @@
                             HorizontalTextAlignment="Center"
                             FontAttributes="Bold"
                             FontSize="26"
-                            Text="{Binding KcalSpent}"
+                            Text="{Binding KcalBurnt}"
                             TextColor="White">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Tapped="KcalSpent_Tapped" />
+                                    Command="{Binding GoToSportsCommand}" />
                             </Label.GestureRecognizers>
                         </Label>
                         <Label
@@ -150,7 +157,7 @@
                     </StackLayout>
                 </StackLayout>
 
-                <Frame
+                <Border
                     Grid.Row="1"
                     VerticalOptions="Center"
                     Margin="20,30,20,15"
@@ -174,13 +181,13 @@
                             <ProgressBar
                                 Progress="{Binding PrProgress}"
                                 Margin="10,0"
-                                ProgressColor="{Binding PrColor}" />
+                                ProgressColor="{Binding PrProgress, Converter={converters:MacroRatioToColorConverter}}" />
                             <Label
                                 HorizontalOptions="Fill"
                                 HorizontalTextAlignment="Center"
                                 VerticalTextAlignment="Center"
                                 FontSize="12"
-                                Text="{Binding PrText}" />
+                                Text="{Binding ProteinString}" />
                         </StackLayout>
 
                         <StackLayout
@@ -196,13 +203,13 @@
                             <ProgressBar
                                 Progress="{Binding FatProgress}"
                                 Margin="10,0"
-                                ProgressColor="{Binding FatColor}" />
+                                ProgressColor="{Binding FatProgress, Converter={converters:MacroRatioToColorConverter}}" />
                             <Label
                                 HorizontalOptions="Fill"
                                 HorizontalTextAlignment="Center"
                                 VerticalTextAlignment="Center"
                                 FontSize="12"
-                                Text="{Binding FatText}" />
+                                Text="{Binding FatString}" />
                         </StackLayout>
 
                         <StackLayout
@@ -219,24 +226,24 @@
                             <ProgressBar
                                 Progress="{Binding CbProgress}"
                                 Margin="10,0"
-                                ProgressColor="{Binding CbColor}" />
+                                ProgressColor="{Binding CbProgress, Converter={converters:MacroRatioToColorConverter}}" />
                             <Label
                                 HorizontalOptions="Fill"
                                 HorizontalTextAlignment="Center"
                                 VerticalTextAlignment="Center"
                                 FontSize="12"
-                                Text="{Binding CbText}" />
+                                Text="{Binding CarbonString}" />
                         </StackLayout>
                     </Grid>
-                </Frame>
+                </Border>
 
-                <Frame
+                <!--<Border
                     Grid.Row="2"
                     VerticalOptions="Center"
                     HeightRequest="80"
                     Margin="20,5,20,10"
                     Padding="20,15,20,20"
-                    CornerRadius="40"
+                    StrokeShape="RoundRectangle 40"
                     Opacity="0.60"
                     BorderColor="{StaticResource PrimaryDarker}"
                     BackgroundColor="{StaticResource PrimaryDarker}"
@@ -276,18 +283,19 @@
                                 Text="{Binding Calories}" />
                         </StackLayout>
                     </Grid>
-                </Frame>
+                </Border>-->
 
-                <Frame
+                <Border
                     Grid.Row="3"
                     VerticalOptions="Center"
                     Margin="15,15,15,5"
                     Padding="0"
                     Style="{StaticResource DataFrame}">
-                    <Frame.GestureRecognizers>
+                    <Border.GestureRecognizers>
                         <TapGestureRecognizer
-                            Tapped="Breakfast_Tapped" />
-                    </Frame.GestureRecognizers>
+                            Command="{Binding GoToMealCommand}"
+                            CommandParameter="{x:Static enums:MealType.Breakfast}" />
+                    </Border.GestureRecognizers>
                     <StackLayout>
                         <Label
                             Style="{StaticResource PFCNameLabel}"
@@ -301,30 +309,31 @@
                             Spacing="16">
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding BrCal}" />
+                                Text="{Binding BrKcal, StringFormat='{0} ккал'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding BrPr}" />
+                                Text="{Binding BrPr, StringFormat='Б: {0:F1} г'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding BrFat}" />
+                                Text="{Binding BrFat, StringFormat='Ж: {0:F1} г'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding BrCb}" />
+                                Text="{Binding BrCb, StringFormat='У: {0:F1} г'}" />
                         </StackLayout>
                     </StackLayout>
-                </Frame>
+                </Border>
 
-                <Frame
+                <Border
                     Grid.Row="4"
                     VerticalOptions="Center"
                     Margin="15,5"
                     Padding="0"
                     Style="{StaticResource DataFrame}">
-                    <Frame.GestureRecognizers>
+                    <Border.GestureRecognizers>
                         <TapGestureRecognizer
-                            Tapped="Lunch_Tapped" />
-                    </Frame.GestureRecognizers>
+                            Command="{Binding GoToMealCommand}"
+                            CommandParameter="{x:Static enums:MealType.Lunch}" />
+                    </Border.GestureRecognizers>
                     <StackLayout>
                         <Label
                             Style="{StaticResource PFCNameLabel}"
@@ -338,30 +347,31 @@
                             Spacing="16">
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding LnCal}" />
+                                Text="{Binding LnKcal, StringFormat='{0} ккал'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding LnPr}" />
+                                Text="{Binding LnPr, StringFormat='Б: {0:F1} г'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding LnFat}" />
+                                Text="{Binding LnFat, StringFormat='Ж: {0:F1} г'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding LnCb}" />
+                                Text="{Binding LnCb, StringFormat='У: {0:F1} г'}" />
                         </StackLayout>
                     </StackLayout>
-                </Frame>
+                </Border>
 
-                <Frame
+                <Border
                     Grid.Row="5"
                     VerticalOptions="Center"
                     Margin="15,5"
                     Padding="0"
                     Style="{StaticResource DataFrame}">
-                    <Frame.GestureRecognizers>
+                    <Border.GestureRecognizers>
                         <TapGestureRecognizer
-                            Tapped="Dinner_Tapped" />
-                    </Frame.GestureRecognizers>
+                            Command="{Binding GoToMealCommand}"
+                            CommandParameter="{x:Static enums:MealType.Dinner}" />
+                    </Border.GestureRecognizers>
                     <StackLayout>
                         <Label
                             Style="{StaticResource PFCNameLabel}"
@@ -375,30 +385,31 @@
                             Padding="0">
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding DnCal}" />
+                                Text="{Binding DnKcal, StringFormat='{0} ккал'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding DnPr}" />
+                                Text="{Binding DnPr, StringFormat='Б: {0:F1} г'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding DnFat}" />
+                                Text="{Binding DnFat, StringFormat='Ж: {0:F1} г'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding DnCb}" />
+                                Text="{Binding DnCb, StringFormat='У: {0:F1} г'}" />
                         </StackLayout>
                     </StackLayout>
-                </Frame>
+                </Border>
 
-                <Frame
+                <Border
                     Grid.Row="6"
                     VerticalOptions="Center"
                     Margin="15,5,15,80"
                     Padding="0"
                     Style="{StaticResource DataFrame}">
-                    <Frame.GestureRecognizers>
+                    <Border.GestureRecognizers>
                         <TapGestureRecognizer
-                            Tapped="Snack_Tapped" />
-                    </Frame.GestureRecognizers>
+                            Command="{Binding GoToMealCommand}"
+                            CommandParameter="{x:Static enums:MealType.Snack}" />
+                    </Border.GestureRecognizers>
                     <StackLayout>
                         <Label
                             Style="{StaticResource PFCNameLabel}"
@@ -412,28 +423,27 @@
                             Padding="0">
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding SnCal}" />
+                                Text="{Binding SnKcal, StringFormat='{0} ккал'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding SnPr}" />
+                                Text="{Binding SnPr, StringFormat='Б: {0:F1} г'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding SnFat}" />
+                                Text="{Binding SnFat, StringFormat='Ж: {0:F1} г'}" />
                             <Label
                                 Style="{StaticResource PFCLabel}"
-                                Text="{Binding SnCb}" />
+                                Text="{Binding SnCb, StringFormat='У: {0:F1} г'}" />
                         </StackLayout>
                     </StackLayout>
-                </Frame>
+                </Border>
             </Grid>
         </ScrollView>
 
-        <Frame
+        <Border
             Grid.Row="0"
             VerticalOptions="End"
             HorizontalOptions="Fill"
             Padding="0"
-            BorderColor="Transparent"
             BackgroundColor="Transparent">
             <Grid
                 x:Name="MyGrid"
@@ -442,13 +452,20 @@
                 VerticalOptions="Fill"
                 HorizontalOptions="Fill"
                 Padding="10">
+                <Grid.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Offset="5,5"
+                        Radius="10"
+                        Opacity="0.5" />
+                </Grid.Shadow>
                 <ImageButton
                     x:Name="GraphBtn"
                     Grid.Column="0"
                     VerticalOptions="End"
                     Source="{StaticResource IconGraph}"
                     Style="{StaticResource ActionButton}"
-                    Clicked="GraphBtn_Clicked" />
+                    Command="{Binding GoToGraphCommand}" />
                 <ImageButton
                     x:Name="NewBtn"
                     Grid.Column="1"
@@ -461,8 +478,8 @@
                     VerticalOptions="End"
                     Source="{StaticResource IconSetting}"
                     Style="{StaticResource ActionButton}"
-                    Clicked="SettingsBtn_Clicked" />
+                    Command="{Binding GoToSettingsCommand}" />
             </Grid>
-        </Frame>
+        </Border>
     </Grid>
 </ContentPage>

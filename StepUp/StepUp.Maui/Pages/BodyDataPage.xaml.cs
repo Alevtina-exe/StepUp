@@ -32,7 +32,7 @@ public partial class BodyDataPage : ContentPage
 
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(BodyDataViewModel.BmiValue) ||
+        if (e.PropertyName == nameof(BodyDataViewModel.BmiResult) ||
             e.PropertyName == nameof(BodyDataViewModel.IsFormValid))
         {
             UpdateImtIndicatorPosition();
@@ -41,7 +41,7 @@ public partial class BodyDataPage : ContentPage
 
     private void UpdateImtIndicatorPosition()
     {
-        double imt = _viewModel.BmiValue;
+        double imt = _viewModel.BmiResult?.Value ?? 0;
 
         if (MyGrid.Width <= 0 || !_viewModel.IsFormValid)
         {

@@ -6,5 +6,5 @@ public class SystemClock : IClock
 {
     public DateTime UtcNow => DateTime.UtcNow;
 
-    public DateTime Today => DateTime.UtcNow.Date;
+    public DateTime Today => DateTime.Now.Date;
 }

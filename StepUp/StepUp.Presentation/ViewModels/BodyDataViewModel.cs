@@ -4,6 +4,9 @@ using StepUp.Application.Interfaces.Services;
 using StepUp.Application.Models;
 using StepUp.Application.Services;
 using StepUp.Domain.Enums;
+using StepUp.Domain.Extensions;
+using StepUp.Domain.ValueObjects;
+using StepUp.Presentation.Constants;
 using StepUp.Presentation.Interfaces;
 using StepUp.Presentation.Models;
 
@@ -20,7 +23,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
-    private bool _isStepTwo = false; 
+    private bool _isStepTwo = false;
 
     [ObservableProperty]
     private bool _errorMessageVisible;
@@ -30,12 +33,16 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
     private bool _isFormValid;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(BmiValue), nameof(ImtCategory), nameof(ImtCategoryText))]
     private string _weightInput = string.Empty;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(BmiValue), nameof(ImtCategory), nameof(ImtCategoryText))]
     private string _heightInput = string.Empty;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(BmiCategoryText))]
+    private Bmi? _bmiResult;
+
+    public string BmiCategoryText => BmiResult?.Category.GetDescription() ?? string.Empty;
 
     [ObservableProperty]
     private SportLevelOption _selectedSportLevel = SportLevelOption.No;
@@ -56,32 +63,6 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
     [ObservableProperty]
     private int _caloriePlan;
 
-
-    public double BmiValue
-    {
-        get
-        {
-            if (double.TryParse(WeightInput, out var w) && double.TryParse(HeightInput, out var h) && h > 0)
-            {
-                double heightM = h / 100.0;
-                return Math.Round(w / (heightM * heightM), 1);
-            }
-            return 0;
-        }
-    }
-
-    public ImtCategory ImtCategory => GetCategory(BmiValue);
-
-    public string ImtCategoryText => ImtCategory switch
-    {
-        ImtCategory.Deficit => "Дефицит веса",
-        ImtCategory.Normal => "Нормальный вес",
-        ImtCategory.Overweight => "Избыточный вес",
-        ImtCategory.Obese1 => "Ожирение 1 степени",
-        ImtCategory.Obese2 => "Ожирение 2 степени",
-        _ => "Ожирение 3 степени"
-    };
-
     public BodyDataViewModel(
         AuthService authService,
         INavigationService navigationService,
@@ -99,7 +80,6 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         _request = request;
     }
 
-
     partial void OnWeightInputChanged(string value) => ValidateData();
     partial void OnHeightInputChanged(string value) => ValidateData();
     partial void OnSelectedSportLevelChanged(SportLevelOption value) => ValidateData();
@@ -115,6 +95,15 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         bool validH = double.TryParse(HeightInput, out var h) && h >= 100 && h <= 250;
 
         IsFormValid = validW && validH;
+
+        if (IsFormValid)
+        {
+            BmiResult = Bmi.Calculate(w, h);
+        }
+        else
+        {
+            BmiResult = null;
+        }
 
         if (IsStepTwo)
             ValidatePfc();
@@ -140,17 +129,6 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         ContinueCommand.NotifyCanExecuteChanged();
     }
 
-    private ImtCategory GetCategory(double imt) => imt switch
-    {
-        < 18.9 => ImtCategory.Deficit,
-        < 24.9 => ImtCategory.Normal,
-        < 29.9 => ImtCategory.Overweight,
-        < 34.9 => ImtCategory.Obese1,
-        < 39.9 => ImtCategory.Obese2,
-        _ => ImtCategory.Obese3
-    };
-
-
     [RelayCommand(CanExecute = nameof(CanContinue), AllowConcurrentExecutions = false)]
     private async Task ContinueAsync()
     {
@@ -158,7 +136,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         {
             CaloriePlan = CalculateCalories();
             IsStepTwo = true;
-            ValidatePfc(); 
+            ValidatePfc();
         }
         else
         {
@@ -177,7 +155,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
                 await _authService.RegisterAsync(_request);
                 await _navigationService.GoToPageAsync(AppRoutes.Main);
             }
-            catch 
+            catch
             {
                 ErrorMessageVisible = true;
             }
@@ -209,7 +187,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         else
         {
             IsStepTwo = false;
-            ValidateData(); 
+            ValidateData();
         }
     }
 

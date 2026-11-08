@@ -8,6 +8,9 @@ namespace StepUp.Presentation
         public static IServiceCollection AddViewModels(this IServiceCollection services)
         {
             services.AddTransient<RegistrationViewModel>();
+            services.AddTransient<LoginViewModel>();
+            services.AddTransient<BodyDataViewModel>();
+            services.AddTransient<MainViewModel>();
 
             return services;
         }

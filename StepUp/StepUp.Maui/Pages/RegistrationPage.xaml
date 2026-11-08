@@ -9,6 +9,7 @@
     <VerticalStackLayout
         Padding="30"
         Spacing="15">
+
         <Label
             Text="Регистрация пользователя"
             Style="{StaticResource TitleLabel}" />
@@ -21,7 +22,7 @@
             x:Name="NameErrorLabel"
             Text="Допустимы только буквы!"
             Style="{StaticResource ErrorLabel}"
-            IsVisible="{Binding NameErrorVisible}"/>
+            IsVisible="{Binding NameErrorVisible}" />
 
         <Entry
             x:Name="EmailEntry"
@@ -34,13 +35,8 @@
             IsVisible="{Binding EmailErrorVisible}" />
 
         <Grid
-            ColumnSpacing="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="*" />
-                <ColumnDefinition
-                    Width="30" />
-            </Grid.ColumnDefinitions>
+            ColumnSpacing="5"
+            ColumnDefinitions="*, 30">
 
             <Entry
                 x:Name="PasswordEntry"
@@ -64,15 +60,10 @@
             Text="Пароль должен содержать минимум 8 символов, хотя бы одну букву и одну цифру, и не содержать кириллицу!"
             Style="{StaticResource ErrorLabel}"
             IsVisible="{Binding PasswordErrorVisible}" />
-        
+
         <Grid
-            ColumnSpacing="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="*" />
-                <ColumnDefinition
-                    Width="30" />
-            </Grid.ColumnDefinitions>
+            ColumnSpacing="5"
+            ColumnDefinitions="*,30">
 
             <Entry
                 x:Name="CheckPasswordEntry"
@@ -98,13 +89,9 @@
             IsVisible="{Binding CheckPasswordErrorVisible}" />
 
         <Grid
-            ColumnSpacing="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="3*" />
-                <ColumnDefinition
-                    Width="2*" />
-            </Grid.ColumnDefinitions>
+            ColumnSpacing="5"
+            ColumnDefinitions="3*,2*">
+
             <Label
                 Text=" Выберите дату рождения:"
                 FontSize="14"
@@ -117,13 +104,13 @@
                 HorizontalOptions="Center"
                 Date="{Binding BirthDate, Mode=TwoWay}"
                 MinimumDate="{Binding MinDate}"
-                MaximumDate="{Binding MaxDate}"/>
+                MaximumDate="{Binding MaxDate}" />
         </Grid>
         <Picker
             x:Name="GenderPicker"
             Title="Выберите пол"
-            SelectedItem="{Binding Gender, Mode=TwoWay}" 
-            ItemsSource="{Binding Genders}"/>
+            SelectedItem="{Binding Gender, Mode=TwoWay}"
+            ItemsSource="{Binding Genders}" />
 
         <Button
             Text="Продолжить"
@@ -134,7 +121,7 @@
             IsVisible="{Binding ExistingEmailErrorVisible}"
             HorizontalTextAlignment="Center"
             Text="Пользователь с заданной почтой уже существует"
-            Style="{StaticResource ErrorLabel}"/>
+            Style="{StaticResource ErrorLabel}" />
         <Label
             Text="Что-то пошло не так. Повторите попытку позже"
             IsVisible="{Binding ErrorMessageVisible}"

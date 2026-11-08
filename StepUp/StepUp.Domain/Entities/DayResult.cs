@@ -34,6 +34,13 @@ namespace StepUp.Domain.Entities
         public int KcalEaten { get => Breakfast.TotalKcal + Lunch.TotalKcal + Dinner.TotalKcal + Snack.TotalKcal; }
         public int KcalRes { get => CaloriePlan - KcalEaten + KcalBurnt; }
 
+        public double TotalProtein =>
+            _meals.Sum(m => m.TotalProtein);
+        public double TotalFat =>
+            _meals.Sum(m => m.TotalFat);
+        public double TotalCarbon =>
+            _meals.Sum(m => m.TotalCarbon);
+
         public Meal Breakfast => _meals.First(m => m.MealType == MealType.Breakfast);
         public Meal Lunch => _meals.First(m => m.MealType == MealType.Lunch);
         public Meal Dinner => _meals.First(m => m.MealType == MealType.Dinner);

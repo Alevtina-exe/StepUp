@@ -1,6 +1,4 @@
-﻿using StepUp.Maui.Views;
-
-namespace StepUp.Maui;
+﻿namespace StepUp.Maui;
 
 public partial class App : Microsoft.Maui.Controls.Application
 {

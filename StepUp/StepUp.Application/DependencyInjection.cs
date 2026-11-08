@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using StepUp.Application.Interfaces.Services;
 using StepUp.Application.Services;
 
 namespace StepUp.Application
@@ -10,6 +11,7 @@ namespace StepUp.Application
             services.AddScoped<AuthService>();
             services.AddScoped<DayResultService>();
             services.AddScoped<ProductSearchService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             return services;
         }
     }

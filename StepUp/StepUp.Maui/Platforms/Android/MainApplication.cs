@@ -1,8 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
-using StepUp;
 
-namespace StepUp.Platforms.Android;
+namespace StepUp.Maui.Platforms.Android;
 
 [Application]
 public class MainApplication : MauiApplication

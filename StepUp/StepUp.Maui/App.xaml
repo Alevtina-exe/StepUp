@@ -20,6 +20,8 @@
                 <ResourceDictionary>
                     <converters:ImtCategoryToColorConverter
                         x:Key="ImtCategoryToColor" />
+                    <converters:MacroRatioToColorConverter
+                        x:Key="MacroRatioToColorConverter" />
                 </ResourceDictionary>
 
                 <ResourceDictionary>
