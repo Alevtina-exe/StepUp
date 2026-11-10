@@ -116,6 +116,21 @@
 	  <Compile Update="Pages\BarcodeScannerPage.xaml.cs">
 	    <DependentUpon>BarcodeScannerPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\EditAccountPage.xaml.cs">
+	    <DependentUpon>EditAccountPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\SportListPage.xaml.cs">
+	    <DependentUpon>SportListPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Popups\AddSportPopup.xaml.cs">
+	    <DependentUpon>AddSportPopup.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Popups\ChangePasswordPopup.xaml.cs">
+	    <DependentUpon>ChangePasswordPopup.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Popups\EditSportPopup.xaml.cs">
+	    <DependentUpon>EditSportPopup.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 
@@ -126,8 +141,11 @@
 	  <MauiXaml Update="Pages\BarcodeScannerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ChangeDataPage.xaml">
+	  <MauiXaml Update="Pages\EditAccountPage.xaml">
 	    <Generator></Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Popups\ChangePasswordPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Popups\MenuBar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
@@ -138,7 +156,13 @@
 	  <MauiXaml Update="Pages\ViewMealPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewSportsPage.xaml">
+	  <MauiXaml Update="Pages\SportListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Popups\EditSportPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Popups\SportFormView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

@@ -57,7 +57,6 @@ namespace StepUp.Data.Configurations
             b.Ignore(d => d.Snack);
             b.Ignore(d => d.KcalBurnt);
             b.Ignore(d => d.KcalEaten);
-            b.Ignore(d => d.KcalRes);
         }
     }
 }

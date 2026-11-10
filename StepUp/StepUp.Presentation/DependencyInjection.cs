@@ -11,6 +11,7 @@ namespace StepUp.Presentation
             services.AddTransient<LoginViewModel>();
             services.AddTransient<BodyDataViewModel>();
             services.AddTransient<MainViewModel>();
+            services.AddTransient<SettingsViewModel>();
 
             return services;
         }

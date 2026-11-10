@@ -57,20 +57,21 @@ public static class MauiProgram
         builder.Services.AddSingleton<ICurrentUserProvider, CurrentUserProvider>();
         builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
         builder.Services.AddSingleton<IDialogService, MauiDialogService>();
+        builder.Services.AddSingleton<IPopupFactory, MauiPopupFactory>();
 
         builder.Services.AddTransient<RegistrationPage>();
 		builder.Services.AddTransient<BodyDataPage>();
 		builder.Services.AddTransient<LoginPage>();
 		builder.Services.AddTransient<MainPage>();
+		builder.Services.AddTransient<SettingsPage>();
 
 		builder.Services.AddTransient<AddProductPage>();
 		builder.Services.AddTransient<BarcodeScannerPage>();
-		builder.Services.AddTransient<ChangeDataPage>();
+		builder.Services.AddTransient<EditAccountPage>();
 		builder.Services.AddTransient<GraphPage>();
 		builder.Services.AddTransient<ProductPage>();
-		builder.Services.AddTransient<SettingsPage>();
 		builder.Services.AddTransient<ViewMealPage>();
-		builder.Services.AddTransient<ViewSportsPage>();
+		builder.Services.AddTransient<SportListPage>();
 		
 
 #if DEBUG

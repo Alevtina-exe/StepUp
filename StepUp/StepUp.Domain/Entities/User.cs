@@ -6,7 +6,7 @@ namespace StepUp.Domain.Entities
     {
         private User() { }
         public User(string fullName, string email, string password,
-            DateTime birthDate, Gender gender, double weight, double height,
+            DateTime birthDate, Gender gender, double weight, int height,
             int caloriePlan, int carbonPercent, int proteinPercent, int fatPercent,
             SportLevel sportLevel, DateTime registrationDate)
         {
@@ -32,7 +32,7 @@ namespace StepUp.Domain.Entities
         public DateTime BirthDate { get; private set; }
         public Gender Gender { get; private set; }
         public double Weight { get; private set; }
-        public double Height { get; private set; }
+        public int Height { get; private set; }
         public int CaloriePlan { get; private set; }
         public int CarbonPercent { get; private set; }
         public int ProteinPercent { get; private set; }
@@ -65,7 +65,7 @@ namespace StepUp.Domain.Entities
             Weight = weight;
         }
 
-        public void ChangeHeight(double height)
+        public void ChangeHeight(int height)
         {
             if (height < 100 || height > 250)
                 throw new ArgumentOutOfRangeException(nameof(height), "Рост должен быть в диапазоне 100-250 см.");

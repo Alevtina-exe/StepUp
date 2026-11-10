@@ -47,7 +47,7 @@ public class DayResultService(IDayResultRepository dayResults,
         return await _dayResults.GetAsync(_currentUser.RequireUserId(), date, ct);
     }
 
-    public async Task AddFoodAsync(DateTime date, MealType mealType, FoodProduct product, Serving serving,
+    public async Task<DayResult> AddFoodAsync(DateTime date, MealType mealType, FoodProduct product, Serving serving,
                                    double amount, CancellationToken ct = default)
     {
         var day = await GetDayAsync(date, ct)
@@ -56,9 +56,11 @@ public class DayResultService(IDayResultRepository dayResults,
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
         day.AddToMeal(mealType, product, amount, serving);
         await _dayResults.UpdateAsync(day, ct);
+
+        return day;
     }
 
-    public async Task RemoveFoodAsync(DateTime date, MealType mealType,
+    public async Task<DayResult> RemoveFoodAsync(DateTime date, MealType mealType,
         Guid foodItemId, CancellationToken ct = default)
     {
         var day = await GetDayAsync(date, ct)
@@ -66,18 +68,22 @@ public class DayResultService(IDayResultRepository dayResults,
 
         day.RemoveFromMeal(mealType, foodItemId);
         await _dayResults.UpdateAsync(day, ct);
+
+        return day;
     }
 
-    public async Task ClearMealAsync(DateTime date, MealType mealType, CancellationToken ct = default)
+    public async Task<DayResult> ClearMealAsync(DateTime date, MealType mealType, CancellationToken ct = default)
     {
         var day = await GetDayAsync(date, ct)
             ?? throw new DayResultNotFoundException();
 
         day.ClearMeal(mealType);
         await _dayResults.UpdateAsync(day, ct);
+
+        return day;
     }
 
-    public async Task ChangeFoodAmountAsync(DateTime date, MealType mealType, Guid itemId,
+    public async Task<DayResult> ChangeFoodAmountAsync(DateTime date, MealType mealType, Guid itemId,
         double newAmount, Serving? newServing = null, CancellationToken ct = default)
     {
         var day = await GetDayAsync(date, ct)
@@ -92,27 +98,48 @@ public class DayResultService(IDayResultRepository dayResults,
         item.ChangeAmount(newAmount);
 
         await _dayResults.UpdateAsync(day, ct);
+
+        return day;
     }
 
-    public async Task AddSportAsync(DateTime date, string name, int kcalBurnt, CancellationToken ct = default)
+    public async Task<DayResult> AddSportAsync(DateTime date, string name, int kcalBurnt, CancellationToken ct = default)
     {
         var day = await GetDayAsync(date, ct)
             ?? throw new DayResultNotFoundException(); 
 
         day.AddSport(name, kcalBurnt);
         await _dayResults.UpdateAsync(day, ct);
+
+        return day;
     }
 
-    public async Task RemoveSportAsync(DateTime date, Guid sportId, CancellationToken ct = default)
+    public async Task<DayResult> RemoveSportAsync(DateTime date, Guid sportId, CancellationToken ct = default)
     {
         var day = await GetDayAsync(date, ct)
             ?? throw new DayResultNotFoundException(); 
 
         day.RemoveSport(sportId);
         await _dayResults.UpdateAsync(day, ct);
+
+        return day;
     }
 
-    public async Task UpdateWeightAsync(double newWeight, CancellationToken ct = default)
+    public async Task<DayResult> EditSportAsync(DateTime date, Guid sportId,
+        string newName, int kcalBurnt, CancellationToken ct = default)
+    {
+        var day = await GetDayAsync(date, ct)
+           ?? throw new DayResultNotFoundException();
+
+        if (day.GetSport(sportId) is null)
+            throw new SportNotFoundException();
+
+        day.EditSport(sportId, newName, kcalBurnt);
+        await _dayResults.UpdateAsync(day, ct);
+
+        return day;
+    }
+
+    public async Task<DayResult> UpdateWeightAsync(double newWeight, CancellationToken ct = default)
     {
         var id = _currentUser.RequireUserId();
         var user = await _users.GetByIdAsync(id, ct)
@@ -125,9 +152,11 @@ public class DayResultService(IDayResultRepository dayResults,
 
         todayResult.ChangeWeight(newWeight);
         await _dayResults.UpdateAsync(todayResult, ct);
+
+        return todayResult;
     }
 
-    public async Task UpdateCaloriePlanAsync(int newCaloriePlan, CancellationToken ct = default)
+    public async Task<DayResult> UpdateCaloriePlanAsync(int newCaloriePlan, CancellationToken ct = default)
     {
         var id = _currentUser.RequireUserId();
         var user = await _users.GetByIdAsync(id, ct)
@@ -140,5 +169,7 @@ public class DayResultService(IDayResultRepository dayResults,
 
         todayResult.ChangeCaloriePlan(newCaloriePlan);
         await _dayResults.UpdateAsync(todayResult, ct);
+
+        return todayResult ;
     }
 }

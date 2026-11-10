@@ -143,7 +143,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
             if (_request is null) return;
 
             _request.Weight = double.Parse(WeightInput);
-            _request.Height = double.Parse(HeightInput);
+            _request.Height = int.Parse(HeightInput);
             _request.SportLevel = SelectedSportLevel.Value;
             _request.CaloriePlan = CaloriePlan;
             _request.ProteinPercent = int.Parse(ProteinInput);

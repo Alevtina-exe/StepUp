@@ -67,19 +67,29 @@ public class AuthService(IUserRepository userRep,
         _userService.Clear();
     }
 
-    public async Task ChangePasswordAsync(string oldPassword, string newPassword, CancellationToken ct = default)
+    public async Task ChangePasswordAsync(string newPassword, CancellationToken ct = default)
     {
         var passwordErrors = PasswordPolicy.Validate(newPassword);
+
         if (passwordErrors.Any())
             throw new WeakPasswordException(passwordErrors); 
 
         var user = await _userRep.GetByIdAsync(_userProvider.RequireUserId(), ct)
             ?? throw new UserNotFoundException(); 
 
-        if (!_passwordHasher.Verify(oldPassword, user.Password))
-            throw new InvalidPasswordException("Старый пароль неверен."); 
-
         user.ChangePassword(_passwordHasher.Hash(newPassword));
         await _userRep.UpdateAsync(user, ct);
+    }
+
+    public async Task UpdateProfileAsync(User user, CancellationToken ct = default)
+    {
+        await _userRep.UpdateAsync(user, ct);
+        _userService.Clear();
+    }
+
+    public async Task DeleteProfileAsync(CancellationToken ct = default)
+    {
+        await _userRep.DeleteAsync(_userProvider.RequireUserId(), ct);
+        Logout();
     }
 }

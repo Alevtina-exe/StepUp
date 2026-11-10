@@ -30,9 +30,8 @@ namespace StepUp.Domain.Entities
         public int CaloriePlan { get; private set; }
         public double Weight { get; private set; }
 
-        public int KcalBurnt { get => Sports.Sum(i => i.BurntKcals); }
-        public int KcalEaten { get => Breakfast.TotalKcal + Lunch.TotalKcal + Dinner.TotalKcal + Snack.TotalKcal; }
-        public int KcalRes { get => CaloriePlan - KcalEaten + KcalBurnt; }
+        public int KcalBurnt => Sports.Sum(i => i.BurntKcals);
+        public int KcalEaten => Breakfast.TotalKcal + Lunch.TotalKcal + Dinner.TotalKcal + Snack.TotalKcal; 
 
         public double TotalProtein =>
             _meals.Sum(m => m.TotalProtein);
@@ -54,6 +53,17 @@ namespace StepUp.Domain.Entities
         public void RemoveSport(Guid sportId)
         {
             _sports.RemoveAll(s => s.Id == sportId);
+        }
+
+        public Sport? GetSport(Guid id) => _sports.FirstOrDefault(s => s.Id == id);
+
+        public void EditSport(Guid sportId, string newName, int newKcal)
+        {
+            var sport = GetSport(sportId) ??
+                throw new InvalidOperationException("Тренировка не найдена."); 
+
+            sport.ChangeName(newName);
+            sport.ChangeKcal(newKcal);
         }
 
         public void AddToMeal(MealType mealType, FoodItem foodItem)

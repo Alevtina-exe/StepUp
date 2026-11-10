@@ -18,7 +18,7 @@ namespace StepUp.Presentation.ViewModels
         public IReadOnlyList<GenderOption> Genders { get; } = GenderOption.All;
 
 
-        public DateTime MaxDate { get; } = clock.Today;
+        public DateTime MaxDate { get; } = clock.Today.AddYears(-10);
         public DateTime MinDate { get; } = clock.Today.AddYears(-120);
 
 

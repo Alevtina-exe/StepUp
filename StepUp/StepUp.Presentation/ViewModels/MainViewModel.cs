@@ -6,12 +6,13 @@ using StepUp.Domain.Calculators;
 using StepUp.Domain.Entities;
 using StepUp.Domain.Enums;
 using StepUp.Presentation.Constants;
+using StepUp.Presentation.Enums;
 using StepUp.Presentation.Interfaces;
 
 namespace StepUp.Presentation.ViewModels;
 
 public partial class MainViewModel(DayResultService dayService, IClock clock, ICurrentUserService user,
-    INavigationService nav, IDialogService dialog) : ObservableObject
+    INavigationService nav, IDialogService dialog, IPopupFactory popup) : ObservableObject
 {
 
     private User _user = null!;
@@ -42,15 +43,10 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     {
         if (value == null) return;
         StepCounterVisible = value.Date == clock.Today;
-        DateString = CurrDayRes.Date.ToString("ddd, dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU"));
-
-        MaxProtein = MacroCalculator.CalculateProteinGrams(CurrDayRes.CaloriePlan, _user.ProteinPercent);
-        MaxFat = MacroCalculator.CalculateFatGrams(CurrDayRes.CaloriePlan, _user.FatPercent);
-        MaxCarbon = MacroCalculator.CalculateCarbonGrams(CurrDayRes.CaloriePlan, _user.CarbonPercent);
-
+        DateString = value.Date.ToString("ddd, dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU"));
+        CaloriePlan = value.CaloriePlan;
+        KcalBurnt = CurrDayRes.KcalBurnt;
         RefreshMeals();
-        RefreshTotalNutrients();
-        RefreshSport();
     }
 
     [ObservableProperty]
@@ -62,23 +58,16 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     [ObservableProperty]
     private DateTime _minDate = clock.Today;
 
-    [ObservableProperty]
-    private double _maxProtein = 1;
-    [ObservableProperty]
-    private double _maxCarbon = 1;
-    [ObservableProperty]
-    private double _maxFat = 1;
 
+    [ObservableProperty]
+    private int _caloriePlan = 0;
     [ObservableProperty]
     public int _kcalBurnt = 0;
     [ObservableProperty]
     public int _kcalEaten = 0;
-    [ObservableProperty]
-    public int _kcalRes = 0;
-    [ObservableProperty] 
-    private double _kcalProgress;
 
-    //'{0} ккал' 'Б: {0}' 'Ж: {0}' 'У: {0}'
+    public int KcalRes => CaloriePlan - KcalEaten + KcalBurnt;
+
 
     [ObservableProperty]
     private int _brKcal = 0;
@@ -123,69 +112,83 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     [ObservableProperty]
     public double _totalCarbon = 0;
 
+    private double MaxProtein => MacroCalculator.CalculateProteinGrams(CaloriePlan + KcalBurnt, _user.ProteinPercent);
+    private double MaxFat => MacroCalculator.CalculateFatGrams(CaloriePlan + KcalBurnt, _user.FatPercent);
+    private double MaxCarbon => MacroCalculator.CalculateCarbonGrams(CaloriePlan + KcalBurnt, _user.CarbonPercent);
+
+
     public string ProteinString => $"{TotalProtein:F1} / {MaxProtein:F1} г";
     public string FatString => $"{TotalFat:F1} / {MaxFat:F1} г";
     public string CarbonString => $"{TotalCarbon:F1} / {MaxCarbon:F1} г";
 
-    [ObservableProperty]
-    private double _prProgress = 0;
-    [ObservableProperty]
-    private double _fatProgress = 0;
-    [ObservableProperty]
-    public double _cbProgress = 0;
+    private double PrProgress => MaxProtein > 0 ? TotalProtein / MaxProtein : 0;
+    private double FatProgress => MaxFat > 0 ? TotalFat / MaxFat : 0;
+    public double CbProgress => MaxCarbon > 0 ? TotalCarbon / MaxCarbon : 0;
+    private double KcalProgress => (double)(KcalEaten > KcalBurnt ? KcalEaten - KcalBurnt : 0) / CaloriePlan;
 
-
-    public void RefreshTotalNutrients()
-    {
-        TotalProtein = CurrDayRes.TotalProtein;
-        TotalFat = CurrDayRes.TotalFat;
-        TotalCarbon = CurrDayRes.TotalCarbon;
-
-        PrProgress = MaxProtein > 0 ? TotalProtein / MaxProtein : 0;
-        FatProgress = MaxFat > 0 ? TotalFat / MaxFat : 0;
-        CbProgress = MaxCarbon > 0 ? TotalCarbon / MaxCarbon : 0;
-
-        KcalEaten = CurrDayRes.KcalEaten;
-        KcalRes = CurrDayRes.KcalRes;
-
-        KcalProgress = (double)KcalEaten / CurrDayRes.CaloriePlan;
-    }
-    public void RefreshMeals ()
+    private void RefreshMeals()
     {
         BrKcal = CurrDayRes.Breakfast.TotalKcal;
         BrPr = CurrDayRes.Breakfast.TotalProtein;
         BrFat = CurrDayRes.Breakfast.TotalFat;
         BrCb = CurrDayRes.Breakfast.TotalCarbon;
+
         LnKcal = CurrDayRes.Lunch.TotalKcal;
         LnPr = CurrDayRes.Lunch.TotalProtein;
         LnFat = CurrDayRes.Lunch.TotalFat;
         LnCb = CurrDayRes.Lunch.TotalCarbon;
+
         DnKcal = CurrDayRes.Dinner.TotalKcal;
         DnPr = CurrDayRes.Dinner.TotalProtein;
         DnFat = CurrDayRes.Dinner.TotalFat;
         DnCb = CurrDayRes.Dinner.TotalCarbon;
+
         SnKcal = CurrDayRes.Snack.TotalKcal;
         SnPr = CurrDayRes.Snack.TotalProtein;
         SnFat = CurrDayRes.Snack.TotalFat;
-        SnCb = CurrDayRes.Snack.TotalCarbon; 
+        SnCb = CurrDayRes.Snack.TotalCarbon;
+
+        KcalEaten = CurrDayRes.KcalEaten;
+        TotalProtein = CurrDayRes.TotalProtein;
+        TotalFat = CurrDayRes.TotalFat;
+        TotalCarbon = CurrDayRes.TotalCarbon;
+
+        RefreshProgress();
+    }
+
+    private void RefreshProgress()
+    {
+        OnPropertyChanged(nameof(KcalRes));
+        OnPropertyChanged(nameof(KcalProgress));
+
+        OnPropertyChanged(nameof(PrProgress));
+        OnPropertyChanged(nameof(FatProgress));
+        OnPropertyChanged(nameof(CbProgress));
+
+        OnPropertyChanged(nameof(MaxProtein));
+        OnPropertyChanged(nameof(MaxFat));
+        OnPropertyChanged(nameof(MaxCarbon));
 
         OnPropertyChanged(nameof(ProteinString));
         OnPropertyChanged(nameof(FatString));
         OnPropertyChanged(nameof(CarbonString));
     }
-    public void RefreshSport()
-    {
-        KcalBurnt = CurrDayRes.KcalBurnt;
-    }
 
     partial void OnDateChanged(DateTime value)
     {
-        _ = LoadDayAsync(value); 
+        _ = LoadDayAsync(value);
     }
 
     private async Task LoadDayAsync(DateTime date)
     {
-        CurrDayRes = await dayService.GetOrCreateDayAsync(date);
+        try
+        {
+            CurrDayRes = await dayService.GetOrCreateDayAsync(date);
+        }
+        catch (Exception ex)
+        {
+            await dialog.ShowAlertAsync("Ошибка", ex.Message);
+        }
     }
 
     [RelayCommand]
@@ -202,36 +205,50 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     {
         var parameters = new Dictionary<string, object>
         {
+            { "Date", CurrDayRes },
             { "MealType", mealType }
         };
         await nav.GoToPageAsync(AppRoutes.ViewMeal, parameters);
     }
 
+    private async Task GoToAddProductAsync(MealType mealType)
+    {
+        var parameters = new Dictionary<string, object>
+        {
+            { "Date", CurrDayRes },
+            { "MealType", mealType }
+        };
+        await nav.GoToPageAsync(AppRoutes.AddProduct, parameters);
+    }
     [RelayCommand]
     private async Task HandleMenuSelectionAsync(int type)
     {
-        switch (type)
+        var action = await dialog.ShowPopupAsync(popup.CreateMenuBarPopup());
+
+        if (action == null) return;
+        switch (action.Value)
         {
-            case 1:
+            case MenuAction.ChangeWeight:
                 await ChangeWeightAsync();
                 break;
-            case 2:
-                await nav.GoToPageAsync(AppRoutes.AddProduct, new Dictionary<string, object> { { "MealType", MealType.Breakfast } });
+            case MenuAction.Breakfast:
+                await GoToAddProductAsync(MealType.Breakfast);
                 break;
-            case 3:
-                await nav.GoToPageAsync(AppRoutes.AddProduct, new Dictionary<string, object> { { "MealType", MealType.Lunch } });
+            case MenuAction.Lunch:
+                await GoToAddProductAsync(MealType.Lunch);
                 break;
-            case 4:
-                await nav.GoToPageAsync(AppRoutes.AddProduct, new Dictionary<string, object> { { "MealType", MealType.Dinner } });
+            case MenuAction.Dinner:
+                await GoToAddProductAsync(MealType.Dinner);
                 break;
-            case 5:
-                await nav.GoToPageAsync(AppRoutes.AddProduct, new Dictionary<string, object> { { "MealType", MealType.Snack } });
+            case MenuAction.Snack:
+                await GoToAddProductAsync(MealType.Snack);
                 break;
-            case 6:
-                await dialog.ShowAlertAsync("Спорт", "Здесь будет окно добавления спорта");
+            case MenuAction.Sport:
+                await AddSportAsync();
+                break;
+            default:
                 break;
         }
-
         await LoadDayAsync(Date);
     }
     private async Task ChangeWeightAsync()
@@ -240,11 +257,33 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
 
         if (double.TryParse(input, out double newWeight) && newWeight >= 30 && newWeight <= 300)
         {
-            await dayService.UpdateWeightAsync(newWeight);
+            try
+            {
+                CurrDayRes = await dayService.UpdateWeightAsync(newWeight);
+            }
+            catch (Exception ex)
+            {
+                await dialog.ShowAlertAsync("Ошибка", ex.Message);
+            }
         }
         else if (!string.IsNullOrEmpty(input))
         {
             await dialog.ShowAlertAsync("Ошибка", "Недопустимый вес", "OK");
+        }
+    }
+    private async Task AddSportAsync()
+    {
+        var newSport = await dialog.ShowPopupAsync(popup.CreateAddSportPopup());
+        if (newSport != null)
+        {
+            try
+            {
+                CurrDayRes = await dayService.AddSportAsync(CurrDayRes.Date, newSport.Name, newSport.Calories);
+            }
+            catch (Exception ex)
+            {
+                await dialog.ShowAlertAsync("Ошибка", ex.Message);
+            }
         }
     }
 }

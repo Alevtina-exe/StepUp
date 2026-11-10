@@ -14,7 +14,6 @@
 
             <VerticalStackLayout
                 Spacing="5"
-                BackgroundColor="{StaticResource PopupBackground}"
                 Padding="10">
 
                 <Button

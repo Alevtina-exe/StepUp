@@ -44,6 +44,10 @@
         x:Key="TextLight">White</Color>
     <Color
         x:Key="PlaceholderColor">#c8c8c8</Color>
+    <Color
+        x:Key="ErrorColor">Red</Color>
+    <Color
+        x:Key="AcceptColor">Green</Color>
 
     <!-- Grays -->
     <Color
@@ -92,8 +96,6 @@
         x:Key="Magenta">#D600AA</Color>
     <Color
         x:Key="MidnightBlue">#190649</Color>
-    <Color
-        x:Key="ErrorColor">Red</Color>
 
     <!-- Brushes -->
     <SolidColorBrush

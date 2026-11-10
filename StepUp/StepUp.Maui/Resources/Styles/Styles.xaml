@@ -377,4 +377,18 @@
             Value="14,12" />
     </Style>
 
+    <Style
+        x:Key="PopupBorder"
+        TargetType="Border">
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource PopupBackground}" />
+        <Setter
+            Property="Stroke"
+            Value="{StaticResource PopupBackground}" />
+        <Setter
+            Property="StrokeShape"
+            Value="RoundRectangle 20" />
+    </Style>
+
 </ResourceDictionary>

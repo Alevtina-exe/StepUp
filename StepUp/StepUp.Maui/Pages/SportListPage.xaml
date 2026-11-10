@@ -1,0 +1,50 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    xmlns:models="clr-namespace:StepUp.Domain.Entities;assembly=StepUp.Domain"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Views.SportListPage"
+    x:DataType="vm:SportListViewModel">
+    <ScrollView>
+        <Grid
+            ColumnDefinitions="*,Auto">
+            <Label
+                Style="{StaticResource Header}"
+                Text="Тренировки за сегодня" />
+            <CollectionView
+                ItemsSource="{Binding Sports}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="models:Sport">
+                        <Border>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SportListViewModel}}, Path=EditSportCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                Padding="30,50,20,50"
+                                HeightRequest="160">
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="20"
+                                    VerticalTextAlignment="Center"
+                                    FontAttributes="Bold"
+                                    Grid.Column="0" />
+                                <Label
+                                    Text="{Binding BurntKcals}"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="End"
+                                    TextColor="Gray"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ScrollView>
+</ContentPage>

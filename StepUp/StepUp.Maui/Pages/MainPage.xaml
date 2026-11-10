@@ -29,7 +29,7 @@
                         WidthRequest="40"
                         HeightRequest="40"
                         Opacity="0.8"
-                        Clicked="DateButton_Clicked" />
+                        Clicked="DateButtonClicked" />
                     <Label
                         x:Name="DateLabel"
                         VerticalTextAlignment="Center"
@@ -38,7 +38,7 @@
                         TextColor="White">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer
-                                Tapped="DateButton_Tapped" />
+                                Tapped="DateButtonTapped" />
                         </Label.GestureRecognizers>
                     </Label>
                     <DatePicker
@@ -467,11 +467,11 @@
                     Style="{StaticResource ActionButton}"
                     Command="{Binding GoToGraphCommand}" />
                 <ImageButton
-                    x:Name="NewBtn"
+                    x:Name="AddBtn"
                     Grid.Column="1"
                     Source="{StaticResource IconAdd}"
                     Style="{StaticResource ActionButton}"
-                    Clicked="NewBtn_Clicked" />
+                    Command="{Binding HandleMenuSelectionCommand}" />
                 <ImageButton
                     x:Name="SettingsBtn"
                     Grid.Column="2"

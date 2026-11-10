@@ -1,0 +1,107 @@
+﻿<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    xmlns:converters="clr-namespace:StepUp.Maui.Converters"
+    x:Class="StepUp.Maui.Views.EditAccountPage"
+    x:DataType="vm:EditAccountViewModel"
+    Title="Изменение данных профиля">
+
+    <ContentPage.Resources>
+        <converters:BoolToColorConverter
+            x:Key="BoolToColor" />
+    </ContentPage.Resources>
+
+    <Grid
+        RowDefinitions="*, Auto">
+        <ScrollView
+            Grid.Row="0">
+            <VerticalStackLayout>
+                <sv:SettingsView
+                    HasUnevenRows="true">
+                    <sv:Section
+                        Title="Личные данные">
+                        <sv:EntryCell
+                            Title="Имя"
+                            ValueText="{Binding Name, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsNameValid, Converter={StaticResource BoolToColor}}" />
+
+                        <sv:PickerCell
+                            Title="Пол"
+                            ItemsSource="{Binding Genders}"
+                            SelectedItem="{Binding Gender, Mode=TwoWay}"
+                            DisplayMember="DisplayName" />
+
+                        <sv:DatePickerCell
+                            Title="Дата рождения"
+                            MinimumDate="{Binding MinDate}"
+                            MaximumDate="{Binding MaxDate}"
+                            Date="{Binding Birthday, Mode=TwoWay}" />
+
+                        <sv:EntryCell
+                            Title="Рост"
+                            ValueText="{Binding Height, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsHeightValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+
+                        <sv:EntryCell
+                            Title="Вес"
+                            ValueText="{Binding Weight, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsWeightValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+                    </sv:Section>
+
+                    <sv:Section
+                        Title="КБЖУ">
+                        <sv:EntryCell
+                            Title="Дневная норма калорий"
+                            ValueText="{Binding CaloriePlan, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsCaloriePlanValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+
+                        <sv:EntryCell
+                            Title="Белки, %"
+                            ValueText="{Binding ProteinPercent, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsMacrosValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+
+                        <sv:EntryCell
+                            Title="Жиры, %"
+                            ValueText="{Binding FatPercent, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsMacrosValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+
+                        <sv:EntryCell
+                            Title="Углеводы, %"
+                            ValueText="{Binding CarbonPercent, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsMacrosValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+                    </sv:Section>
+                </sv:SettingsView>
+
+                <Label
+                    Text="{Binding ErrorMessage}"
+                    IsVisible="{Binding IsErrorMessageVisible}"
+                    TextColor="{StaticResource ErrorColor}"
+                    Margin="20" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="10"
+            Margin="20">
+            <Button
+                Grid.Column="0"
+                Text="Сохранить изменения"
+                Command="{Binding SaveChangesCommand}" />
+            <Button
+                Grid.Column="1"
+                Text="Отмена"
+                TextColor="{StaticResource ErrorColor}"
+                Command="{Binding CancelCommand}" />
+        </Grid>
+    </Grid>
+</ContentPage>

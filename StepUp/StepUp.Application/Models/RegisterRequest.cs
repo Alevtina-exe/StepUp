@@ -11,7 +11,7 @@ public class RegisterRequest
     public DateTime BirthDate { get; set; } = DateTime.Today;
     public Gender Gender { get; set; } = Gender.Male;
     public double Weight { get; set; } = 70;
-    public double Height { get; set; } = 170;
+    public int Height { get; set; } = 170;
     public int CaloriePlan { get; set; } = 1800;
     public int ProteinPercent { get; set; } = 30;
     public int FatPercent { get; set; } = 30;

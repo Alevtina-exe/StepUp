@@ -1,6 +1,4 @@
-using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Handlers;
-using StepUp.Maui.Popups;
 using StepUp.Maui.Utils;
 
 namespace StepUp.Maui.Views;
@@ -34,28 +32,16 @@ public partial class MainPage : ContentPage
         _vm.PropertyChanged -= ViewModel_PropertyChanged;
     }
 
-    private void DateButton_Clicked(object sender, EventArgs e)
+    private void DateButtonClicked(object sender, EventArgs e)
     {
         var handler = datePicker.Handler as IDatePickerHandler;
         handler?.PlatformView?.PerformClick();
     }
 
-    private void DateButton_Tapped(object sender, TappedEventArgs e)
+    private void DateButtonTapped(object sender, TappedEventArgs e)
     {
-        DateButton_Clicked(sender, e);
+        DateButtonClicked(sender, e);
     }
-
-    private async void NewBtn_Clicked(object sender, EventArgs e)
-    {
-        var popup = new MenuBar();
-        await this.ShowPopupAsync(popup);
-
-        if (MenuBar.type > 0)
-        {
-            await _vm.HandleMenuSelectionCommand.ExecuteAsync(MenuBar.type);
-        }
-    }
-
 
     private void AnimateAll()
     {
