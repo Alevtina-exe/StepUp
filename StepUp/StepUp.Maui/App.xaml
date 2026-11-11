@@ -18,12 +18,16 @@
                 <ResourceDictionary
                     Source="Resources/Styles/Icons.xaml" />
                 <ResourceDictionary>
-                    <converters:ImtCategoryToColorConverter
-                        x:Key="ImtCategoryToColor" />
+                    <converters:BmiCategoryToColorConverter
+                        x:Key="BmiCategoryToColor" />
                     <converters:MacroRatioToColorConverter
-                        x:Key="MacroRatioToColorConverter" />
+                        x:Key="MacroRatioToColor" />
                     <converters:BoolToColorConverter
-                        x:Key="BoolToColorConverter" />
+                        x:Key="BoolToColor" />
+                    <converters:NutriscoreGradeToImageConverter
+                        x:Key="NutriscoreToImage" />
+                    <converters:NovaGroupToImageConverter
+                        x:Key="NovaToImage" />
                 </ResourceDictionary>
 
                 <ResourceDictionary>

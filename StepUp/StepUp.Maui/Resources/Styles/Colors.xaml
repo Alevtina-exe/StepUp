@@ -79,17 +79,17 @@
 
     <!-- BMI Colors -->
     <Color
-        x:Key="ImtDeficit">RoyalBlue</Color>
+        x:Key="BmiDeficit">RoyalBlue</Color>
     <Color
-        x:Key="ImtNormal">Green</Color>
+        x:Key="BmiNormal">Green</Color>
     <Color
-        x:Key="ImtOverweight">Yellow</Color>
+        x:Key="BmiOverweight">Yellow</Color>
     <Color
-        x:Key="ImtObese1">Orange</Color>
+        x:Key="BmiObese1">Orange</Color>
     <Color
-        x:Key="ImtObese2">Red</Color>
+        x:Key="BmiObese2">Red</Color>
     <Color
-        x:Key="ImtObese3">DarkRed</Color>
+        x:Key="BmiObese3">DarkRed</Color>
 
     <!-- Other -->
     <Color

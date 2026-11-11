@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using StepUp.Application.Services;
-using StepUp.Domain.Entities;
-using StepUp.Presentation.Interfaces;
+﻿using StepUp.Presentation.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace StepUp.Presentation.ViewModels

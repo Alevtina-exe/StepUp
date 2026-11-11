@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:popups="clr-namespace:StepUp.Maui.Popups"
+    xmlns:formviews="clr-namespace:StepUp.Maui.FormViews"
     xmlns:models="clr-namespace:StepUp.Presentation.Models;assembly=StepUp.Presentation"
     x:Class="StepUp.Maui.Popups.EditSportPopup"
     x:TypeArguments="models:SportResult"
@@ -10,7 +10,7 @@
 
     <Border
         Style="{StaticResource PopupBorder}" >
-        <popups:SportFormView
+        <formviews:SportFormView
             x:Name="FormView" />
     </Border>
 </toolkit:Popup>

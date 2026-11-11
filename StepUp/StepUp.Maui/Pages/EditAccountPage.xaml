@@ -4,14 +4,9 @@
     xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
     xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
     xmlns:converters="clr-namespace:StepUp.Maui.Converters"
-    x:Class="StepUp.Maui.Views.EditAccountPage"
+    x:Class="StepUp.Maui.Pages.EditAccountPage"
     x:DataType="vm:EditAccountViewModel"
     Title="Изменение данных профиля">
-
-    <ContentPage.Resources>
-        <converters:BoolToColorConverter
-            x:Key="BoolToColor" />
-    </ContentPage.Resources>
 
     <Grid
         RowDefinitions="*, Auto">

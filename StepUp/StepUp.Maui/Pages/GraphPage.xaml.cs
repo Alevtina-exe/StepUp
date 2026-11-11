@@ -7,7 +7,7 @@ using CommunityToolkit.Maui.Alerts;
 using StepUp.Maui.ModelViews;
 using StepUp.Models;
 
-namespace StepUp.Maui.Views;
+namespace StepUp.Maui.Pages;
 
 public partial class GraphPage : ContentPage
 {

@@ -3,9 +3,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
-    xmlns:converters="clr-namespace:StepUp.Maui.Converters"
     xmlns:enums="clr-namespace:StepUp.Domain.Enums;assembly=StepUp.Domain"
-    x:Class="StepUp.Maui.Views.MainPage"
+    x:Class="StepUp.Maui.Pages.MainPage"
     x:DataType="vm:MainViewModel">
     <Grid
         RowDefinitions="*">
@@ -181,7 +180,7 @@
                             <ProgressBar
                                 Progress="{Binding PrProgress}"
                                 Margin="10,0"
-                                ProgressColor="{Binding PrProgress, Converter={converters:MacroRatioToColorConverter}}" />
+                                ProgressColor="{Binding PrProgress, Converter={StaticResource MacroRatioToColor}}" />
                             <Label
                                 HorizontalOptions="Fill"
                                 HorizontalTextAlignment="Center"
@@ -203,7 +202,7 @@
                             <ProgressBar
                                 Progress="{Binding FatProgress}"
                                 Margin="10,0"
-                                ProgressColor="{Binding FatProgress, Converter={converters:MacroRatioToColorConverter}}" />
+                                ProgressColor="{Binding FatProgress, Converter={StaticResource MacroRatioToColor}}" />
                             <Label
                                 HorizontalOptions="Fill"
                                 HorizontalTextAlignment="Center"
@@ -226,7 +225,7 @@
                             <ProgressBar
                                 Progress="{Binding CbProgress}"
                                 Margin="10,0"
-                                ProgressColor="{Binding CbProgress, Converter={converters:MacroRatioToColorConverter}}" />
+                                ProgressColor="{Binding CbProgress, Converter={StaticResource MacroRatioToColor}}" />
                             <Label
                                 HorizontalOptions="Fill"
                                 HorizontalTextAlignment="Center"

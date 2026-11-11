@@ -3,13 +3,13 @@ using Microsoft.Maui.Controls;
 using System.Threading.Tasks;
 using StepUp.Maui.Models;
 using StepUp.Maui.ModelViews;
-namespace StepUp.Maui.Views;
+namespace StepUp.Maui.Pages;
 
-public partial class AddProductPage : ContentPage
+public partial class SearchFoodItemPage : ContentPage
 {
 	private ProductBaseModelView ProductBaseModelView { get; set; }
     private Meal _meal;
-	public AddProductPage(Meal meal)
+	public SearchFoodItemPage(Meal meal)
 	{
 		InitializeComponent();
         _meal = meal;
@@ -32,6 +32,6 @@ public partial class AddProductPage : ContentPage
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        Navigation.PushAsync(new ViewMealPage(_meal, true));
+        Navigation.PushAsync(new MealListPage(_meal, true));
     }
 }

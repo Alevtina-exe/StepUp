@@ -1,10 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using StepUp.Application.Interfaces.Services;
-using StepUp.Application.Services;
+﻿using StepUp.Application.Interfaces.Services;
 using StepUp.Domain.Calculators;
-using StepUp.Domain.Entities;
-using StepUp.Domain.Enums;
 using StepUp.Presentation.Constants;
 using StepUp.Presentation.Enums;
 using StepUp.Presentation.Interfaces;
@@ -121,10 +116,10 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     public string FatString => $"{TotalFat:F1} / {MaxFat:F1} г";
     public string CarbonString => $"{TotalCarbon:F1} / {MaxCarbon:F1} г";
 
-    private double PrProgress => MaxProtein > 0 ? TotalProtein / MaxProtein : 0;
-    private double FatProgress => MaxFat > 0 ? TotalFat / MaxFat : 0;
+    public double PrProgress => MaxProtein > 0 ? TotalProtein / MaxProtein : 0;
+    public double FatProgress => MaxFat > 0 ? TotalFat / MaxFat : 0;
     public double CbProgress => MaxCarbon > 0 ? TotalCarbon / MaxCarbon : 0;
-    private double KcalProgress => (double)(KcalEaten > KcalBurnt ? KcalEaten - KcalBurnt : 0) / CaloriePlan;
+    public double KcalProgress => (double)(KcalEaten > KcalBurnt ? KcalEaten - KcalBurnt : 0) / CaloriePlan;
 
     private void RefreshMeals()
     {

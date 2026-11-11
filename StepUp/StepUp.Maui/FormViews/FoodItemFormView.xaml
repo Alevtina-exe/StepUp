@@ -1,0 +1,213 @@
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:StepUp.Presentation.BaseViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.FormViews.FoodItemFormView"
+    x:DataType="vm:FoodItemBaseViewModel">
+    <Grid
+        RowDefinitions="*,Auto">
+        <ScrollView
+            Grid.Row="0">
+            <Grid
+                RowDefinitions="Auto,Auto,Auto,Auto,*"
+                BackgroundColor="{StaticResource PrimaryLight}">
+                <Image
+                    Source="{Binding ImageUrl}"
+                    MaximumHeightRequest="280"
+                    BackgroundColor="LightGray" />
+                <Label
+                    Text="{Binding Name}"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="End"
+                    FontSize="30"
+                    TextColor="White"
+                    Background="{StaticResource ImageOverlayGradient}" />
+
+                <ImageButton
+                    x:Name="favButton"
+                    Margin="0,15,15,0"
+                    Source="{StaticResource IconNotFavourite}"
+                    BackgroundColor="Transparent"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start" />
+                <Border
+                    Grid.Row="1"
+                    HorizontalOptions="Fill"
+                    Margin="0"
+                    Padding="10"
+                    StrokeShape="Rectangle"
+                    Stroke="{StaticResource PrimaryLight}"
+                    BackgroundColor="{StaticResource PrimaryLight}">
+                    <Border
+                        Style="{StaticResource WhiteCardFrame}">
+                        <StackLayout
+                            Orientation="Vertical"
+                            Spacing="10">
+                            <Grid
+                                ColumnDefinitions="Auto,*">
+                                <Grid
+                                    x:Name="grid"
+                                    Grid.Column="0"
+                                    ColumnDefinitions="*"
+                                    WidthRequest="140"
+                                    HeightRequest="140" />
+                                <VerticalStackLayout
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Grid.Column="1">
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        FontFamily="impact"
+                                        FontSize="36"
+                                        TextColor="{StaticResource NutriKcal}"
+                                        Text="{Binding TotalKcal, StringFormat='{0} ккал'}" />
+                                    <ProgressBar
+                                        Progress="{Binding Progress}"
+                                        HeightRequest="5"
+                                        HorizontalOptions="Fill"
+                                        ProgressColor="{StaticResource NutriKcal}" />
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        Margin="0,2,0,0"
+                                        FontFamily="impact"
+                                        TextColor="{StaticResource NutriKcal}"
+                                        Text="{Binding DailyPercent, StringFormat='{0:F1}% от дневной нормы'}" />
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <StackLayout
+                                Orientation="Vertical"
+                                VerticalOptions="Center"
+                                Margin="20,0,0,0"
+                                Spacing="5">
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+                                    <Border
+                                        BackgroundColor="{StaticResource NutriProtein}"
+                                        Stroke="{StaticResource NutriProtein}"
+                                        WidthRequest="5"
+                                        HeightRequest="5"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Text="{Binding TotalProtein,
+                                        StringFormat='Белки: {0:F1} г'}" />
+                                </StackLayout>
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+                                    <Border
+                                        BackgroundColor="{StaticResource NutriFat}"
+                                        Stroke="{StaticResource NutriFat}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Text="{Binding TotalFat,
+                                        StringFormat='Жиры: {0:F1} г'}" />
+                                </StackLayout>
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+                                    <Border
+                                        BackgroundColor="{StaticResource NutriCarbon}"
+                                        Stroke="{StaticResource NutriCarbon}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Text="{Binding TotalCarbon,
+                                        StringFormat='Углеводы: {0:F1} г'}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </Border>
+                </Border>
+
+                <HorizontalStackLayout
+                    Grid.Row="2"
+                    Spacing="5"
+                    HorizontalOptions="Center"
+                    Padding="20,10">
+                    <Image
+                        Source="{Binding NutriscoreGrade, Converter={StaticResource NutriscoreToImage}}"
+                        WidthRequest="100" />
+                    <Image
+                        Source="{Binding NovaGroup, Converter={StaticResource NovaToImage}}"
+                        HeightRequest="70"
+                        Margin="10,0,0,0" />
+                    <VerticalStackLayout
+                        Grid.Row="3"
+                        Margin="20,10"
+                        HorizontalOptions="Start">
+                        <Label
+                            Text="{Binding Brand}"
+                            FontSize="16"
+                            TextColor="{StaticResource TextSecondary}"
+                            FontAttributes="Bold" />
+                        <Label
+                            Text="{Binding Barcode}"
+                            FontSize="16"
+                            TextColor="{StaticResource TextSecondary}"
+                            FontAttributes="Bold" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+                <StackLayout
+                    Orientation="Vertical"
+                    Grid.Row="4"
+                    Padding="20,10"
+                    VerticalOptions="End"
+                    Spacing="10"
+                    BackgroundColor="{StaticResource ProductBottomPanel}">
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="10"
+                        HorizontalOptions="Fill"
+                        HeightRequest="50">
+                        <Border
+                            Stroke="{StaticResource PrimaryDark}"
+                            BackgroundColor="Transparent"
+                            Padding="2"
+                            Grid.Column="0"
+                            StrokeShape="RoundRectangle 10">
+                            <Entry
+                                x:Name="entry"
+                                WidthRequest="60"
+                                Keyboard="Numeric"
+                                Text="{Binding Amount, Mode=TwoWay}"
+                                FontSize="20"
+                                VerticalTextAlignment="End"
+                                HorizontalTextAlignment="Center"
+                                TextChanged="Entry_TextChanged" />
+                        </Border>
+                        <Picker
+                            SelectedItem="{Binding SelectedServing, Mode=TwoWay}"
+                            HorizontalOptions="Fill"
+                            Grid.Column="1"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            ItemsSource="{Binding Servings}" />
+                    </Grid>
+                    <Picker
+                        Title="Приём пищи"
+                        VerticalOptions="End"
+                        ItemsSource="{Binding MealOptions}"
+                        SelectedItem="{Binding SelectedMeal, Mode=TwoWay}" />
+                    <Button
+                        Text="{Binding SaveButtonText}"
+                        Command="{Binding SaveCommand}"
+                        HorizontalOptions="Fill"
+                        CornerRadius="20" />
+                    <Button
+                        Text="Удалить"
+                        IsVisible="{Binding IsDeleteVisible}"
+                        Command="{Binding DeleteCommand}"
+                        CornerRadius="20" />
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentView>

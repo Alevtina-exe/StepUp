@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using StepUp.Application.Interfaces.Services;
-using StepUp.Application.Services;
-using StepUp.Domain.Enums;
+﻿using StepUp.Application.Interfaces.Services;
 using StepUp.Presentation.Interfaces;
 using StepUp.Presentation.Models;
 using System.Globalization;

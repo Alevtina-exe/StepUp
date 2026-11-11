@@ -1,4 +1,4 @@
-﻿namespace StepUp.Maui.Views;
+﻿namespace StepUp.Maui.Pages;
 
 public partial class BodyDataPage : ContentPage
 {
@@ -27,7 +27,7 @@ public partial class BodyDataPage : ContentPage
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
-        UpdateImtIndicatorPosition();
+        UpdateBmiIndicatorPosition();
     }
 
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -35,11 +35,11 @@ public partial class BodyDataPage : ContentPage
         if (e.PropertyName == nameof(BodyDataViewModel.BmiResult) ||
             e.PropertyName == nameof(BodyDataViewModel.IsFormValid))
         {
-            UpdateImtIndicatorPosition();
+            UpdateBmiIndicatorPosition();
         }
     }
 
-    private void UpdateImtIndicatorPosition()
+    private void UpdateBmiIndicatorPosition()
     {
         double imt = _viewModel.BmiResult?.Value ?? 0;
 

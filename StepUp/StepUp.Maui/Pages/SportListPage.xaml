@@ -1,10 +1,9 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
     xmlns:models="clr-namespace:StepUp.Domain.Entities;assembly=StepUp.Domain"
     xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
-    x:Class="StepUp.Maui.Views.SportListPage"
+    x:Class="StepUp.Maui.Pages.SportListPage"
     x:DataType="vm:SportListViewModel">
     <ScrollView>
         <Grid

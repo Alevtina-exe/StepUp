@@ -1,4 +1,4 @@
-﻿using StepUp.Maui.Views;
+﻿using StepUp.Maui.Pages;
 
 namespace StepUp.Maui;
 
@@ -10,9 +10,9 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
         Routing.RegisterRoute(nameof(BodyDataPage), typeof(BodyDataPage));
 
-        Routing.RegisterRoute(nameof(AddProductPage), typeof(AddProductPage));
+        Routing.RegisterRoute(nameof(SearchFoodItemPage), typeof(SearchFoodItemPage));
         Routing.RegisterRoute(nameof(ProductPage), typeof(ProductPage));
-        Routing.RegisterRoute(nameof(ViewMealPage), typeof(ViewMealPage));
+        Routing.RegisterRoute(nameof(MealListPage), typeof(MealListPage));
         Routing.RegisterRoute(nameof(SportListPage), typeof(SportListPage));
 
         Routing.RegisterRoute(nameof(GraphPage), typeof(GraphPage));

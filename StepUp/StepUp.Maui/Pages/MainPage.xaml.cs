@@ -1,7 +1,7 @@
 using Microsoft.Maui.Handlers;
 using StepUp.Maui.Utils;
 
-namespace StepUp.Maui.Views;
+namespace StepUp.Maui.Pages;
 
 public partial class MainPage : ContentPage
 {

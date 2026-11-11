@@ -90,7 +90,7 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
         catch (OperationCanceledException) { throw; }
     }
 
-    private static FoodProduct? MapProduct(JsonElement product, string barcode)
+    private FoodProduct? MapProduct(JsonElement product, string barcode)
     {
         if (!product.TryGetProperty("_id", out var id) ||
             string.IsNullOrWhiteSpace(id.GetString()) ||
@@ -112,7 +112,8 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
             brands: product.TryGetProperty("brands", out var brandsElement) ? brandsElement.GetString() : null,
             nutriscoreGrade: product.TryGetProperty("nutriscore_grade", out var nsg) ? nsg.GetString() : null,
             novaGroup: product.TryGetProperty("nova_group", out var nova) ? nova.GetString() : null,
-            imageUrl: product.TryGetProperty("image_url", out var image) ? image.GetString() : null,
+            imageUrl: product.TryGetProperty("image_url", out var image) ?
+                image.GetString() : $"{_httpClient.BaseAddress}/images/icons/dist/packaging.svg",
             sugars100g: ParseDouble(n, "sugars_100g")
         );
     }
@@ -197,4 +198,5 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
         }
         return null;
     }
+
 }

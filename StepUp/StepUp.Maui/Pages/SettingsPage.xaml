@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodels="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
     xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
-    x:Class="StepUp.Maui.Views.SettingsPage"
+    x:Class="StepUp.Maui.Pages.SettingsPage"
     x:DataType="viewmodels:SettingsViewModel" >
     <sv:SettingsView
         HasUnevenRows="true">

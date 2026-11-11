@@ -4,7 +4,7 @@ namespace StepUp.Maui.Converters;
 
 public class MacroRatioToColorConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not double ratio)
             return Colors.Gray;
@@ -25,7 +25,7 @@ public class MacroRatioToColorConverter : IValueConverter
         };
     }
 
-    private Color Interpolate(Color start, Color end, double progress)
+    private static Color Interpolate(Color start, Color end, double progress)
     {
         return new Color(
             (float)(start.Red + (end.Red - start.Red) * progress),
@@ -34,6 +34,6 @@ public class MacroRatioToColorConverter : IValueConverter
         );
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotImplementedException();
 }

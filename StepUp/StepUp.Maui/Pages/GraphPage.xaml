@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="StepUp.Maui.Views.GraphPage"
+    x:Class="StepUp.Maui.Pages.GraphPage"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
     Title="Прогресс"
@@ -92,22 +92,22 @@
                     HeightRequest="20"
                     ColumnDefinitions="10*,6*,5*,5*,4*">
                     <BoxView
-                        BackgroundColor="{StaticResource ImtDeficit}"
+                        BackgroundColor="{StaticResource BmiDeficit}"
                         Grid.Column="0" />
                     <BoxView
-                        BackgroundColor="{StaticResource ImtNormal}"
+                        BackgroundColor="{StaticResource BmiNormal}"
                         Grid.Column="1" />
                     <BoxView
-                        BackgroundColor="{StaticResource ImtOverweight}"
+                        BackgroundColor="{StaticResource BmiOverweight}"
                         Grid.Column="2" />
                     <BoxView
-                        BackgroundColor="{StaticResource ImtObese1}"
+                        BackgroundColor="{StaticResource BmiObese1}"
                         Grid.Column="3" />
                     <BoxView
-                        BackgroundColor="{StaticResource ImtObese2}"
+                        BackgroundColor="{StaticResource BmiObese2}"
                         Grid.Column="4" />
                     <BoxView
-                        BackgroundColor="{StaticResource ImtObese3}"
+                        BackgroundColor="{StaticResource BmiObese3}"
                         Grid.Column="5" />
                     <BoxView
                         x:Name="IMTIndicator"

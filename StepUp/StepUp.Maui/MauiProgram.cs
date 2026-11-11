@@ -8,7 +8,7 @@ using StepUp.Application.Interfaces.Services;
 using StepUp.Data;
 using StepUp.Infrastructure;
 using StepUp.Maui.Services;
-using StepUp.Maui.Views;
+using StepUp.Maui.Pages;
 using StepUp.Presentation;
 using StepUp.Presentation.Interfaces;
 using System.Reflection;
@@ -65,12 +65,12 @@ public static class MauiProgram
 		builder.Services.AddTransient<MainPage>();
 		builder.Services.AddTransient<SettingsPage>();
 
-		builder.Services.AddTransient<AddProductPage>();
+		builder.Services.AddTransient<SearchFoodItemPage>();
 		builder.Services.AddTransient<BarcodeScannerPage>();
 		builder.Services.AddTransient<EditAccountPage>();
 		builder.Services.AddTransient<GraphPage>();
 		builder.Services.AddTransient<ProductPage>();
-		builder.Services.AddTransient<ViewMealPage>();
+		builder.Services.AddTransient<MealListPage>();
 		builder.Services.AddTransient<SportListPage>();
 		
 

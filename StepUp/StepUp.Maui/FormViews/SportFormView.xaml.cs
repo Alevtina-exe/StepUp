@@ -1,4 +1,4 @@
-namespace StepUp.Maui.Popups;
+namespace StepUp.Maui.FormViews;
 
 public partial class SportFormView : ContentView
 {

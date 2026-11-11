@@ -2,7 +2,7 @@ using StepUp.Models;
 using System.Threading.Tasks;
 using StepUp.Maui.ModelViews;
 
-namespace StepUp.Maui.Views;
+namespace StepUp.Maui.Pages;
 
 public partial class ProductPage : ContentPage
 {

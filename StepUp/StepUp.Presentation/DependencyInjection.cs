@@ -7,11 +7,16 @@ namespace StepUp.Presentation
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services)
         {
-            services.AddTransient<RegistrationViewModel>();
-            services.AddTransient<LoginViewModel>();
+            services.AddTransient<AddFoodItemViewModel>();
             services.AddTransient<BodyDataViewModel>();
+            services.AddTransient<EditAccountViewModel>();
+            services.AddTransient<EditFoodItemViewModel>();
+            services.AddTransient<LoginViewModel>();
             services.AddTransient<MainViewModel>();
+            services.AddTransient<MealListViewModel>();
+            services.AddTransient<RegistrationViewModel>();
             services.AddTransient<SettingsViewModel>();
+            services.AddTransient<SportListViewModel>();
 
             return services;
         }
