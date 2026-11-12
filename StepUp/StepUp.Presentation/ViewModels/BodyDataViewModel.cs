@@ -8,13 +8,12 @@ using StepUp.Presentation.Models;
 
 namespace StepUp.Presentation.ViewModels;
 
-public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<RegisterRequest>
+public partial class BodyDataViewModel(
+    AuthService authService,
+    INavigationService navigationService,
+    IDialogService dialogService,
+    IClock clock) : ObservableObject, IParameterReceiver<RegisterRequest>
 {
-    private readonly AuthService _authService;
-    private readonly INavigationService _navigationService;
-    private readonly IDialogService _dialogService;
-    private readonly IClock _clock;
-
     private RegisterRequest? _request;
 
     [ObservableProperty]
@@ -27,6 +26,8 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
     private bool _isFormValid;
+    [ObservableProperty]
+    private bool _isPfcValid = true;
 
     [ObservableProperty]
     private string _weightInput = string.Empty;
@@ -58,18 +59,6 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
 
     [ObservableProperty]
     private int _caloriePlan;
-
-    public BodyDataViewModel(
-        AuthService authService,
-        INavigationService navigationService,
-        IDialogService dialogService,
-        IClock clock)
-    {
-        _authService = authService;
-        _navigationService = navigationService;
-        _dialogService = dialogService;
-        _clock = clock;
-    }
 
     public void ReceiveParameter(RegisterRequest request)
     {
@@ -117,10 +106,12 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         if (!validP || !validF || !validC || (p + f + c != 100))
         {
             IsFormValid = false;
+            IsPfcValid = false;
         }
         else
         {
             IsFormValid = true;
+            IsPfcValid = true;
         }
         ContinueCommand.NotifyCanExecuteChanged();
     }
@@ -148,8 +139,8 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
 
             try
             {
-                await _authService.RegisterAsync(_request);
-                await _navigationService.GoToPageAsync(AppRoutes.Main);
+                await authService.RegisterAsync(_request);
+                await navigationService.GoToPageAsync(AppRoutes.Main);
             }
             catch
             {
@@ -178,7 +169,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         ErrorMessageVisible = false;
         if (!IsStepTwo)
         {
-            await _navigationService.GoBackAsync();
+            await navigationService.GoBackAsync();
         }
         else
         {
@@ -193,7 +184,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         ErrorMessageVisible = false;
         var defaultKcal = CaloriePlan.ToString();
 
-        var input = await _dialogService.ShowPromptAsync("Введите желаемый калораж", "Значение не должно быть меньше 1300 ккал", defaultKcal);
+        var input = await dialogService.ShowPromptAsync("Введите желаемый калораж", "Значение не должно быть меньше 1300 ккал", defaultKcal);
 
         if (string.IsNullOrEmpty(input)) return;
 
@@ -203,7 +194,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
         }
         else
         {
-            await _dialogService.ShowAlertAsync("Ошибка", "Калораж введён неверно! Попробуйте снова.");
+            await dialogService.ShowAlertAsync("Ошибка", "Калораж введён неверно! Попробуйте снова.");
         }
     }
 
@@ -211,7 +202,7 @@ public partial class BodyDataViewModel : ObservableObject, IParameterReceiver<Re
     {
         if (_request is null) return 2000;
 
-        var today = _clock.Today;
+        var today = clock.Today;
         int age = today.Year - _request.BirthDate.Year;
         if (_request.BirthDate.Date > today.AddYears(-age)) age--;
 

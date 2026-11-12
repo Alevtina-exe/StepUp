@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:formviews="clr-namespace:StepUp.Maui.FormViews"
     x:Class="StepUp.Maui.Pages.AddFoodItemPage"
-             Title="AddFoodItemPage">
+    BackgroundColor="White">
 
     <formviews:FoodItemFormView
         x:Name="Form" 

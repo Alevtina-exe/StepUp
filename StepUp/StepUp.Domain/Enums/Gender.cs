@@ -4,7 +4,7 @@ namespace StepUp.Domain.Enums
 {
     public enum Gender
     {
-        [Description("мужской")]
+        [Description("Мужской")]
         Male,
 
         [Description("Женский")]

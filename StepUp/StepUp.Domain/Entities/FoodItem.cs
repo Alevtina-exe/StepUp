@@ -3,13 +3,14 @@ public class FoodItem
 {
     public Guid Id { get; }
     public Guid MealId { get; }
-    public string ProductId { get; }
-    public string Name { get; }
+    public string ProductId { get; } = null!;
+    public string Name { get; } = null!;
     public string? Barcode { get; }
     public double Amount { get; private set; }
-    public Serving Serving { get; private set; }
-    public Nutrients NutrientsPer100g { get; }
+    public Serving Serving { get; private set; } = null!;
+    public Nutrients NutrientsPer100g { get; } = null!;
 
+    private FoodItem() { }
     public FoodItem(
         string productId,
         Guid mealId,

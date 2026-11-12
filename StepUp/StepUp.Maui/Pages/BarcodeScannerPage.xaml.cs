@@ -1,11 +1,13 @@
-using CommunityToolkit.Mvvm.Messaging;
+using StepUp.Domain.Enums;
+using StepUp.Presentation.Constants;
 using ZXing.Net.Maui;
-using ZXing.Net.Maui.Controls;
-using ZXing.Net.Maui.Readers;
 
 namespace StepUp.Maui.Pages;
-public partial class BarcodeScannerPage : ContentPage
+public partial class BarcodeScannerPage : ContentPage, IQueryAttributable
 {
+    private DateTime? _date = null;
+    private MealType? _mealType = null;
+    
     public BarcodeScannerPage()
     {
         InitializeComponent();
@@ -23,24 +25,48 @@ public partial class BarcodeScannerPage : ContentPage
 #endif
     }
 
-    private void OnBarcodeDetected(object sender, BarcodeDetectionEventArgs e)
+    private async Task OnBarcodeDetected(object sender, BarcodeDetectionEventArgs e)
     {
         var first = e.Results?.FirstOrDefault();
         if (first is null) return;
 
-        Application.Current.Dispatcher.Dispatch(() =>
-        {
-            // Отправляем сообщение через WeakReferenceMessenger
-            WeakReferenceMessenger.Default.Send(first.Value);
+        barcodeView.IsDetecting = false;
 
-            // Закрываем страницу после успешного сканирования
-            Navigation.PopAsync();
-        });
+        if (_date == null || _mealType == null)
+        {
+            await Shell.Current.GoToAsync("..");
+            return;
+        }
+
+        await Shell.Current.GoToAsync(AppRoutes.SearchProduct,
+            new Dictionary<string, object>
+            {
+                {"Date", _date.Value },
+                {"MealType", _mealType.Value }
+            });
     }
 
 
-private void Button_Clicked(object sender, EventArgs e)
+    private void Button_Clicked(object sender, EventArgs e)
     {
         Navigation.PopAsync();
+    }
+
+    void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue("Date", out var d) && d is DateTime date)
+            _date = date;
+        if (query.TryGetValue("MealType", out var m) && m is MealType mt)
+            _mealType = mt;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if(_date == null || _mealType == null)
+        {
+            await Shell.Current.GoToAsync("..");
+            return;
+        }
     }
 }

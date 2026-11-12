@@ -61,7 +61,8 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     [ObservableProperty]
     public int _kcalEaten = 0;
 
-    public int KcalRes => CaloriePlan - KcalEaten + KcalBurnt;
+    [ObservableProperty]
+    private int _kcalRes = 0;
 
 
     [ObservableProperty]
@@ -107,18 +108,22 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     [ObservableProperty]
     public double _totalCarbon = 0;
 
-    private double MaxProtein => MacroCalculator.CalculateProteinGrams(CaloriePlan + KcalBurnt, _user.ProteinPercent);
-    private double MaxFat => MacroCalculator.CalculateFatGrams(CaloriePlan + KcalBurnt, _user.FatPercent);
-    private double MaxCarbon => MacroCalculator.CalculateCarbonGrams(CaloriePlan + KcalBurnt, _user.CarbonPercent);
+    private double MaxProtein => MacroCalculator.CalculateProteinGrams(CaloriePlan + KcalBurnt, _user?.ProteinPercent ?? 0);
+    private double MaxFat => MacroCalculator.CalculateFatGrams(CaloriePlan + KcalBurnt, _user?.FatPercent ?? 0);
+    private double MaxCarbon => MacroCalculator.CalculateCarbonGrams(CaloriePlan + KcalBurnt, _user?.CarbonPercent ?? 0);
 
 
     public string ProteinString => $"{TotalProtein:F1} / {MaxProtein:F1} г";
     public string FatString => $"{TotalFat:F1} / {MaxFat:F1} г";
     public string CarbonString => $"{TotalCarbon:F1} / {MaxCarbon:F1} г";
 
-    public double PrProgress => MaxProtein > 0 ? TotalProtein / MaxProtein : 0;
-    public double FatProgress => MaxFat > 0 ? TotalFat / MaxFat : 0;
-    public double CbProgress => MaxCarbon > 0 ? TotalCarbon / MaxCarbon : 0;
+
+    [ObservableProperty]
+    private double _prProgress = 0;
+    [ObservableProperty]
+    private double _fatProgress = 0;
+    [ObservableProperty]
+    private double _cbProgress = 0;
     public double KcalProgress => (double)(KcalEaten > KcalBurnt ? KcalEaten - KcalBurnt : 0) / CaloriePlan;
 
     private void RefreshMeals()
@@ -153,12 +158,12 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
 
     private void RefreshProgress()
     {
-        OnPropertyChanged(nameof(KcalRes));
+        KcalRes = CaloriePlan - KcalEaten + KcalBurnt;
         OnPropertyChanged(nameof(KcalProgress));
 
-        OnPropertyChanged(nameof(PrProgress));
-        OnPropertyChanged(nameof(FatProgress));
-        OnPropertyChanged(nameof(CbProgress));
+        PrProgress = MaxProtein > 0 ? TotalProtein / MaxProtein : 0;
+        FatProgress = MaxFat > 0 ? TotalFat / MaxFat : 0;
+        CbProgress = MaxCarbon > 0 ? TotalCarbon / MaxCarbon : 0;
 
         OnPropertyChanged(nameof(MaxProtein));
         OnPropertyChanged(nameof(MaxFat));
@@ -200,7 +205,7 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     {
         var parameters = new Dictionary<string, object>
         {
-            { "Date", CurrDayRes },
+            { "Date", CurrDayRes.Date },
             { "MealType", mealType }
         };
         await nav.GoToPageAsync(AppRoutes.ViewMeal, parameters);
@@ -213,7 +218,7 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
             { "Date", CurrDayRes },
             { "MealType", mealType }
         };
-        await nav.GoToPageAsync(AppRoutes.AddProduct, parameters);
+        await nav.GoToPageAsync(AppRoutes.SearchProduct, parameters);
     }
     [RelayCommand]
     private async Task HandleMenuSelectionAsync(int type)

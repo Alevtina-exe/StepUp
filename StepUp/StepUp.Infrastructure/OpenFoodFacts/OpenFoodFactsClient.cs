@@ -92,16 +92,14 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
 
     private FoodProduct? MapProduct(JsonElement product, string barcode)
     {
-        if (!product.TryGetProperty("_id", out var id) ||
-            string.IsNullOrWhiteSpace(id.GetString()) ||
-            !product.TryGetProperty("nutriments", out var n))
+        if (!product.TryGetProperty("nutriments", out var n))
             return null;
         var calories = ParseDouble(n, "energy-kcal_100g");
         if (calories <= 0)
             return null;
         return new FoodProduct
         (
-            id: id.GetString() ?? barcode,
+            id: barcode ?? Guid.NewGuid().ToString(),
             name: product.TryGetProperty("product_name", out var name) ? name.GetString() : null,
             barcode: barcode,
             nutrientsPer100g: new Nutrients(calories,

@@ -6,13 +6,13 @@
     <Grid>
         <BoxView
             Color="#40000000" />
-        <Frame
+        <Border
             HorizontalOptions="Center"
             VerticalOptions="Center"
             Padding="0"
             BackgroundColor="Transparent"
-            BorderColor="White"
-            CornerRadius="0"
+            Stroke="White"
+            StrokeShape="Rectangle"
             HeightRequest="175"
             WidthRequest="300">
             <zxing:CameraBarcodeReaderView
@@ -22,14 +22,14 @@
                 HeightRequest="175"
                 WidthRequest="300"
                 BackgroundColor="Transparent" />
-        </Frame>
-        <Frame
+        </Border>
+        <Border
             HorizontalOptions="Center"
             VerticalOptions="Center"
             Padding="0"
             BackgroundColor="Transparent"
-            BorderColor="{StaticResource Primary}"
-            CornerRadius="0"
+            Stroke="{StaticResource Primary}"
+            StrokeShape="Rectangle"
             HeightRequest="125"
             WidthRequest="250" />
         <Label

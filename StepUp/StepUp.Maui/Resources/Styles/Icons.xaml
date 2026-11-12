@@ -119,9 +119,9 @@
         </x:Arguments>
     </ImageSource>
 
-    <ImageSource x:Key="ЕуеSlash" x:FactoryMethod="FromFile">
+    <ImageSource x:Key="ЕуеOff" x:FactoryMethod="FromFile">
         <x:Arguments>
-            <x:String>eye_slash.svg</x:String>
+            <x:String>eye_off.svg</x:String>
         </x:Arguments>
     </ImageSource>
 

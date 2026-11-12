@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:StepUp.Presentation.BaseViewModels;assembly=StepUp.Presentation"
+    xmlns:controls="clr-namespace:StepUp.Maui.Controls"
     x:Class="StepUp.Maui.FormViews.FoodItemFormView"
     x:DataType="vm:FoodItemBaseViewModel">
     <Grid
@@ -47,12 +48,14 @@
                             Spacing="10">
                             <Grid
                                 ColumnDefinitions="Auto,*">
-                                <Grid
-                                    x:Name="grid"
-                                    Grid.Column="0"
-                                    ColumnDefinitions="*"
+                                
+                                <controls:MacroPieChart
+                                    ProteinPercent="{Binding ProteinPercent}"
+                                    FatPercent="{Binding FatPercent}"
+                                    CarbonPercent="{Binding CarbonPercent}"
                                     WidthRequest="140"
                                     HeightRequest="140" />
+
                                 <VerticalStackLayout
                                     VerticalOptions="Center"
                                     HorizontalOptions="Center"
@@ -62,7 +65,7 @@
                                         FontFamily="impact"
                                         FontSize="36"
                                         TextColor="{StaticResource NutriKcal}"
-                                        Text="{Binding TotalKcal, StringFormat='{0} ккал'}" />
+                                        Text="{Binding TotalNutrients.Calories, StringFormat='{0} ккал'}" />
                                     <ProgressBar
                                         Progress="{Binding Progress}"
                                         HeightRequest="5"
@@ -92,7 +95,7 @@
                                         HeightRequest="5"
                                         StrokeShape="RoundRectangle 10" />
                                     <Label
-                                        Text="{Binding TotalProtein,
+                                        Text="{Binding TotalNutrients.Proteins,
                                         StringFormat='Белки: {0:F1} г'}" />
                                 </StackLayout>
                                 <StackLayout
@@ -105,7 +108,7 @@
                                         HeightRequest="10"
                                         StrokeShape="RoundRectangle 10" />
                                     <Label
-                                        Text="{Binding TotalFat,
+                                        Text="{Binding TotalNutrients.Fat,
                                         StringFormat='Жиры: {0:F1} г'}" />
                                 </StackLayout>
                                 <StackLayout
@@ -118,7 +121,7 @@
                                         HeightRequest="10"
                                         StrokeShape="RoundRectangle 10" />
                                     <Label
-                                        Text="{Binding TotalCarbon,
+                                        Text="{Binding TotalNutrients.Carbohydrates,
                                         StringFormat='Углеводы: {0:F1} г'}" />
                                 </StackLayout>
                             </StackLayout>
@@ -180,8 +183,7 @@
                                 Text="{Binding Amount, Mode=TwoWay}"
                                 FontSize="20"
                                 VerticalTextAlignment="End"
-                                HorizontalTextAlignment="Center"
-                                TextChanged="Entry_TextChanged" />
+                                HorizontalTextAlignment="Center" />
                         </Border>
                         <Picker
                             SelectedItem="{Binding SelectedServing, Mode=TwoWay}"
@@ -199,6 +201,7 @@
                     <Button
                         Text="{Binding SaveButtonText}"
                         Command="{Binding SaveCommand}"
+                        IsEnabled="{Binding IsSaveButtonActive}"
                         HorizontalOptions="Fill"
                         CornerRadius="20" />
                     <Button

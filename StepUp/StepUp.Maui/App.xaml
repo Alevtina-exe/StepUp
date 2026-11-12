@@ -28,6 +28,8 @@
                         x:Key="NutriscoreToImage" />
                     <converters:NovaGroupToImageConverter
                         x:Key="NovaToImage" />
+                    <converters:BoolToGreenRedConverter
+                        x:Key="BoolToGreenRed" />
                 </ResourceDictionary>
 
                 <ResourceDictionary>

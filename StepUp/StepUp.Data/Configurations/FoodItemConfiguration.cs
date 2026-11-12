@@ -14,7 +14,6 @@ namespace StepUp.Data.Configurations
                 t.HasCheckConstraint("ck_food_items_name", "length(trim(name)) > 0");
                 t.HasCheckConstraint("ck_food_items_serving_name", "length(trim(serving_name)) > 0");
                 t.HasCheckConstraint("ck_food_items_serving_quantity", "serving_quantity > 0");
-                t.HasCheckConstraint("ck_food_items_serving_density", "serving_density IS NULL OR serving_density > 0");
                 t.HasCheckConstraint("ck_food_items_kcal_100g", "kcal_100g    >= 0");
                 t.HasCheckConstraint("ck_food_items_protein_100g", "protein_100g >= 0");
                 t.HasCheckConstraint("ck_food_items_fat_100g", "fat_100g     >= 0");

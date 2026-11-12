@@ -47,6 +47,8 @@ public static class MauiProgram
 
         builder.Configuration.AddJsonStream(stream);
 
+        builder.Services.AddSingleton<AppShell>();
+
         var dbPath = Path.Combine(FileSystem.AppDataDirectory, "stepup.db");
         builder.Services.AddData(dbPath);
 
@@ -59,19 +61,21 @@ public static class MauiProgram
         builder.Services.AddSingleton<IDialogService, MauiDialogService>();
         builder.Services.AddSingleton<IPopupFactory, MauiPopupFactory>();
 
-        builder.Services.AddTransient<RegistrationPage>();
+
+        builder.Services.AddTransient<AddFoodItemPage>();
+		builder.Services.AddTransient<BarcodeScannerPage>();
 		builder.Services.AddTransient<BodyDataPage>();
+		builder.Services.AddTransient<EditAccountPage>();
+        builder.Services.AddTransient<EditFoodItemPage>();
 		builder.Services.AddTransient<LoginPage>();
 		builder.Services.AddTransient<MainPage>();
-		builder.Services.AddTransient<SettingsPage>();
-
-		builder.Services.AddTransient<SearchFoodItemPage>();
-		builder.Services.AddTransient<BarcodeScannerPage>();
-		builder.Services.AddTransient<EditAccountPage>();
-		builder.Services.AddTransient<GraphPage>();
-		builder.Services.AddTransient<ProductPage>();
 		builder.Services.AddTransient<MealListPage>();
+        builder.Services.AddTransient<RegistrationPage>();
+		builder.Services.AddTransient<SearchProductPage>();
+		builder.Services.AddTransient<SettingsPage>();
 		builder.Services.AddTransient<SportListPage>();
+
+		builder.Services.AddTransient<GraphPage>();
 		
 
 #if DEBUG

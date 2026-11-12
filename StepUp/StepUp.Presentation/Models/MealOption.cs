@@ -15,5 +15,8 @@ namespace StepUp.Presentation.Models
 
         public static IReadOnlyList<MealOption> All { get; } =
             [Breakfast, Lunch, Dinner, Snack];
+
+        public override string ToString() => $"{Name}";
+
     }
 }

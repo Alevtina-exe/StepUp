@@ -29,7 +29,7 @@ namespace StepUp.Presentation.ViewModels
         [ObservableProperty]
         private string _errorMessage = string.Empty;
         [ObservableProperty]
-        private string _eyeIcon = "eye.png";
+        private string _eyeIcon = "eye.svg";
 
 
         partial void OnEmailChanged(string value)
@@ -82,7 +82,7 @@ namespace StepUp.Presentation.ViewModels
         private void TogglePasswordVisibility()
         {
             IsPasswordReadable = !IsPasswordReadable;
-            EyeIcon = IsPasswordReadable ? "eye_off.png" : "eye.png";
+            EyeIcon = IsPasswordReadable ? "eye_off.svg" : "eye.svg";
         }
 
         [RelayCommand]

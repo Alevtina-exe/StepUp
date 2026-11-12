@@ -1,10 +1,11 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:models="clr-namespace:StepUp.Maui.Models"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Class="StepUp.Maui.Pages.SearchFoodItemPage"
-    BindingContext="{Binding ProductBaseModelView, Source={RelativeSource Self}}">
+    xmlns:models="clr-namespace:StepUp.Domain.Entities;assembly=StepUp.Domain"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Pages.SearchProductPage"
+    x:DataType="vm:SearchFoodItemViewModel">
+    
     <Grid
         Padding="10"
         RowDefinitions="Auto, *">
@@ -22,47 +23,51 @@
                 Source="search_button.png"
                 WidthRequest="40"
                 HeightRequest="40"
-                Clicked="Button_Clicked"
                 Grid.Column="1" />
             <ImageButton
-                Command="{Binding ReadBarcodeCommand}"
+                Command="{Binding GoToBarcodeScannerCommand}"
                 Source="barcode_scanner.png"
                 WidthRequest="40"
                 HeightRequest="40"
-                Clicked="Button_Clicked"
                 Grid.Column="2" />
         </Grid>
-        <ListView
-            ItemsSource="{Binding SearchResults}"
-            Grid.Row="1"
-            RowHeight="80"
-            ItemTapped="ListView_ItemTapped"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
+        <CollectionView
+            ItemsSource="{Binding Products}"
+            Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="models:FoodProduct">
+                    <Border
+                        HeightRequest="80">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource 
+                                AncestorType={x:Type vm:SearchFoodItemViewModel}}, 
+                                Path=GoToAddProductCommand}"/>
+                        </Border.GestureRecognizers>
                         <Grid
                             ColumnDefinitions="*,*"
                             Padding="20"
                             HeightRequest="100">
                             <Label
-                                Text="{Binding NameForSearch}"
+                                Text="{Binding Name}"
                                 FontSize="20"
                                 VerticalTextAlignment="Center"
                                 FontAttributes="Bold"
                                 Grid.Column="0" />
                             <Label
-                                Text="{Binding Kcal}"
+                                Text="{Binding NutrientsPer100g.Calories}"
                                 FontSize="20"
                                 HorizontalTextAlignment="End"
                                 TextColor="Gray"
                                 Grid.Column="1"
                                 VerticalTextAlignment="Center" />
                         </Grid>
-                    </ViewCell>
+                    </Border>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!-- 
         <Label
             x:Name="favDishes"
             Grid.Row="1"
@@ -78,7 +83,7 @@
                 <TapGestureRecognizer
                     Tapped="TapGestureRecognizer_Tapped" />
             </Label.GestureRecognizers>
-        </Label>
+        </Label> -->
         <Label
             x:Name="SearchError"
             Text="Результаты не найдены"
@@ -86,6 +91,6 @@
             Grid.Row="1"
             HorizontalTextAlignment="Center"
             Margin="0,30,10,0"
-            IsVisible="{Binding IsVisible}" />
+            IsVisible="{Binding SearchErrorVisible}" /> 
     </Grid>
 </ContentPage>

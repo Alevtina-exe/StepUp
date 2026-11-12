@@ -20,9 +20,9 @@ namespace StepUp.Presentation.ViewModels
 
 
         [ObservableProperty]
-        private string _eyeIcon = "eye.png";
+        private string _eyeIcon = "eye.svg";
         [ObservableProperty]
-        private string _checkEyeIcon = "eye.png";
+        private string _checkEyeIcon = "eye.svg";
 
 
         [ObservableProperty]
@@ -101,7 +101,7 @@ namespace StepUp.Presentation.ViewModels
             value != Password;
 
         [RelayCommand(CanExecute = nameof(CanContinue), AllowConcurrentExecutions = false)]
-        private async Task Continue()
+        private async Task ContinueAsync()
         {
             try
             {
@@ -140,14 +140,14 @@ namespace StepUp.Presentation.ViewModels
         private void TogglePasswordVisibility()
         {
             IsPasswordReadable = !IsPasswordReadable;
-            EyeIcon = IsPasswordReadable ? "eye_off.png" : "eye.png";
+            EyeIcon = IsPasswordReadable ? "eye_off.svg" : "eye.svg";
         }
 
         [RelayCommand]
         private void ToggleCheckPasswordVisibility()
         {
             IsCheckPasswordReadable = !IsCheckPasswordReadable;
-            CheckEyeIcon = IsCheckPasswordReadable ? "eye_off.png" : "eye.png";
+            CheckEyeIcon = IsCheckPasswordReadable ? "eye_off.svg" : "eye.svg";
         }
     }
 }

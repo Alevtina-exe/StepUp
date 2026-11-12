@@ -142,7 +142,7 @@
                         Grid.Column="1"
                         Keyboard="Numeric"
                         HorizontalTextAlignment="Center"
-                        TextColor="Green" />
+                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
                     <Label
                         Text="%"
                         Grid.Column="2"
@@ -161,7 +161,7 @@
                         Grid.Row="1"
                         Keyboard="Numeric"
                         HorizontalTextAlignment="Center"
-                        TextColor="Green" />
+                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
                     <Label
                         Text="%"
                         Grid.Column="2"
@@ -180,7 +180,7 @@
                         Grid.Row="2"
                         Keyboard="Numeric"
                         HorizontalTextAlignment="Center"
-                        TextColor="Green" />
+                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
                     <Label
                         Text="%"
                         Grid.Column="2"

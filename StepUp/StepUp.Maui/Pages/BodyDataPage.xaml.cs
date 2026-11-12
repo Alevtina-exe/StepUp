@@ -1,27 +1,36 @@
-﻿namespace StepUp.Maui.Pages;
+﻿using StepUp.Application.Models;
 
-public partial class BodyDataPage : ContentPage
+namespace StepUp.Maui.Pages;
+
+public partial class BodyDataPage : ContentPage, IQueryAttributable
 {
-    private readonly BodyDataViewModel _viewModel;
+    private readonly BodyDataViewModel _vm;
 
     public BodyDataPage(BodyDataViewModel vm)
     {
         InitializeComponent();
-        _viewModel = vm;
-        BindingContext = _viewModel;
+        _vm = vm;
+        BindingContext = _vm;
         NavigationPage.SetHasNavigationBar(this, false);
+    }
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue("Request", out var r) && r is RegisterRequest request)
+        {
+            _vm.ReceiveParameter(request);
+        }
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+        _vm.PropertyChanged += ViewModel_PropertyChanged;
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+        _vm.PropertyChanged -= ViewModel_PropertyChanged;
     }
 
     protected override void OnSizeAllocated(double width, double height)
@@ -41,9 +50,9 @@ public partial class BodyDataPage : ContentPage
 
     private void UpdateBmiIndicatorPosition()
     {
-        double imt = _viewModel.BmiResult?.Value ?? 0;
+        double imt = _vm.BmiResult?.Value ?? 0;
 
-        if (MyGrid.Width <= 0 || !_viewModel.IsFormValid)
+        if (MyGrid.Width <= 0 || !_vm.IsFormValid)
         {
             IMTIndicator.IsVisible = false;
             return;

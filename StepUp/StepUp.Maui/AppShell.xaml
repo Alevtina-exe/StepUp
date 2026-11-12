@@ -8,11 +8,11 @@
     NavBarIsVisible="False">
 
     <ShellContent
-        Route="MainPage"
-        ContentTemplate="{DataTemplate local:MainPage}" />
-
-    <ShellContent
         Route="LoginPage"
         ContentTemplate="{DataTemplate local:LoginPage}" />
+    
+    <ShellContent
+        Route="MainPage"
+        ContentTemplate="{DataTemplate local:MainPage}" />
 
 </Shell>

@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-android</TargetFrameworks>
 
-		<OutputType>Exe</OutputType>
+    <OutputType>Exe</OutputType>
 		<RootNamespace>StepUp.Maui</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
@@ -24,11 +24,17 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|AnyCPU'">
 	  <ApplicationId>com.DaryaO.StepUp</ApplicationId>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType>None</AndroidFastDeploymentType>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+    <RuntimeIdentifiers>android-arm64;android-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|AnyCPU'">
 	  <ApplicationId>com.DaryaO.StepUp</ApplicationId>
 	</PropertyGroup>
   <PropertyGroup>
@@ -68,6 +74,10 @@
 	  <MauiXaml Remove="Resources\Pictures\**" />
 	  <None Remove="Raw\**" />
 	  <None Remove="Resources\Pictures\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Platforms\Android\Services\DailyStepCounter.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -113,8 +123,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Pages\SearchFoodItemPage.xaml.cs">
-	    <DependentUpon>SearchFoodItemPage.xaml</DependentUpon>
+	  <Compile Update="Pages\SearchProductPage.xaml.cs">
+	    <DependentUpon>SearchProductPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages\BarcodeScannerPage.xaml.cs">
 	    <DependentUpon>BarcodeScannerPage.xaml</DependentUpon>
@@ -150,7 +160,7 @@
 	  <MauiXaml Update="Pages\EditFoodItemPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\SearchFoodItemPage.xaml">
+	  <MauiXaml Update="Pages\SearchProductPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\BarcodeScannerPage.xaml">
@@ -163,9 +173,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Popups\MenuBar.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ProductPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\MealListPage.xaml">
@@ -184,6 +191,7 @@
 
 
 	<ItemGroup>
+	  <Folder Include="Platforms\Android\Services\" />
 	  <Folder Include="Resources\Layout\" />
 	</ItemGroup>
 
