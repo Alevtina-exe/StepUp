@@ -57,12 +57,6 @@ public partial class MainPage : ContentPage
             animationName: "AnimKcalBurnt"
         );
 
-        AnimateInt(
-            targetValue: _vm.KcalRes,
-            setter: v => _vm.KcalRes = v,
-            animationName: "AnimKcalRes"
-        );
-
         AnimateMacros();
         AnimateKcalCircle();
     }
@@ -124,8 +118,9 @@ public partial class MainPage : ContentPage
 
     private void AnimateKcalCircle()
     {
-        double targetProgress = _vm.KcalProgress;
+        double targetProgress = 1 - _vm.KcalProgress;
         int targetKcalRes = _vm.KcalRes;
+
 
         Arc.Point = new Point(70, 0);
         Arc.IsLargeArc = false;
@@ -136,7 +131,7 @@ public partial class MainPage : ContentPage
         var animation = new Animation(
             callback: v =>
             {
-                double currentProgress = v * targetProgress;
+                double currentProgress = Math.Min(v * targetProgress, 0.9999);
 
                 double angle = (Math.PI * 2 * currentProgress) - (Math.PI / 2);
                 double x = 70 + 70 * Math.Cos(angle);
@@ -146,7 +141,7 @@ public partial class MainPage : ContentPage
                 Arc.IsLargeArc = currentProgress > 0.5;
                 Arc.SweepDirection = SweepDirection.Clockwise;
 
-                var currentColor = ColorInterpolator.GetColor(currentProgress);
+                var currentColor = ColorInterpolator.GetColor(1 - currentProgress);
                 progressBar.Stroke = new SolidColorBrush(currentColor);
                 KcalResLabel.TextColor = currentColor;
                 KcalLeft.TextColor = currentColor;

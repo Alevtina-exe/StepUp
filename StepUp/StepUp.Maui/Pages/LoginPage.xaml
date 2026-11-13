@@ -25,9 +25,7 @@
             Style="{StaticResource ErrorLabel}"
             IsVisible="{Binding EmailErrorVisible}" />
 
-        <Grid
-            ColumnSpacing="5"
-            ColumnDefinitions="*, 30">
+        <Grid >
 
             <Entry
                 x:Name="PasswordEntry"
@@ -39,9 +37,9 @@
                 x:Name="ShowPasswordButton"
                 Source="{Binding EyeIcon}"
                 HeightRequest="30"
-                Margin="2"
-                VerticalOptions="Fill"
-                HorizontalOptions="Center"
+                Padding="10"
+                Margin="0,0,-5,0"
+                HorizontalOptions="End"
                 Command="{Binding TogglePasswordVisibilityCommand}"
                 BackgroundColor="Transparent"
                 Grid.Column="1" />

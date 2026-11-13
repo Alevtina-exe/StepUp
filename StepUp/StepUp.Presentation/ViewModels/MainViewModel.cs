@@ -17,7 +17,7 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
         {
             _user = await user.GetOrLoadAsync();
             CurrDayRes = await dayService.GetOrCreateTodayAsync();
-            MinDate = _user.RegistrationDate.Date;
+            MinDate = _user.BirthDate.Date;
         }
         catch (Exception ex)
         {
@@ -221,7 +221,7 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
         await nav.GoToPageAsync(AppRoutes.SearchProduct, parameters);
     }
     [RelayCommand]
-    private async Task HandleMenuSelectionAsync(int type)
+    private async Task GoToMenuAsync()
     {
         var action = await dialog.ShowPopupAsync(popup.CreateMenuBarPopup());
 

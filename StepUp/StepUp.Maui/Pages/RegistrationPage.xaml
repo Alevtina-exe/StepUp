@@ -7,7 +7,7 @@
     x:DataType="vm:RegistrationViewModel">
 
     <VerticalStackLayout
-        Padding="30"
+        Padding="30,20"
         Spacing="15">
 
         <Label
@@ -31,29 +31,26 @@
         <Label
             x:Name="LoginErrorLabel"
             Text="Неверный формат почты."
+            Margin="5,-12,0,0"
             Style="{StaticResource ErrorLabel}"
             IsVisible="{Binding EmailErrorVisible}" />
 
-        <Grid
-            ColumnSpacing="5"
-            ColumnDefinitions="*, 30">
+        <Grid>
 
             <Entry
                 x:Name="PasswordEntry"
                 Placeholder="Пароль"
                 IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
-                Text="{Binding Password, Mode=TwoWay}"
-                Grid.Column="0" />
+                Text="{Binding Password, Mode=TwoWay}" />
             <ImageButton
                 x:Name="ShowPasswordButton"
                 Source="{Binding EyeIcon}"
-                HeightRequest="30"
-                Margin="2"
-                VerticalOptions="Fill"
-                HorizontalOptions="Center"
+                WidthRequest="30"
+                Padding="10"
+                Margin="0,0,-5,0"
+                HorizontalOptions="End"
                 Command="{Binding TogglePasswordVisibilityCommand}"
-                BackgroundColor="Transparent"
-                Grid.Column="1" />
+                BackgroundColor="Transparent" />
         </Grid>
         <Label
             x:Name="PasswordCheckErrorLabel"
@@ -61,26 +58,22 @@
             Style="{StaticResource ErrorLabel}"
             IsVisible="{Binding PasswordErrorVisible}" />
 
-        <Grid
-            ColumnSpacing="5"
-            ColumnDefinitions="*,30">
-
+        <Grid>
             <Entry
                 x:Name="CheckPasswordEntry"
                 Placeholder="Повторите пароль"
                 IsPassword="{Binding IsCheckPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
-                Text="{Binding CheckPassword, Mode=TwoWay}"
-                Grid.Column="0" />
+                Text="{Binding CheckPassword, Mode=TwoWay}" />
             <ImageButton
                 x:Name="ShowCheckPasswordButton"
                 Source="{Binding CheckEyeIcon}"
                 Command="{Binding ToggleCheckPasswordVisibilityCommand}"
                 HeightRequest="30"
-                Margin="2"
-                VerticalOptions="Fill"
-                HorizontalOptions="Center"
-                BackgroundColor="Transparent"
-                Grid.Column="1" />
+                WidthRequest="30"
+                Padding="10"
+                Margin="0,0,-5,0"
+                HorizontalOptions="End"
+                BackgroundColor="Transparent" />
         </Grid>
         <Label
             x:Name="PasswordErrorLabel"
