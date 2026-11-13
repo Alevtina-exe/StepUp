@@ -124,16 +124,13 @@
     </Style>
 
     <Style
-        TargetType="Frame">
+        TargetType="Border">
         <Setter
-            Property="HasShadow"
-            Value="False" />
-        <Setter
-            Property="BorderColor"
+            Property="Stroke"
             Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter
-            Property="CornerRadius"
-            Value="8" />
+            Property="StrokeShape"
+            Value="RoundRectangle 8" />
     </Style>
 
     <Style

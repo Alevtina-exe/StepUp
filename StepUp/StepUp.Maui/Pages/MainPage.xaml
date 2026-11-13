@@ -89,22 +89,23 @@
                                 WidthRequest="150"
                                 HeightRequest="150"
                                 Stroke="LightGray"
-                                StrokeThickness="10" />
+                                StrokeThickness="16" />
+
                             <Path
                                 x:Name="progressBar"
                                 WidthRequest="150"
                                 HeightRequest="150"
                                 Fill="Transparent"
-                                StrokeThickness="10"
+                                StrokeThickness="16"
                                 Stroke="Green">
                                 <Path.Data>
                                     <PathGeometry>
                                         <PathFigure
-                                            StartPoint="70,0">
+                                            StartPoint="0,67">
                                             <ArcSegment
                                                 x:Name="Arc"
-                                                Point="70,0"
-                                                Size="70,70"
+                                                Point="0,67"
+                                                Size="67,67"
                                                 IsLargeArc="False"
                                                 SweepDirection="Clockwise" />
                                         </PathFigure>
@@ -439,13 +440,12 @@
         </ScrollView>
 
         <Border
-            Grid.Row="0"
             VerticalOptions="End"
             HorizontalOptions="Fill"
             Padding="0"
+            Stroke="Transparent"
             BackgroundColor="Transparent">
             <Grid
-                x:Name="MyGrid"
                 ColumnDefinitions="*,*,*"
                 ColumnSpacing="0"
                 VerticalOptions="Fill"
@@ -470,7 +470,7 @@
                     Grid.Column="1"
                     Source="{StaticResource IconAdd}"
                     Style="{StaticResource ActionButton}"
-                    Command="{Binding HandleMenuSelectionCommand}" />
+                    Command="{Binding GoToMenuCommand}" />
                 <ImageButton
                     x:Name="SettingsBtn"
                     Grid.Column="2"
