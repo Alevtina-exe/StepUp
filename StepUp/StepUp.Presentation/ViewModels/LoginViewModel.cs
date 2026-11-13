@@ -51,7 +51,7 @@ namespace StepUp.Presentation.ViewModels
             ErrorMessageVisible = false;
             try
             {
-                await auth.LoginAsync(Email, Password);
+                await auth.LoginAsync(Email.Trim(), Password.Trim());
                 await nav.GoToPageAsync(AppRoutes.Main);
             }
             catch (UserNotFoundException) 
@@ -71,7 +71,7 @@ namespace StepUp.Presentation.ViewModels
         }
 
         private void ValidateEmail(string value) => EmailErrorVisible = !string.IsNullOrWhiteSpace(value) &&
-            !Regex.IsMatch(value, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+            !Regex.IsMatch(value.Trim(), @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
         private bool CanLogin()
         {
             return !string.IsNullOrWhiteSpace(Email) && !EmailErrorVisible &&

@@ -92,9 +92,9 @@ namespace StepUp.Presentation.ViewModels
 
 
         private void ValidateUsername(string value) => NameErrorVisible = !string.IsNullOrWhiteSpace(value) && 
-            !Regex.IsMatch(value, @"^[a-zA-Zа-яА-ЯёЁ _]{1,20}$");
+            !Regex.IsMatch(value.Trim(), @"^[a-zA-Zа-яА-ЯёЁ _]{1,20}$");
         private void ValidateEmail(string value) => EmailErrorVisible = !string.IsNullOrWhiteSpace(value) && 
-            !Regex.IsMatch(value, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+            !Regex.IsMatch(value.Trim(), @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
         private void ValidatePassword(string value) => PasswordErrorVisible = !string.IsNullOrWhiteSpace(value) &&
             !PasswordPolicy.IsValid(value);
         private void ValidateCheckPassword(string value) => CheckPasswordErrorVisible = !string.IsNullOrWhiteSpace(value) &&
@@ -119,9 +119,9 @@ namespace StepUp.Presentation.ViewModels
             }
             var request = new RegisterRequest
             {
-                Name = Name,
-                Email = Email,
-                Password = Password,
+                Name = Name.Trim(),
+                Email = Email.Trim(),
+                Password = Password.Trim(),
                 BirthDate = BirthDate,
                 Gender = Gender.Value
             };
