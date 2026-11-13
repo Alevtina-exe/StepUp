@@ -11,6 +11,7 @@ public class DayResultRepository(AppDbContext db) : IDayResultRepository
         _db.DayResults
             .Include(d => d.Meals).ThenInclude(m => m.Items)
             .Include(d => d.Sports)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(d => d.UserId == userId && d.Date == date.Date, ct);
 
     public Task<bool> ExistsAsync(Guid userId, DateTime date, CancellationToken ct = default) =>

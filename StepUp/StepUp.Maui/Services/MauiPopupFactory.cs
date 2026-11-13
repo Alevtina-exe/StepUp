@@ -16,7 +16,7 @@ namespace StepUp.Maui.Services
         IPopup<SportResult?> IPopupFactory.CreateEditSportPopup(string originalName, int kcal) =>
             new EditSportPopup(originalName, kcal);
 
-        IPopup<MenuAction?> IPopupFactory.CreateMenuBarPopup() =>
+        IPopup<MenuAction> IPopupFactory.CreateMenuBarPopup() =>
             new Popups.MenuBar();
     }
 }

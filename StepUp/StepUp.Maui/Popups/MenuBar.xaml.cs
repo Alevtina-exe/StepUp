@@ -1,11 +1,10 @@
 using CommunityToolkit.Maui.Views;
 using StepUp.Presentation.Enums;
 using StepUp.Presentation.Interfaces;
-using StepUp.Presentation.Models;
 
 namespace StepUp.Maui.Popups
 {
-    public partial class MenuBar : Popup<MenuAction>, IPopup<MenuAction?>
+    public partial class MenuBar : Popup<MenuAction>, IPopup<MenuAction>
     {
         public MenuBar() => InitializeComponent();
 

@@ -6,37 +6,33 @@ using StepUp.Domain.Enums;
 namespace StepUp.Application.Services;
 
 public class DayResultService(IDayResultRepository dayResults,
-                        ICurrentUserProvider currentUser,
+                        ICurrentUserProvider userProvider,
+                        ICurrentUserService userService,
                         IUserRepository users,
                         IClock clock)
 {
-    private readonly IDayResultRepository _dayResults = dayResults;
-    private readonly IUserRepository _users = users;
-    private readonly ICurrentUserProvider _currentUser = currentUser;
-    private readonly IClock _clock = clock;
 
     private async Task<DayResult> GetOrCreateAsync(DateTime date, CancellationToken ct = default)
     {
-        var id = _currentUser.RequireUserId();
-        var user = await _users.GetByIdAsync(id, ct)
-            ?? throw new UserNotFoundException(); 
+        var user = await userService.GetOrLoadAsync(ct) ??
+            throw new UserNotFoundException();
 
-        var todayResult = await _dayResults.GetAsync(id, date, ct);
+        var todayResult = await dayResults.GetAsync(user.Id, date, ct);
         if (todayResult != null) return todayResult;
 
         todayResult = new DayResult(
-            userId: id,
+            userId: user.Id,
             caloriePlan: user.CaloriePlan,
             date: date,
             weight: user.Weight);
 
-        await _dayResults.AddAsync(todayResult, ct);
+        await dayResults.AddAsync(todayResult, ct);
         return todayResult;
     }
 
     public async Task<DayResult> GetOrCreateTodayAsync(CancellationToken ct = default)
     {
-        return await GetOrCreateAsync(_clock.Today, ct);
+        return await GetOrCreateAsync(clock.Today, ct);
     }
     public async Task<DayResult> GetOrCreateDayAsync(DateTime date, CancellationToken ct = default)
     {
@@ -44,7 +40,7 @@ public class DayResultService(IDayResultRepository dayResults,
     }
     public async Task<DayResult?> GetDayAsync(DateTime date, CancellationToken ct = default)
     {
-        return await _dayResults.GetAsync(_currentUser.RequireUserId(), date, ct);
+        return await dayResults.GetAsync(userProvider.RequireUserId(), date, ct);
     }
 
     public async Task<DayResult> AddFoodAsync(DateTime date, MealType mealType, FoodProduct product, Serving serving,
@@ -55,7 +51,7 @@ public class DayResultService(IDayResultRepository dayResults,
 
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
         day.AddToMeal(mealType, product, amount, serving);
-        await _dayResults.UpdateAsync(day, ct);
+        await dayResults.UpdateAsync(day, ct);
 
         return day;
     }
@@ -67,7 +63,7 @@ public class DayResultService(IDayResultRepository dayResults,
             ?? throw new DayResultNotFoundException(); 
 
         day.RemoveFromMeal(mealType, foodItemId);
-        await _dayResults.UpdateAsync(day, ct);
+        await dayResults.UpdateAsync(day, ct);
 
         return day;
     }
@@ -78,7 +74,7 @@ public class DayResultService(IDayResultRepository dayResults,
             ?? throw new DayResultNotFoundException();
 
         day.ClearMeal(mealType);
-        await _dayResults.UpdateAsync(day, ct);
+        await dayResults.UpdateAsync(day, ct);
 
         return day;
     }
@@ -97,7 +93,7 @@ public class DayResultService(IDayResultRepository dayResults,
         if (newServing != null) item.ChangeServing(newServing);
         item.ChangeAmount(newAmount);
 
-        await _dayResults.UpdateAsync(day, ct);
+        await dayResults.UpdateAsync(day, ct);
 
         return day;
     }
@@ -108,7 +104,7 @@ public class DayResultService(IDayResultRepository dayResults,
             ?? throw new DayResultNotFoundException(); 
 
         day.AddSport(name, kcalBurnt);
-        await _dayResults.UpdateAsync(day, ct);
+        await dayResults.UpdateAsync(day, ct);
 
         return day;
     }
@@ -119,7 +115,7 @@ public class DayResultService(IDayResultRepository dayResults,
             ?? throw new DayResultNotFoundException(); 
 
         day.RemoveSport(sportId);
-        await _dayResults.UpdateAsync(day, ct);
+        await dayResults.UpdateAsync(day, ct);
 
         return day;
     }
@@ -134,41 +130,41 @@ public class DayResultService(IDayResultRepository dayResults,
             throw new SportNotFoundException();
 
         day.EditSport(sportId, newName, kcalBurnt);
-        await _dayResults.UpdateAsync(day, ct);
+        await dayResults.UpdateAsync(day, ct);
 
         return day;
     }
 
     public async Task<DayResult> UpdateWeightAsync(double newWeight, CancellationToken ct = default)
     {
-        var id = _currentUser.RequireUserId();
-        var user = await _users.GetByIdAsync(id, ct)
-            ?? throw new UserNotFoundException();
+        var user = await userService.GetOrLoadAsync(ct) ??
+            throw new UserNotFoundException();
 
         var todayResult = await GetOrCreateTodayAsync(ct);
 
         user.ChangeWeight(newWeight);
-        await _users.UpdateAsync(user, ct);
+        await users.UpdateAsync(user, ct);
+        userService.Clear();
 
         todayResult.ChangeWeight(newWeight);
-        await _dayResults.UpdateAsync(todayResult, ct);
+        await dayResults.UpdateAsync(todayResult, ct);
 
         return todayResult;
     }
 
     public async Task<DayResult> UpdateCaloriePlanAsync(int newCaloriePlan, CancellationToken ct = default)
     {
-        var id = _currentUser.RequireUserId();
-        var user = await _users.GetByIdAsync(id, ct)
-            ?? throw new UserNotFoundException(); 
+        var user = await userService.GetOrLoadAsync(ct) ??
+            throw new UserNotFoundException();
 
         var todayResult = await GetOrCreateTodayAsync(ct);
 
         user.ChangeCaloriePlan(newCaloriePlan);
-        await _users.UpdateAsync(user, ct);
+        await users.UpdateAsync(user, ct);
+        userService.Clear();
 
         todayResult.ChangeCaloriePlan(newCaloriePlan);
-        await _dayResults.UpdateAsync(todayResult, ct);
+        await dayResults.UpdateAsync(todayResult, ct);
 
         return todayResult ;
     }

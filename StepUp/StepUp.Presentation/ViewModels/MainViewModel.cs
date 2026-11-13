@@ -224,9 +224,7 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     private async Task HandleMenuSelectionAsync(int type)
     {
         var action = await dialog.ShowPopupAsync(popup.CreateMenuBarPopup());
-
-        if (action == null) return;
-        switch (action.Value)
+        switch (action)
         {
             case MenuAction.ChangeWeight:
                 await ChangeWeightAsync();
@@ -247,7 +245,7 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
                 await AddSportAsync();
                 break;
             default:
-                break;
+                return;
         }
         await LoadDayAsync(Date);
     }

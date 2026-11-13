@@ -2,6 +2,7 @@
 {
     public enum MenuAction
     {
+        Undefined,
         ChangeWeight,
         Breakfast,
         Lunch,

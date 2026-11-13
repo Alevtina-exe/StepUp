@@ -7,6 +7,6 @@ public interface IPopupFactory
 {
     IPopup<SportResult?> CreateAddSportPopup();
     IPopup<SportResult?> CreateEditSportPopup(string originalName, int kcal);
-    IPopup<MenuAction?> CreateMenuBarPopup();
+    IPopup<MenuAction> CreateMenuBarPopup();
     IPopup<string?> CreateChangePasswordPopup();
 }
