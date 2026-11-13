@@ -38,7 +38,7 @@ namespace StepUp.Presentation.ViewModels
         private async Task SearchAsync()
         {
             Products.Clear();
-            var products = await productClient.SearchByNameAsync(Query);
+            var products = await productClient.SearchByNameAsync(Query.Trim());
             if (products == null || products.Count == 0)
                 SearchErrorVisible = true;
             else Products = new ObservableCollection<FoodProduct>(products);
