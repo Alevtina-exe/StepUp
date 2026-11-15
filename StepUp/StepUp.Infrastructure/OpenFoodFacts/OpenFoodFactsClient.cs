@@ -2,6 +2,7 @@
 using StepUp.Domain.Entities;
 using System.Globalization;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace StepUp.Infrastructure.OpenFoodFacts;
 
@@ -22,12 +23,6 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
             var json = await response.Content.ReadAsStringAsync(ct);
             var doc = JsonDocument.Parse(json);
             var root = doc.RootElement;
-
-            if (root.GetProperty("status").GetInt32() == 0)
-                return null;
-
-            var product = root.GetProperty("product");
-            var nutriments = product.GetProperty("nutriments");
 
             return MapProduct(root.GetProperty("product"), barcode);
         }
@@ -50,6 +45,12 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
     {
         if (string.IsNullOrWhiteSpace(query))
             return [];
+        if (Regex.IsMatch(query.Trim(), @"^\d+$"))
+        {
+            var product = await GetByBarcodeAsync(query, ct);
+            if (product == null) return [];
+            return [product];
+        }
 
         try
         {
@@ -102,14 +103,14 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
             id: barcode ?? Guid.NewGuid().ToString(),
             name: product.TryGetProperty("product_name", out var name) ? name.GetString() : null,
             barcode: barcode,
-            nutrientsPer100g: new Nutrients(calories,
+            nutrientsPer100g: new Nutrients((int)Math.Round(calories, 0),
                                             ParseDouble(n, "proteins_100g"),
                                             ParseDouble(n, "fat_100g"),
                                             ParseDouble(n, "carbohydrates_100g")),
             mainServing: MapServing(product),
             brands: product.TryGetProperty("brands", out var brandsElement) ? brandsElement.GetString() : null,
             nutriscoreGrade: product.TryGetProperty("nutriscore_grade", out var nsg) ? nsg.GetString() : null,
-            novaGroup: product.TryGetProperty("nova_group", out var nova) ? nova.GetString() : null,
+            novaGroup: ParseIntToString(product, "nova_group"),
             imageUrl: product.TryGetProperty("image_url", out var image) ?
                 image.GetString() : $"{_httpClient.BaseAddress}/images/icons/dist/packaging.svg",
             sugars100g: ParseDouble(n, "sugars_100g")
@@ -132,6 +133,23 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
                 CultureInfo.InvariantCulture,
                 out var d) => d,
             _ => 0
+        };
+    }
+    private static string? ParseIntToString(JsonElement element, string property)
+    {
+        if (element.ValueKind == JsonValueKind.Undefined)
+            return null;
+
+        if (!element.TryGetProperty(property, out var value))
+            return null;
+
+        return value.ValueKind switch
+        {
+            JsonValueKind.Number => value.GetInt32().ToString(),
+            JsonValueKind.String when int.TryParse(
+                value.GetString(),
+                out var d) => d.ToString(),
+            _ => null
         };
     }
     private static Serving? MapServing(JsonElement product)

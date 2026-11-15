@@ -16,17 +16,22 @@
                     Source="{Binding ImageUrl}"
                     MaximumHeightRequest="280"
                     BackgroundColor="LightGray" />
-                <Label
-                    Text="{Binding Name}"
-                    HorizontalTextAlignment="Center"
+                <ScrollView
                     VerticalOptions="End"
-                    FontSize="30"
-                    TextColor="White"
-                    Background="{StaticResource ImageOverlayGradient}" />
+                    Orientation="Horizontal">
+                    <Label
+                        Text="{Binding Name}"
+                        HorizontalTextAlignment="Center"
+                        FontSize="30"
+                        TextColor="White"
+                        Padding="0,0,0,5"
+                        Background="{StaticResource ImageOverlayGradient}" />
+
+                </ScrollView>
 
                 <ImageButton
                     x:Name="favButton"
-                    Margin="0,15,15,0"
+                    Margin="0,5,5,0"
                     Source="{StaticResource IconNotFavourite}"
                     BackgroundColor="Transparent"
                     WidthRequest="40"
@@ -48,7 +53,7 @@
                             Spacing="10">
                             <Grid
                                 ColumnDefinitions="Auto,*">
-                                
+
                                 <controls:MacroPieChart
                                     ProteinPercent="{Binding ProteinPercent}"
                                     FatPercent="{Binding FatPercent}"
@@ -91,8 +96,8 @@
                                     <Border
                                         BackgroundColor="{StaticResource NutriProtein}"
                                         Stroke="{StaticResource NutriProtein}"
-                                        WidthRequest="5"
-                                        HeightRequest="5"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
                                         StrokeShape="RoundRectangle 10" />
                                     <Label
                                         Text="{Binding TotalNutrients.Proteins,
@@ -129,34 +134,44 @@
                     </Border>
                 </Border>
 
-                <HorizontalStackLayout
-                    Grid.Row="2"
-                    Spacing="5"
-                    HorizontalOptions="Center"
-                    Padding="20,10">
-                    <Image
-                        Source="{Binding NutriscoreGrade, Converter={StaticResource NutriscoreToImage}}"
-                        WidthRequest="100" />
-                    <Image
-                        Source="{Binding NovaGroup, Converter={StaticResource NovaToImage}}"
-                        HeightRequest="70"
-                        Margin="10,0,0,0" />
-                    <VerticalStackLayout
-                        Grid.Row="3"
-                        Margin="20,10"
-                        HorizontalOptions="Start">
-                        <Label
-                            Text="{Binding Brand}"
-                            FontSize="16"
-                            TextColor="{StaticResource TextSecondary}"
-                            FontAttributes="Bold" />
-                        <Label
-                            Text="{Binding Barcode}"
-                            FontSize="16"
-                            TextColor="{StaticResource TextSecondary}"
-                            FontAttributes="Bold" />
-                    </VerticalStackLayout>
-                </HorizontalStackLayout>
+                <ScrollView
+                    Orientation="Horizontal"
+                    Grid.Row="2">
+
+                    <HorizontalStackLayout
+                        Spacing="20"
+                        Padding="20,10">
+                        <VerticalStackLayout
+                            Padding="0">
+                            <Image
+                                Source="{Binding NutriscoreGrade, Converter={StaticResource NutriscoreToImage}}"
+                                WidthRequest="60" />
+                            <Image
+                                Source="{Binding NovaGroup, Converter={StaticResource NovaToImage}}"
+                                WidthRequest="60" />
+
+                        </VerticalStackLayout>
+                        <VerticalStackLayout
+                            HorizontalOptions="Start">
+                            <Label
+                                Text="Производитель:"
+                                TextColor="{StaticResource TextSecondary}" />
+                            <Label
+                                Text="{Binding Brand}"
+                                FontSize="16"
+                                TextColor="{StaticResource TextSecondary}"
+                                FontAttributes="Bold" />
+                            <Label
+                                Text="Штрихкод:"
+                                TextColor="{StaticResource TextSecondary}" />
+                            <Label
+                                Text="{Binding Barcode}"
+                                FontSize="16"
+                                TextColor="{StaticResource TextSecondary}"
+                                FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </ScrollView>
 
                 <StackLayout
                     Orientation="Vertical"
@@ -186,14 +201,15 @@
                                 HorizontalTextAlignment="Center" />
                         </Border>
                         <Picker
+                            FontSize="18"
                             SelectedItem="{Binding SelectedServing, Mode=TwoWay}"
                             HorizontalOptions="Fill"
                             Grid.Column="1"
-                            HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             ItemsSource="{Binding Servings}" />
                     </Grid>
                     <Picker
+                        FontSize="18"
                         Title="Приём пищи"
                         VerticalOptions="End"
                         ItemsSource="{Binding MealOptions}"

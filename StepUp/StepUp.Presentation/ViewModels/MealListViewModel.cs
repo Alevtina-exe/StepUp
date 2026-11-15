@@ -15,6 +15,13 @@ namespace StepUp.Presentation.ViewModels
         private DayResult? _dayRes;
         [ObservableProperty]
         private ObservableCollection<FoodItem> _dishes = [];
+        [ObservableProperty]
+        private bool _isMessageVisible;
+
+        partial void OnDishesChanged(ObservableCollection<FoodItem> value)
+        {
+            IsMessageVisible = !value.Any();
+        }
 
         public async Task InitializeAsync(DateTime? date, MealType? meal)
         {
@@ -47,6 +54,17 @@ namespace StepUp.Presentation.ViewModels
                     { "Date", DayRes.Date},
                     { "MealType", Meal },
                     { "FoodItemId", item.Id }
+                });
+        }
+        [RelayCommand]
+        private async Task GoToAddProductAsync()
+        {
+            if (DayRes == null) return;
+            await nav.GoToPageAsync(AppRoutes.SearchProduct,
+                new Dictionary<string, object>
+                {
+                    { "Date", DayRes.Date},
+                    { "MealType", Meal },
                 });
         }
     }

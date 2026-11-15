@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:StepUp.Domain.Entities;assembly=StepUp.Domain"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
     x:Class="StepUp.Maui.Pages.MealListPage"
     x:DataType="vm:MealListViewModel">
@@ -13,11 +14,14 @@
                 HorizontalOptions="Center"
                 Text="{Binding MealName}" />
             <CollectionView
-                ItemsSource="{Binding Dishes}" >
+                ItemsSource="{Binding Dishes}" 
+                Grid.Row="1"
+                Margin="-5,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate
                         x:DataType="models:FoodItem">
-                        <Border HeightRequest="80">
+                        <Border HeightRequest="80"
+                                StrokeShape="Rectangle">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealListViewModel}}, Path=EditFoodItemCommand}"
@@ -45,12 +49,24 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Label
+            <VerticalStackLayout
                 Grid.Row="1"
+                HorizontalOptions="Center"
                 Margin="0,20,0,0"
-                TextColor="{StaticResource TextSecondary}"
-                Text="{Binding MealName, StringFormat='{0} пока не добавлен.'}" 
-                HorizontalOptions="Center"/>
+                IsVisible="{Binding IsMessageVisible}">
+                <Label
+                    TextColor="{StaticResource TextSecondary}"
+                    Text="{Binding MealName, StringFormat='{0} пока не добавлен.'}" />
+                <Label
+                    TextColor="{StaticResource SecondaryDarkText}"
+                    Text="Добавить"
+                    HorizontalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding GoToAddProductCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

@@ -1,9 +1,11 @@
 ﻿using StepUp.Application.Exceptions;
 using StepUp.Application.Interfaces;
 using StepUp.Application.Interfaces.Services;
+using StepUp.Domain.Calculators;
 using StepUp.Presentation.Constants;
 using StepUp.Presentation.Interfaces;
 using StepUp.Presentation.Models;
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace StepUp.Presentation.BaseViewModels
@@ -77,7 +79,7 @@ namespace StepUp.Presentation.BaseViewModels
         private MealOption _selectedMeal = MealOption.Breakfast;
         [ObservableProperty]
         private Serving _selectedServing = Serving.Grams(100);
-        public List<Serving> Servings { get; protected set; } = [];
+        public ObservableCollection<Serving> Servings { get; } = [];
         public IReadOnlyList<MealOption> MealOptions { get; } = MealOption.All;
 
 
@@ -153,6 +155,11 @@ namespace StepUp.Presentation.BaseViewModels
             NovaGroup = product.NovaGroup ?? string.Empty;
             NutriscoreGrade = product.NutriscoreGrade ?? string.Empty;
             SelectedMeal = MealOptions.First(m => m.Type == _mealType);
+            _nutrientsPer100g = product.NutrientsPer100g;
+            var (Protein, Fat, Carbon) = MacroCalculator.CalculateMacroPercentages(_nutrientsPer100g);
+            ProteinPercent = Protein;
+            FatPercent = Fat;
+            CarbonPercent = Carbon;
             return product;
         }
 

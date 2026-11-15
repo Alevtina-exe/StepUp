@@ -33,7 +33,7 @@ namespace StepUp.Presentation.ViewModels
         }
 
         [RelayCommand]
-        private async Task EditSportAsync(Sport item)
+        private async Task EditSportAsync(Sport? item)
         {
             if (item == null) return;
             var editedSport = await dialog.ShowPopupAsync(

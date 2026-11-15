@@ -4,7 +4,7 @@
     xmlns:models="clr-namespace:StepUp.Domain.Entities;assembly=StepUp.Domain"
     xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
     x:Class="StepUp.Maui.Pages.SearchProductPage"
-    x:DataType="vm:SearchFoodItemViewModel">
+    x:DataType="vm:SearchProductViewModel">
     
     <Grid
         Padding="10"
@@ -33,31 +33,35 @@
         </Grid>
         <CollectionView
             ItemsSource="{Binding Products}"
-            Grid.Row="1">
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+            Grid.Row="1"
+            Margin="-15,0">
             <CollectionView.ItemTemplate>
                 <DataTemplate
                     x:DataType="models:FoodProduct">
                     <Border
-                        HeightRequest="80">
+                        HeightRequest="80"
+                        StrokeShape="Rectangle">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding Source={RelativeSource 
-                                AncestorType={x:Type vm:SearchFoodItemViewModel}}, 
-                                Path=GoToAddProductCommand}"/>
+                                AncestorType={x:Type vm:SearchProductViewModel}}, 
+                                Path=GoToAddProductCommand}"
+                                CommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
                         <Grid
-                            ColumnDefinitions="*,*"
-                            Padding="20"
-                            HeightRequest="100">
+                            ColumnDefinitions="*,Auto"
+                            Padding="20" >
                             <Label
                                 Text="{Binding Name}"
                                 FontSize="20"
                                 VerticalTextAlignment="Center"
                                 FontAttributes="Bold"
+                                LineBreakMode="TailTruncation"
                                 Grid.Column="0" />
                             <Label
-                                Text="{Binding NutrientsPer100g.Calories}"
-                                FontSize="20"
+                                Text="{Binding NutrientsPer100g.Calories, StringFormat='{0} ккал'}"
+                                FontSize="18"
                                 HorizontalTextAlignment="End"
                                 TextColor="Gray"
                                 Grid.Column="1"
@@ -87,7 +91,8 @@
         <Label
             x:Name="SearchError"
             Text="Результаты не найдены"
-            FontSize="22"
+            TextColor="{StaticResource TextSecondary}"
+            FontSize="20"
             Grid.Row="1"
             HorizontalTextAlignment="Center"
             Margin="0,30,10,0"

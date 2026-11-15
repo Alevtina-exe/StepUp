@@ -4,8 +4,8 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:enums="clr-namespace:StepUp.Presentation.Enums;assembly=StepUp.Presentation"
     x:Class="StepUp.Maui.Popups.MenuBar"
-    x:TypeArguments="enums:MenuAction">
-
+    x:TypeArguments="enums:MenuAction"
+    Background="Transparent">
     <VerticalStackLayout>
         <Border
             StrokeShape="RoundRectangle 20"
@@ -14,7 +14,7 @@
 
             <VerticalStackLayout
                 Spacing="5"
-                Padding="10">
+                Padding="20">
 
                 <Button
                     Text="Измерение веса"

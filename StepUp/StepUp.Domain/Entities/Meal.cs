@@ -19,7 +19,7 @@ public class Meal
 
     public MealType MealType { get; }
 
-    public int TotalKcal => (int)Math.Round(Items.Sum(i => i.TotalNutrients.Calories), 0);
+    public int TotalKcal => (int)Math.Round((double)Items.Sum(i => i.TotalNutrients.Calories), 0);
     public double TotalProtein => Math.Round(Items.Sum(i => i.TotalNutrients.Proteins), 1);
     public double TotalFat => Math.Round(Items.Sum(i => i.TotalNutrients.Fat), 1);
     public double TotalCarbon => Math.Round(Items.Sum(i => i.TotalNutrients.Carbohydrates), 1);

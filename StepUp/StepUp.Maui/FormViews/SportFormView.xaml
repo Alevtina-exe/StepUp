@@ -4,10 +4,12 @@
     x:Class="StepUp.Maui.FormViews.SportFormView">
 
     <VerticalStackLayout
+        Padding="20"
         Spacing="5">
         <Label
             x:Name="TitleLabel"
             FontSize="16"
+            FontAttributes="Bold"
             HorizontalTextAlignment="Center"
             TextColor="Black" />
 
@@ -30,20 +32,20 @@
             HorizontalOptions="Center"
             IsVisible="False" />
         <Grid
-            ColumnDefinitions="*,*,*"
+            ColumnDefinitions="*,*,Auto"
             ColumnSpacing="5"
-            HorizontalOptions="Center">
+            HorizontalOptions="Fill">
 
-            <Button
-                x:Name="CancelButton"
-                Text="Отмена"
-                Clicked="OnCancelClicked"
-                Style="{StaticResource PopupMenuButton}"
-                Grid.Column="0" />
             <Button
                 x:Name="SaveButton"
                 Text="OK"
                 Clicked="OnSaveClicked"
+                Style="{StaticResource PopupMenuButton}"
+                Grid.Column="0" />
+            <Button
+                x:Name="CancelButton"
+                Text="Отмена"
+                Clicked="OnCancelClicked"
                 Style="{StaticResource PopupMenuButton}"
                 Grid.Column="1" />
 

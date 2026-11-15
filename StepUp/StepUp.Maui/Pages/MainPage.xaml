@@ -96,18 +96,14 @@
                                 WidthRequest="150"
                                 HeightRequest="150"
                                 Fill="Transparent"
-                                StrokeThickness="16"
-                                Stroke="Green">
+                                StrokeThickness="16">
                                 <Path.Data>
                                     <PathGeometry>
                                         <PathFigure
-                                            StartPoint="0,67">
+                                            StartPoint="67,0">
                                             <ArcSegment
                                                 x:Name="Arc"
-                                                Point="0,67"
-                                                Size="67,67"
-                                                IsLargeArc="False"
-                                                SweepDirection="Clockwise" />
+                                                Size="67,67" />
                                         </PathFigure>
                                     </PathGeometry>
                                 </Path.Data>

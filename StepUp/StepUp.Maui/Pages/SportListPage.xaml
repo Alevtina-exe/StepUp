@@ -7,16 +7,21 @@
     x:DataType="vm:SportListViewModel">
     <ScrollView>
         <Grid
-            ColumnDefinitions="*,Auto">
+            RowDefinitions="Auto,*"
+            RowSpacing="10">
             <Label
                 Style="{StaticResource Header}"
+                HorizontalOptions="Center"
                 Text="Тренировки за сегодня" />
             <CollectionView
+                Grid.Row="1"
+                Margin="-5"
                 ItemsSource="{Binding Sports}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate
                         x:DataType="models:Sport">
-                        <Border>
+                        <Border
+                            StrokeShape="Rectangle">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SportListViewModel}}, Path=EditSportCommand}"
@@ -24,8 +29,8 @@
                             </Border.GestureRecognizers>
                             <Grid
                                 ColumnDefinitions="*,*"
-                                Padding="30,50,20,50"
-                                HeightRequest="160">
+                                Padding="20,10"
+                                HeightRequest="80">
                                 <Label
                                     Text="{Binding Name}"
                                     FontSize="20"
@@ -34,7 +39,7 @@
                                     Grid.Column="0" />
                                 <Label
                                     Text="{Binding BurntKcals}"
-                                    FontSize="20"
+                                    FontSize="18"
                                     HorizontalTextAlignment="End"
                                     TextColor="Gray"
                                     Grid.Column="1"

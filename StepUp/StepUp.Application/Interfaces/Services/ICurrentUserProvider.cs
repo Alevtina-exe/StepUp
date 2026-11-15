@@ -6,6 +6,7 @@
         bool IsAuthenticated { get; }
         Guid RequireUserId();
         void SetUser(Guid userId);
+        Task EnsureLoadedAsync();
         void Clear();
     }
 }

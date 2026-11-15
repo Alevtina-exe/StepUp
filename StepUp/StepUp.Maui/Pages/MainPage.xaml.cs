@@ -17,7 +17,6 @@ public partial class MainPage : ContentPage
 	{
 		base.OnAppearing();
         await _vm.InitializeAsync();
-        AnimateAll();
     }
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
@@ -45,50 +44,25 @@ public partial class MainPage : ContentPage
 
     private void AnimateAll()
     {
-        AnimateInt(
-            targetValue: _vm.KcalEaten,
-            setter: v => _vm.KcalEaten = v,
-            animationName: "AnimKcalEaten"
-        );
+        double targetEaten = _vm.KcalEaten;
+        double targetBurnt = _vm.KcalBurnt;
 
-        AnimateInt(
-            targetValue: _vm.KcalBurnt,
-            setter: v => _vm.KcalBurnt = v,
-            animationName: "AnimKcalBurnt"
-        );
+        _vm.KcalEaten = 0;
+        _vm.KcalBurnt = 0;
 
-        AnimateMacros();
-        AnimateKcalCircle();
-    }
-    private void AnimateInt(int targetValue, Action<int> setter, string animationName, uint duration = 1500)
-    {
-        this.AbortAnimation(animationName);
-
-        if (targetValue == 0)
-        {
-            setter(0);
-            return;
-        }
-
-        setter(0);
-
-        var animation = new Animation(
+        new Animation(
             callback: v =>
             {
-                int currentValue = (int)Math.Round(v * targetValue);
-                setter(currentValue);
+                _vm.KcalEaten = (int)Math.Round(v * targetEaten);
+                _vm.KcalBurnt = (int)Math.Round(v * targetBurnt);
             },
             start: 0,
             end: 1,
-            easing: Easing.CubicOut 
-        );
+            easing: Easing.CubicOut
+        ).Commit(this, "AnimAll", 16, 1500);
 
-        animation.Commit(
-            owner: this,
-            name: animationName,
-            rate: 16, 
-            length: duration
-        );
+        AnimateMacros();
+        AnimateKcalCircle();
     }
 
     private void AnimateMacros()
@@ -118,15 +92,16 @@ public partial class MainPage : ContentPage
 
     private void AnimateKcalCircle()
     {
-        double targetProgress = 1 - _vm.KcalProgress;
+        double targetProgress = _vm.KcalProgress;
         int targetKcalRes = _vm.KcalRes;
 
-
-        Arc.Point = new Point(70, 0);
+        progressBar.IsVisible = targetProgress != 0;
+        Arc.Point = new Point(67, 0);
         Arc.IsLargeArc = false;
         progressBar.Stroke = new SolidColorBrush(Colors.Green);
         KcalResLabel.Text = "0";
         KcalLeft.TextColor = Colors.Green;
+
 
         var animation = new Animation(
             callback: v =>
@@ -134,14 +109,14 @@ public partial class MainPage : ContentPage
                 double currentProgress = Math.Min(v * targetProgress, 0.9999);
 
                 double angle = (Math.PI * 2 * currentProgress) - (Math.PI / 2);
-                double x = 70 + 70 * Math.Cos(angle);
-                double y = 70 + 70 * Math.Sin(angle);
+                double x = 67 + 67 * Math.Cos(angle);
+                double y = 67 + 67 * Math.Sin(angle);
 
                 Arc.Point = new Point(x, y);
                 Arc.IsLargeArc = currentProgress > 0.5;
                 Arc.SweepDirection = SweepDirection.Clockwise;
 
-                var currentColor = ColorInterpolator.GetColor(1 - currentProgress);
+                var currentColor = ColorInterpolator.GetColor(currentProgress);
                 progressBar.Stroke = new SolidColorBrush(currentColor);
                 KcalResLabel.TextColor = currentColor;
                 KcalLeft.TextColor = currentColor;

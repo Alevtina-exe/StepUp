@@ -6,7 +6,6 @@
     BackgroundColor="White">
 
     <formviews:FoodItemFormView
-        x:Name="Form" 
-        BindingContext="{Binding .}"/>
+        x:Name="Form" />
     
 </ContentPage>

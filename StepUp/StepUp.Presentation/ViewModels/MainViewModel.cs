@@ -17,7 +17,7 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
         {
             _user = await user.GetOrLoadAsync();
             CurrDayRes = await dayService.GetOrCreateTodayAsync();
-            MinDate = _user.BirthDate.Date;
+            MinDate = _user.RegistrationDate.Date;
         }
         catch (Exception ex)
         {
@@ -108,9 +108,12 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     [ObservableProperty]
     public double _totalCarbon = 0;
 
-    private double MaxProtein => MacroCalculator.CalculateProteinGrams(CaloriePlan + KcalBurnt, _user?.ProteinPercent ?? 0);
-    private double MaxFat => MacroCalculator.CalculateFatGrams(CaloriePlan + KcalBurnt, _user?.FatPercent ?? 0);
-    private double MaxCarbon => MacroCalculator.CalculateCarbonGrams(CaloriePlan + KcalBurnt, _user?.CarbonPercent ?? 0);
+    private double MaxProtein => 
+        MacroCalculator.CalculateProteinCarbonGrams(CaloriePlan + KcalBurnt, _user?.ProteinPercent ?? 0);
+    private double MaxFat => 
+        MacroCalculator.CalculateFatGrams(CaloriePlan + KcalBurnt, _user?.FatPercent ?? 0);
+    private double MaxCarbon => 
+        MacroCalculator.CalculateProteinCarbonGrams(CaloriePlan + KcalBurnt, _user?.CarbonPercent ?? 0);
 
 
     public string ProteinString => $"{TotalProtein:F1} / {MaxProtein:F1} г";
@@ -160,7 +163,6 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     {
         KcalRes = CaloriePlan - KcalEaten + KcalBurnt;
         OnPropertyChanged(nameof(KcalProgress));
-
         PrProgress = MaxProtein > 0 ? TotalProtein / MaxProtein : 0;
         FatProgress = MaxFat > 0 ? TotalFat / MaxFat : 0;
         CbProgress = MaxCarbon > 0 ? TotalCarbon / MaxCarbon : 0;
@@ -198,7 +200,11 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     private async Task GoToSettingsAsync() => await nav.GoToPageAsync(AppRoutes.Settings);
 
     [RelayCommand]
-    private async Task GoToSportsAsync() => await nav.GoToPageAsync(AppRoutes.Sports);
+    private async Task GoToSportsAsync() 
+        => await nav.GoToPageAsync(AppRoutes.Sports, new Dictionary<string, object>
+        {
+            {"Date", CurrDayRes.Date }
+        });
 
     [RelayCommand]
     private async Task GoToMealAsync(MealType mealType)
@@ -215,7 +221,7 @@ public partial class MainViewModel(DayResultService dayService, IClock clock, IC
     {
         var parameters = new Dictionary<string, object>
         {
-            { "Date", CurrDayRes },
+            { "Date", CurrDayRes.Date },
             { "MealType", mealType }
         };
         await nav.GoToPageAsync(AppRoutes.SearchProduct, parameters);

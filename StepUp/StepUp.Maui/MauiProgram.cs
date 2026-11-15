@@ -60,6 +60,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
         builder.Services.AddSingleton<IDialogService, MauiDialogService>();
         builder.Services.AddSingleton<IPopupFactory, MauiPopupFactory>();
+		builder.Services.AddSingleton<ISessionStorage, MauiSessionStorage>();
 
 
         builder.Services.AddTransient<AddFoodItemPage>();
