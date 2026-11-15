@@ -84,11 +84,21 @@ public static class MauiProgram
 #endif
 
 		var app = builder.Build();
+
         using (var scope = app.Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             db.Database.Migrate();
         }
+
+#if ANDROID
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+        {
+            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(
+                Android.Graphics.Color.Transparent);
+        });
+#endif
+
         return app;
 	}
 }

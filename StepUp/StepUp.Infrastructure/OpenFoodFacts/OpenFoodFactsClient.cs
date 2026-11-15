@@ -191,7 +191,7 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
                 }
                 else if (solidUnits.TryGetValue(qus, out amount))
                 {
-                    return new Serving("порция", amount + q);
+                    return new Serving("порция", amount * q);
                 }
             }
         }
@@ -208,7 +208,7 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
                 }
                 else if (solidUnits.TryGetValue(qus, out amount))
                 {
-                    return new Serving("упаковка", amount + q);
+                    return new Serving("упаковка", amount * q);
                 }
             }
         }

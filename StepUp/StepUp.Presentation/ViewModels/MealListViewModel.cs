@@ -36,14 +36,11 @@ namespace StepUp.Presentation.ViewModels
             if (DayRes == null)
             {
                 await nav.GoBackAsync();
+                return;
             }
+            Dishes = new ObservableCollection<FoodItem>(DayRes.Meals.First(m => m.MealType == Meal).Items);
         }
 
-        partial void OnDayResChanged(DayResult? value)
-        {
-            if (value == null) return;
-            Dishes = new ObservableCollection<FoodItem>(value.Meals.First(m => m.MealType == Meal).Items);
-        }
         [RelayCommand]
         private async Task EditFoodItemAsync(FoodItem item)
         {

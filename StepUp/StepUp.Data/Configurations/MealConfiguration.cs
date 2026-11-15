@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StepUp.Domain.Entities;
 
 namespace StepUp.Data.Configurations
 {

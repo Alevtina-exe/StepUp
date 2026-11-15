@@ -41,39 +41,106 @@
                 <Border
                     Grid.Row="1"
                     HorizontalOptions="Fill"
-                    Margin="0"
                     Padding="10"
                     StrokeShape="Rectangle"
                     Stroke="{StaticResource PrimaryLight}"
                     BackgroundColor="{StaticResource PrimaryLight}">
                     <Border
-                        Style="{StaticResource WhiteCardFrame}">
-                        <StackLayout
-                            Orientation="Vertical"
+                        Style="{StaticResource WhiteCardFrame}"
+                        Padding="20">
+                        <VerticalStackLayout
                             Spacing="10">
                             <Grid
-                                ColumnDefinitions="Auto,*">
+                                ColumnDefinitions="Auto,*"
+                                RowDefinitions="Auto,*"
+                                ColumnSpacing="20"
+                                RowSpacing="10">
 
                                 <controls:MacroPieChart
                                     ProteinPercent="{Binding ProteinPercent}"
                                     FatPercent="{Binding FatPercent}"
                                     CarbonPercent="{Binding CarbonPercent}"
-                                    WidthRequest="140"
-                                    HeightRequest="140" />
+                                    WidthRequest="120"
+                                    HeightRequest="120"
+                                    Grid.Column="1"
+                                    HorizontalOptions="End"/>
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="5,0"
+                                    ColumnSpacing="5"
+                                    RowSpacing="5"
+                                    ColumnDefinitions="Auto,*,Auto"
+                                    RowDefinitions="*,*,*">
+
+                                    <Border
+                                        BackgroundColor="{StaticResource NutriProtein}"
+                                        Stroke="{StaticResource NutriProtein}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="Белки" />
+                                    <Label
+                                        Grid.Column="2"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding TotalNutrients.Proteins,
+                                        StringFormat='{0:F1} г'}" />
+
+                                    <Border
+                                        Grid.Row="1"
+                                        BackgroundColor="{StaticResource NutriFat}"
+                                        Stroke="{StaticResource NutriFat}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Text="Жиры" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding TotalNutrients.Fat,
+                                        StringFormat='{0:F1} г'}" />
+
+                                    <Border
+                                        Grid.Row="2"
+                                        BackgroundColor="{StaticResource NutriCarbon}"
+                                        Stroke="{StaticResource NutriCarbon}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Text="Углеводы" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding TotalNutrients.Carbohydrates,
+                                        StringFormat='{0:F1} г'}" />
+                                </Grid>
 
                                 <VerticalStackLayout
                                     VerticalOptions="Center"
                                     HorizontalOptions="Center"
-                                    Grid.Column="1">
+                                    Margin="10,0,0,0">
                                     <Label
                                         HorizontalTextAlignment="Center"
                                         FontFamily="impact"
-                                        FontSize="36"
+                                        FontSize="33"
                                         TextColor="{StaticResource NutriKcal}"
                                         Text="{Binding TotalNutrients.Calories, StringFormat='{0} ккал'}" />
                                     <ProgressBar
                                         Progress="{Binding Progress}"
-                                        HeightRequest="5"
+                                        ScaleY="1.5"
                                         HorizontalOptions="Fill"
                                         ProgressColor="{StaticResource NutriKcal}" />
                                     <Label
@@ -85,52 +152,8 @@
                                 </VerticalStackLayout>
                             </Grid>
 
-                            <StackLayout
-                                Orientation="Vertical"
-                                VerticalOptions="Center"
-                                Margin="20,0,0,0"
-                                Spacing="5">
-                                <StackLayout
-                                    Orientation="Horizontal"
-                                    Spacing="5">
-                                    <Border
-                                        BackgroundColor="{StaticResource NutriProtein}"
-                                        Stroke="{StaticResource NutriProtein}"
-                                        WidthRequest="10"
-                                        HeightRequest="10"
-                                        StrokeShape="RoundRectangle 10" />
-                                    <Label
-                                        Text="{Binding TotalNutrients.Proteins,
-                                        StringFormat='Белки: {0:F1} г'}" />
-                                </StackLayout>
-                                <StackLayout
-                                    Orientation="Horizontal"
-                                    Spacing="5">
-                                    <Border
-                                        BackgroundColor="{StaticResource NutriFat}"
-                                        Stroke="{StaticResource NutriFat}"
-                                        WidthRequest="10"
-                                        HeightRequest="10"
-                                        StrokeShape="RoundRectangle 10" />
-                                    <Label
-                                        Text="{Binding TotalNutrients.Fat,
-                                        StringFormat='Жиры: {0:F1} г'}" />
-                                </StackLayout>
-                                <StackLayout
-                                    Orientation="Horizontal"
-                                    Spacing="5">
-                                    <Border
-                                        BackgroundColor="{StaticResource NutriCarbon}"
-                                        Stroke="{StaticResource NutriCarbon}"
-                                        WidthRequest="10"
-                                        HeightRequest="10"
-                                        StrokeShape="RoundRectangle 10" />
-                                    <Label
-                                        Text="{Binding TotalNutrients.Carbohydrates,
-                                        StringFormat='Углеводы: {0:F1} г'}" />
-                                </StackLayout>
-                            </StackLayout>
-                        </StackLayout>
+
+                        </VerticalStackLayout>
                     </Border>
                 </Border>
 

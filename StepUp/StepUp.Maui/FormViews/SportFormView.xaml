@@ -2,36 +2,56 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="StepUp.Maui.FormViews.SportFormView">
-
-    <VerticalStackLayout
-        Padding="20"
-        Spacing="5">
+    <Grid
+        RowDefinitions="Auto,*,*,Auto,*"
+        RowSpacing="10"
+        Padding="15"
+        MinimumWidthRequest="200">
         <Label
+            Margin="0,0,0,10"
             x:Name="TitleLabel"
             FontSize="16"
             FontAttributes="Bold"
             HorizontalTextAlignment="Center"
             TextColor="Black" />
 
-        <Entry
-            x:Name="NameEntry"
-            Placeholder="Название"
-            TextChanged="OnEntryChanged"
-            PlaceholderColor="Black" />
+        <Border
+            Grid.Row="1"
+            BackgroundColor="{StaticResource White}"
+            Stroke="Transparent"
+            Opacity="0.6"
+            StrokeShape="RoundRectangle 20"
+            Padding="10,0">
+            <Entry
+                x:Name="NameEntry"
+                Placeholder="Название"
+                TextChanged="OnEntryChanged"
+                PlaceholderColor="{StaticResource TextSecondary}" />
+        </Border>
 
-        <Entry
-            x:Name="KcalEntry"
-            Placeholder="Количество калорий"
-            Keyboard="Numeric"
-            TextChanged="OnEntryChanged"
-            PlaceholderColor="Black" />
-
+        <Border
+            Grid.Row="2"
+            BackgroundColor="{StaticResource White}"
+            Stroke="Transparent"
+            Opacity="0.6"
+            StrokeShape="RoundRectangle 30"
+            Padding="10,0">
+            <Entry
+                x:Name="KcalEntry"
+                Placeholder="Количество калорий"
+                PlaceholderColor="{StaticResource TextSecondary}"
+                Keyboard="Numeric"
+                TextChanged="OnEntryChanged"/>
+        </Border>
         <Label
+            Grid.Row="3"
             x:Name="ErrorLabel"
             TextColor="{StaticResource ErrorColor}"
             HorizontalOptions="Center"
             IsVisible="False" />
+
         <Grid
+            Grid.Row="4"
             ColumnDefinitions="*,*,Auto"
             ColumnSpacing="5"
             HorizontalOptions="Fill">
@@ -57,5 +77,5 @@
                 Grid.Column="2"
                 IsVisible="False" />
         </Grid>
-    </VerticalStackLayout>
+    </Grid>
 </ContentView>

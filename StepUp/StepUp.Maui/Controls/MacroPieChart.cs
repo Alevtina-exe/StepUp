@@ -45,6 +45,6 @@ public class MacroPieChart : GraphicsView
         chart._drawable.ProteinPercent = (float)chart.ProteinPercent;
         chart._drawable.FatPercent = (float)chart.FatPercent;
         chart._drawable.CarbonPercent = (float)chart.CarbonPercent;
-        chart.Invalidate();   
+        chart.Dispatcher.Dispatch(chart.Invalidate);
     }
 }

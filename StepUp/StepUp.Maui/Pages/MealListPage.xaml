@@ -52,9 +52,9 @@
             <VerticalStackLayout
                 Grid.Row="1"
                 HorizontalOptions="Center"
-                Margin="0,20,0,0"
-                IsVisible="{Binding IsMessageVisible}">
+                Margin="0,20,0,0" >
                 <Label
+                    IsVisible="{Binding IsMessageVisible}"
                     TextColor="{StaticResource TextSecondary}"
                     Text="{Binding MealName, StringFormat='{0} пока не добавлен.'}" />
                 <Label

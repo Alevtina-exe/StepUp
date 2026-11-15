@@ -93,10 +93,7 @@
             Value="8" />
         <Setter
             Property="Padding"
-            Value="14,10" />
-        <Setter
-            Property="MinimumHeightRequest"
-            Value="44" />
+            Value="10,5" />
         <Setter
             Property="MinimumWidthRequest"
             Value="44" />
@@ -252,6 +249,9 @@
         x:Key="WhiteCardFrame">
 
         <Setter
+            Property="Padding" 
+            Value="30"/>
+        <Setter
             Property="StrokeShape">
             <Setter.Value>
                 <RoundRectangle
@@ -356,7 +356,7 @@
         TargetType="Button">
         <Setter
             Property="CornerRadius"
-            Value="20" />
+            Value="30" />
         <Setter
             Property="BackgroundColor"
             Value="{StaticResource PrimaryDark}" />
