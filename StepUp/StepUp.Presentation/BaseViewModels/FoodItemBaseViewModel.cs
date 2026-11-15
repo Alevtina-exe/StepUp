@@ -114,7 +114,7 @@ namespace StepUp.Presentation.BaseViewModels
         }
         protected bool TryParseAmount(out double amount)
         {
-            var normalized = Amount.Replace(',', '.');
+            var normalized = Amount.Replace(',', '.').Trim();
             if (!double.TryParse(normalized, NumberStyles.Any, CultureInfo.InvariantCulture, out amount)
                 || amount <= 0)
             {
