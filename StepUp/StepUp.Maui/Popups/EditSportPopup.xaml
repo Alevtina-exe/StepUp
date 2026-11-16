@@ -7,9 +7,9 @@
     x:Class="StepUp.Maui.Popups.EditSportPopup"
     x:TypeArguments="models:SportResult"
     BackgroundColor="Transparent">
-
     <Border
-        Style="{StaticResource PopupBorder}" >
+        Style="{StaticResource PopupBorder}"
+        Padding="0">
         <formviews:SportFormView
             x:Name="FormView" />
     </Border>

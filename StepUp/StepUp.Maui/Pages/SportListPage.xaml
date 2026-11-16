@@ -5,50 +5,61 @@
     xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
     x:Class="StepUp.Maui.Pages.SportListPage"
     x:DataType="vm:SportListViewModel">
-    <ScrollView>
-        <Grid
-            RowDefinitions="Auto,*"
-            RowSpacing="10">
-            <Label
-                Style="{StaticResource Header}"
-                HorizontalOptions="Center"
-                Text="Тренировки за сегодня" />
-            <CollectionView
-                Grid.Row="1"
-                Margin="-5"
-                ItemsSource="{Binding Sports}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate
-                        x:DataType="models:Sport">
-                        <Border
-                            StrokeShape="Rectangle">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SportListViewModel}}, Path=EditSportCommand}"
-                                    CommandParameter="{Binding .}" />
-                            </Border.GestureRecognizers>
-                            <Grid
-                                ColumnDefinitions="*,*"
-                                Padding="20,10"
-                                HeightRequest="80">
+
+    <Grid
+        Padding="16"
+        RowDefinitions="Auto, *"
+        RowSpacing="16">
+
+        <Label
+            Style="{StaticResource Header}"
+            Text="Тренировки за сегодня"
+            Grid.Column="0" />
+
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding Sports}"
+            SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout
+                    Orientation="Vertical"
+                    ItemSpacing="6" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="models:Sport">
+                    <Border
+                        Style="{StaticResource CardFlat}"
+                        Padding="16,15">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SportListViewModel}}, Path=EditSportCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            ColumnSpacing="12">
+                            <Label
+                                Text="{Binding Name}"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                VerticalTextAlignment="Center"
+                                LineBreakMode="TailTruncation"
+                                Grid.Column="0" />
+                            <Border
+                                Style="{StaticResource Chip}"
+                                Grid.Column="1"
+                                VerticalOptions="Center">
                                 <Label
-                                    Text="{Binding Name}"
-                                    FontSize="20"
-                                    VerticalTextAlignment="Center"
+                                    Text="{Binding BurntKcals, StringFormat='{0} ккал'}"
+                                    FontSize="13"
                                     FontAttributes="Bold"
-                                    Grid.Column="0" />
-                                <Label
-                                    Text="{Binding BurntKcals}"
-                                    FontSize="18"
-                                    HorizontalTextAlignment="End"
-                                    TextColor="Gray"
-                                    Grid.Column="1"
-                                    VerticalTextAlignment="Center" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Grid>
-    </ScrollView>
+                                    TextColor="{StaticResource Primary}" />
+                            </Border>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>

@@ -50,6 +50,7 @@ namespace StepUp.Presentation.ViewModels
                 SearchErrorVisible = true;
             else
             {
+                SearchErrorVisible = false;
                 Products = new ObservableCollection<FoodProduct>(products);
                 OnPropertyChanged(nameof(Products));
             }

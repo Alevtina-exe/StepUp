@@ -5,97 +5,92 @@
     xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
     x:Class="StepUp.Maui.Pages.SearchProductPage"
     x:DataType="vm:SearchProductViewModel">
-    
+
     <Grid
-        Padding="10"
-        RowDefinitions="Auto, *">
+        Padding="16"
+        RowDefinitions="Auto, *"
+        RowSpacing="16">
+
         <Grid
-            ColumnDefinitions="*, Auto, Auto"
-            Row="0"
-            Margin="0,0,0,20">
-            <Entry
-                x:Name="SearchEntry"
-                Text="{Binding Query}"
-                Placeholder="Введите название или штрих-код"
-                Grid.Column="0" />
+            ColumnDefinitions="Auto, *, Auto"
+            ColumnSpacing="8">
+            <Border
+                Style="{StaticResource InputBorder}"
+                Grid.Column="1">
+                <Entry
+                    Margin="0,3,0,0"
+                    x:Name="SearchEntry"
+                    Text="{Binding Query}"
+                    VerticalTextAlignment="Center"
+                    Placeholder="Название или штрих-код" />
+            </Border>
             <ImageButton
                 Command="{Binding SearchCommand}"
                 Source="search_button.png"
-                WidthRequest="40"
-                HeightRequest="40"
-                Grid.Column="1" />
+                Style="{StaticResource FABButton}"
+                Grid.Column="2" />
             <ImageButton
                 Command="{Binding GoToBarcodeScannerCommand}"
                 Source="barcode_scanner.png"
-                WidthRequest="40"
-                HeightRequest="40"
-                Grid.Column="2" />
+                Style="{StaticResource FABButton}"
+                Grid.Column="0" />
         </Grid>
+
         <CollectionView
             ItemsSource="{Binding Products}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             Grid.Row="1"
-            Margin="-15,0">
+            SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout
+                    Orientation="Vertical"
+                    ItemSpacing="6" />
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate
                     x:DataType="models:FoodProduct">
                     <Border
-                        HeightRequest="80"
-                        StrokeShape="Rectangle">
+                        Style="{StaticResource CardFlat}"
+                        Padding="16,15">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer
-                                Command="{Binding Source={RelativeSource 
-                                AncestorType={x:Type vm:SearchProductViewModel}}, 
-                                Path=GoToAddProductCommand}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SearchProductViewModel}}, Path=GoToAddProductCommand}"
                                 CommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
                         <Grid
                             ColumnDefinitions="*,Auto"
-                            Padding="20" >
+                            ColumnSpacing="12">
                             <Label
                                 Text="{Binding Name}"
-                                FontSize="20"
-                                VerticalTextAlignment="Center"
+                                FontSize="16"
                                 FontAttributes="Bold"
-                                LineBreakMode="TailTruncation"
-                                Grid.Column="0" />
-                            <Label
-                                Text="{Binding NutrientsPer100g.Calories, StringFormat='{0} ккал'}"
-                                FontSize="18"
-                                HorizontalTextAlignment="End"
-                                TextColor="Gray"
+                                VerticalTextAlignment="Center"
+                                Grid.Column="0"
+                                LineBreakMode="TailTruncation" />
+                            <Border
+                                Style="{StaticResource Chip}"
                                 Grid.Column="1"
-                                VerticalTextAlignment="Center" />
+                                VerticalOptions="Center">
+                                <Label
+                                    Text="{Binding NutrientsPer100g.Calories, StringFormat='{0} ккал'}"
+                                    FontSize="13"
+                                    FontAttributes="Bold"
+                                    TextColor="{StaticResource Primary}" />
+                            </Border>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <!-- 
-        <Label
-            x:Name="favDishes"
-            Grid.Row="1"
-            Opacity="0.8"
-            Text="Или выберите продукт из списка избранных"
-            TextColor="{StaticResource Primary}"
-            FontSize="24"
-            HorizontalTextAlignment="Center"
-            VerticalOptions="Start"
-            HorizontalOptions="Center"
-            Padding="20,0">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer
-                    Tapped="TapGestureRecognizer_Tapped" />
-            </Label.GestureRecognizers>
-        </Label> -->
+
         <Label
             x:Name="SearchError"
             Text="Результаты не найдены"
-            TextColor="{StaticResource TextSecondary}"
-            FontSize="20"
+            Style="{StaticResource CaptionLabel}"
+            FontSize="16"
             Grid.Row="1"
             HorizontalTextAlignment="Center"
-            Margin="0,30,10,0"
-            IsVisible="{Binding SearchErrorVisible}" /> 
+            Margin="0,40,0,0"
+            IsVisible="{Binding SearchErrorVisible}" />
     </Grid>
 </ContentPage>

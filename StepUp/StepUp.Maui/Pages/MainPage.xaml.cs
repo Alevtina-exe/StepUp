@@ -6,18 +6,26 @@ namespace StepUp.Maui.Pages;
 public partial class MainPage : ContentPage
 {
     private readonly MainViewModel _vm;
+    private bool _isAnimating;
+
     public MainPage(MainViewModel vm)
     {
-		InitializeComponent();
+        InitializeComponent();
         _vm = vm;
         BindingContext = vm;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        _vm.PropertyChanged -= ViewModel_PropertyChanged;
         _vm.PropertyChanged += ViewModel_PropertyChanged;
-    }
-	protected override async void OnAppearing() 
-	{
-		base.OnAppearing();
+
         await _vm.InitializeAsync();
+
+        AnimateAll();
     }
+
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(MainViewModel.CurrDayRes))
@@ -25,6 +33,7 @@ public partial class MainPage : ContentPage
             AnimateAll();
         }
     }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
@@ -44,22 +53,26 @@ public partial class MainPage : ContentPage
 
     private void AnimateAll()
     {
+        if (_isAnimating) return;  
+        _isAnimating = true;
+
         double targetEaten = _vm.KcalEaten;
         double targetBurnt = _vm.KcalBurnt;
 
-        _vm.KcalEaten = 0;
-        _vm.KcalBurnt = 0;
+        KcalBurntLabel.Text = "0";
+        KcalEatenLabel.Text = "0";
 
         new Animation(
             callback: v =>
             {
-                _vm.KcalEaten = (int)Math.Round(v * targetEaten);
-                _vm.KcalBurnt = (int)Math.Round(v * targetBurnt);
+                KcalEatenLabel.Text = ((int)Math.Round(v * targetEaten)).ToString();
+                KcalBurntLabel.Text = ((int)Math.Round(v * targetBurnt)).ToString();
             },
             start: 0,
             end: 1,
             easing: Easing.CubicOut
-        ).Commit(this, "AnimAll", 16, 1500);
+        ).Commit(this, "AnimAll", 16, 1500,
+                 finished: (_, _) => _isAnimating = false);
 
         AnimateMacros();
         AnimateKcalCircle();
@@ -71,24 +84,25 @@ public partial class MainPage : ContentPage
         double targetFat = _vm.FatProgress;
         double targetCb = _vm.CbProgress;
 
-        _vm.PrProgress = 0;
-        _vm.FatProgress = 0;
-        _vm.CbProgress = 0;
+        _vm.PrProgressBar = 0;
+        _vm.FatProgressBar = 0;
+        _vm.CbProgressBar = 0;
 
-        var animation = new Animation(
+        new Animation(
             callback: v =>
             {
-                _vm.PrProgress = v * targetPr;
-                _vm.FatProgress = v * targetFat;
-                _vm.CbProgress = v * targetCb;
+                _vm.PrProgressBar = v * targetPr;
+                _vm.FatProgressBar = v * targetFat;
+                _vm.CbProgressBar = v * targetCb;
             },
             start: 0,
             end: 1,
-            easing: Easing.CubicOut 
-        );
-
-        animation.Commit(this, "MacrosAnim", 16, 1000);
+            easing: Easing.CubicOut
+        ).Commit(this, "MacrosAnim", 16, 1500);
     }
+
+    private const double CenterXY = 80;
+    private const double Radius = 72;
 
     private void AnimateKcalCircle()
     {
@@ -96,21 +110,22 @@ public partial class MainPage : ContentPage
         int targetKcalRes = _vm.KcalRes;
 
         progressBar.IsVisible = targetProgress != 0;
-        Arc.Point = new Point(67, 0);
+        progressBar.BackgroundColor = Colors.Transparent;
+        Arc.Point = new Point(CenterXY, 0);
         Arc.IsLargeArc = false;
+        Arc.SweepDirection = SweepDirection.Clockwise;
         progressBar.Stroke = new SolidColorBrush(Colors.Green);
         KcalResLabel.Text = "0";
         KcalLeft.TextColor = Colors.Green;
 
-
-        var animation = new Animation(
+        new Animation(
             callback: v =>
             {
                 double currentProgress = Math.Min(v * targetProgress, 0.9999);
 
                 double angle = (Math.PI * 2 * currentProgress) - (Math.PI / 2);
-                double x = 67 + 67 * Math.Cos(angle);
-                double y = 67 + 67 * Math.Sin(angle);
+                double x = CenterXY + Radius * Math.Cos(angle);
+                double y = CenterXY + Radius * Math.Sin(angle);
 
                 Arc.Point = new Point(x, y);
                 Arc.IsLargeArc = currentProgress > 0.5;
@@ -125,9 +140,7 @@ public partial class MainPage : ContentPage
             },
             start: 0,
             end: 1,
-            easing: Easing.CubicOut 
-        );
-
-        animation.Commit(this, "KcalCircleAnim", 16, 1500);
+            easing: Easing.CubicOut
+        ).Commit(this, "KcalCircleAnim", 16, 1500);
     }
 }

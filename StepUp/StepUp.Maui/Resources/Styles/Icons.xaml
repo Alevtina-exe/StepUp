@@ -9,22 +9,32 @@
         Glyph="&#xf00d;"
         Size="{StaticResource SizeTabIcon}" />
 
-    <FontImageSource x:Key="IconSetting" 
-        Color="White"
+    <FontImageSource
+        x:Key="IconGraph"
+        Color="{AppThemeBinding Light={StaticResource PrimaryDark}, Dark={StaticResource PrimaryLight}}"
         FontFamily="FontAwesomeSolid"
-        Glyph="&#xf013;"
+        Glyph="&#xf1fe;"
         Size="{StaticResource SizeTabIcon}" />
 
-    <FontImageSource x:Key="IconAdd" 
-        Color="White"
+    <FontImageSource
+        x:Key="IconAdd"
+        Color="{AppThemeBinding Light={StaticResource PrimaryDark}, Dark={StaticResource PrimaryLight}}"
         FontFamily="FontAwesomeSolid"
         Glyph="&#xf0fe;"
         Size="{StaticResource SizeTabIcon}" />
 
-    <FontImageSource x:Key="IconGraph" 
-        Color="White"
+    <FontImageSource
+        x:Key="IconSetting"
+        Color="{AppThemeBinding Light={StaticResource PrimaryDark}, Dark={StaticResource PrimaryLight}}"
         FontFamily="FontAwesomeSolid"
-        Glyph="&#xf1fe;"
+        Glyph="&#xf013;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <FontImageSource
+        x:Key="IconRoundAdd"
+        Color="{AppThemeBinding Light={StaticResource ButtonViolet}, Dark={StaticResource PrimaryLight}}"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf0fe;"
         Size="{StaticResource SizeTabIcon}" />
 
 

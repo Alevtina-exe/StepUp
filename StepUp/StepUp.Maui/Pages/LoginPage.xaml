@@ -6,70 +6,115 @@
     x:Class="StepUp.Maui.Pages.LoginPage"
     x:DataType="vm:LoginViewModel">
 
-    <VerticalStackLayout
-        Padding="30,0,30,150"
-        Spacing="15"
-        VerticalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,40,30,40"
+            Spacing="20"
+            VerticalOptions="Center">
 
-        <Label
-            Text="Вход в аккаунт:"
-            Style="{StaticResource TitleLabel}" />
+            <VerticalStackLayout
+                Spacing="6"
+                Margin="0,0,0,24">
+                <Label
+                    Text="StepUp"
+                    Style="{StaticResource TitleLabel}"
+                    FontSize="34"
+                    TextColor="{StaticResource Primary}" />
+                <Label
+                    Text="С возвращением 👋"
+                    Style="{StaticResource SectionLabel}"
+                    HorizontalTextAlignment="Center" />
+                <Label
+                    Text="Войдите, чтобы продолжить"
+                    Style="{StaticResource CaptionLabel}"
+                    HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
 
-        <Entry
-            x:Name="EmailEntry"
-            Placeholder="Email"
-            Text="{Binding Email, Mode=TwoWay}" />
-        <Label
-            x:Name="EmailErrorLabel"
-            Text="Неверный формат почты."
-            Style="{StaticResource ErrorLabel}"
-            IsVisible="{Binding EmailErrorVisible}" />
+            <VerticalStackLayout
+                Spacing="6">
+                <Label
+                    Text="Email"
+                    Style="{StaticResource SectionLabel}" />
+                <Border
+                    Style="{StaticResource InputBorder}">
+                    <Entry
+                        x:Name="EmailEntry"
+                        Placeholder="you@example.com"
+                        Keyboard="Email"
+                        Text="{Binding Email, Mode=TwoWay}" />
+                </Border>
+                <Label
+                    x:Name="EmailErrorLabel"
+                    Text="Неверный формат почты."
+                    Style="{StaticResource ErrorLabel}"
+                    IsVisible="{Binding EmailErrorVisible}" />
+            </VerticalStackLayout>
 
-        <Grid >
+            <!-- Password -->
+            <VerticalStackLayout
+                Spacing="6">
+                <Label
+                    Text="Пароль"
+                    Style="{StaticResource SectionLabel}" />
+                <Border
+                    Style="{StaticResource InputBorder}"
+                    Padding="14,2,4,2">
+                    <Grid
+                        ColumnDefinitions="*,Auto">
+                        <Entry
+                            x:Name="PasswordEntry"
+                            Placeholder="••••••••"
+                            IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                            Text="{Binding Password, Mode=TwoWay}"
+                            Grid.Column="0" />
+                        <ImageButton
+                            x:Name="ShowPasswordButton"
+                            Source="{Binding EyeIcon}"
+                            HeightRequest="36"
+                            WidthRequest="36"
+                            Padding="6"
+                            Margin="0,0,4,0"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center"
+                            Command="{Binding TogglePasswordVisibilityCommand}"
+                            BackgroundColor="Transparent"
+                            Grid.Column="1" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
 
-            <Entry
-                x:Name="PasswordEntry"
-                Placeholder="Пароль"
-                IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
-                Text="{Binding Password, Mode=TwoWay}"
-                Grid.Column="0" />
-            <ImageButton
-                x:Name="ShowPasswordButton"
-                Source="{Binding EyeIcon}"
-                HeightRequest="30"
-                Padding="10"
-                Margin="0,0,-5,0"
-                HorizontalOptions="End"
-                Command="{Binding TogglePasswordVisibilityCommand}"
-                BackgroundColor="Transparent"
-                Grid.Column="1" />
-        </Grid>
+            <Button
+                Text="Войти"
+                Command="{Binding LoginCommand}"
+                Style="{StaticResource PrimaryButton}"
+                Margin="0,12,0,0" />
 
-        <Button
-            Text="Войти"
-            Command="{Binding LoginCommand}"
-            CornerRadius="40"
-            HorizontalOptions="Fill" />
+            <Label
+                IsVisible="{Binding NotExistingEmailErrorVisible}"
+                HorizontalTextAlignment="Center"
+                Text="Пользователя с заданной почтой не существует"
+                Style="{StaticResource ErrorLabel}" />
+            <Label
+                Text="{Binding ErrorMessage}"
+                IsVisible="{Binding ErrorMessageVisible}"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource ErrorLabel}" />
 
-        <Label
-            Text="Нет аккаунта? Создать новый"
-            TextColor="{StaticResource TextSecondary}"
-            HorizontalOptions="Center">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer
-                    Command="{Binding GoToRegisterPageCommand}" />
-            </Label.GestureRecognizers>
-        </Label>
-
-        <Label
-            IsVisible="{Binding NotExistingEmailErrorVisible}"
-            HorizontalTextAlignment="Center"
-            Text="Пользователя с заданной почтой не существует"
-            Style="{StaticResource ErrorLabel}" />
-        <Label
-            Text="{Binding ErrorMessage}"
-            IsVisible="{Binding ErrorMessageVisible}"
-            HorizontalTextAlignment="Center"
-            Style="{StaticResource ErrorLabel}" />
-    </VerticalStackLayout>
+            <Border
+                Style="{StaticResource Chip}"
+                HorizontalOptions="Center"
+                Margin="0,16,0,0"
+                Padding="14,10">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GoToRegisterPageCommand}" />
+                </Border.GestureRecognizers>
+                <Label
+                    Text="Нет аккаунта? Создать новый"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryLight}}" />
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

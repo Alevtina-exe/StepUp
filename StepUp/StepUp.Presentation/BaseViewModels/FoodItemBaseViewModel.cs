@@ -1,9 +1,11 @@
-﻿using StepUp.Application.Exceptions;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using StepUp.Application.Exceptions;
 using StepUp.Application.Interfaces;
 using StepUp.Application.Interfaces.Services;
 using StepUp.Domain.Calculators;
 using StepUp.Presentation.Constants;
 using StepUp.Presentation.Interfaces;
+using StepUp.Presentation.Messages;
 using StepUp.Presentation.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -171,6 +173,7 @@ namespace StepUp.Presentation.BaseViewModels
             try
             {
                 await DoSaveAsync(amount);
+                WeakReferenceMessenger.Default.Send(new DayChangedMessage(_date));
                 await _nav.GoToPageAsync(AppRoutes.Main);
             }
             catch (Exception ex) { ShowError(ex.Message); }
@@ -184,6 +187,7 @@ namespace StepUp.Presentation.BaseViewModels
             try
             {
                 await DoDeleteAsync();
+                WeakReferenceMessenger.Default.Send(new DayChangedMessage(_date));
                 await _nav.GoBackAsync();
             }
             catch (Exception ex) { ShowError(ex.Message); }

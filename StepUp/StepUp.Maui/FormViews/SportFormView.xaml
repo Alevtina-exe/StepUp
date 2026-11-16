@@ -4,76 +4,64 @@
     x:Class="StepUp.Maui.FormViews.SportFormView">
     <Grid
         RowDefinitions="Auto,*,*,Auto,*"
-        RowSpacing="10"
-        Padding="15"
-        MinimumWidthRequest="200">
+        RowSpacing="12"
+        Padding="20"
+        MinimumWidthRequest="260">
+
         <Label
-            Margin="0,0,0,10"
             x:Name="TitleLabel"
-            FontSize="16"
+            FontSize="18"
             FontAttributes="Bold"
             HorizontalTextAlignment="Center"
-            TextColor="Black" />
+            Style="{StaticResource BodyLabel}" />
 
         <Border
             Grid.Row="1"
-            BackgroundColor="{StaticResource White}"
-            Stroke="Transparent"
-            Opacity="0.6"
-            StrokeShape="RoundRectangle 20"
-            Padding="10,0">
+            Style="{StaticResource InputBorder}">
             <Entry
                 x:Name="NameEntry"
                 Placeholder="Название"
-                TextChanged="OnEntryChanged"
-                PlaceholderColor="{StaticResource TextSecondary}" />
+                TextChanged="OnEntryChanged" />
         </Border>
 
         <Border
             Grid.Row="2"
-            BackgroundColor="{StaticResource White}"
-            Stroke="Transparent"
-            Opacity="0.6"
-            StrokeShape="RoundRectangle 30"
-            Padding="10,0">
+            Style="{StaticResource InputBorder}">
             <Entry
                 x:Name="KcalEntry"
-                Placeholder="Количество калорий"
-                PlaceholderColor="{StaticResource TextSecondary}"
+                Placeholder="Сожжено ккал"
                 Keyboard="Numeric"
-                TextChanged="OnEntryChanged"/>
+                TextChanged="OnEntryChanged" />
         </Border>
+
         <Label
             Grid.Row="3"
             x:Name="ErrorLabel"
-            TextColor="{StaticResource ErrorColor}"
+            Style="{StaticResource ErrorLabel}"
             HorizontalOptions="Center"
             IsVisible="False" />
 
         <Grid
             Grid.Row="4"
             ColumnDefinitions="*,*,Auto"
-            ColumnSpacing="5"
-            HorizontalOptions="Fill">
-
+            ColumnSpacing="8">
             <Button
                 x:Name="SaveButton"
                 Text="OK"
                 Clicked="OnSaveClicked"
-                Style="{StaticResource PopupMenuButton}"
+                Style="{StaticResource PrimaryButton}"
                 Grid.Column="0" />
             <Button
                 x:Name="CancelButton"
                 Text="Отмена"
                 Clicked="OnCancelClicked"
-                Style="{StaticResource PopupMenuButton}"
+                Style="{StaticResource SecondaryButton}"
                 Grid.Column="1" />
-
             <Button
                 x:Name="DeleteButton"
                 Text="Удалить"
                 Clicked="OnDeleteClicked"
-                Style="{StaticResource PopupMenuButton}"
+                Style="{StaticResource DangerButton}"
                 Grid.Column="2"
                 IsVisible="False" />
         </Grid>

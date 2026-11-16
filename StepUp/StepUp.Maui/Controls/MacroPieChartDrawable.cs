@@ -27,7 +27,7 @@ public class MacroPieChartDrawable : IDrawable
         canvas.StrokeSize = StrokeWidth;
         canvas.StrokeLineCap = LineCap.Butt;
 
-        var startAngle = -90f;
+        var startAngle = 0f;
 
         DrawSlice(ref startAngle, ProteinPercent, ProteinColor);
         DrawSlice(ref startAngle, FatPercent, FatColor);
@@ -49,10 +49,10 @@ public class MacroPieChartDrawable : IDrawable
         _canvas.DrawArc(
             _centerX - _radius, _centerY - _radius,
             _radius * 2, _radius * 2,
-            startAngle, startAngle + sweep,
-            clockwise: true,
+            startAngle, startAngle + sweep + 1,
+            clockwise: false,
             closed: false);
 
-        startAngle += sweep;
+        startAngle += sweep ;
     }
 }

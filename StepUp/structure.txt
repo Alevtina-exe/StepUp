@@ -3859,6 +3859,11 @@ public static class MauiProgram
             handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(
                 Android.Graphics.Color.Transparent);
         });
+        Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+        {
+            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(
+                Android.Graphics.Color.Transparent);
+        });
 #endif
 
         return app;
@@ -4489,18 +4494,26 @@ namespace StepUp.Maui.Pages;
 public partial class MainPage : ContentPage
 {
     private readonly MainViewModel _vm;
+    private bool _isAnimating;
+
     public MainPage(MainViewModel vm)
     {
-		InitializeComponent();
+        InitializeComponent();
         _vm = vm;
         BindingContext = vm;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        _vm.PropertyChanged -= ViewModel_PropertyChanged;
         _vm.PropertyChanged += ViewModel_PropertyChanged;
-    }
-	protected override async void OnAppearing() 
-	{
-		base.OnAppearing();
+
         await _vm.InitializeAsync();
+
+        AnimateAll();
     }
+
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(MainViewModel.CurrDayRes))
@@ -4508,6 +4521,7 @@ public partial class MainPage : ContentPage
             AnimateAll();
         }
     }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
@@ -4527,6 +4541,9 @@ public partial class MainPage : ContentPage
 
     private void AnimateAll()
     {
+        if (_isAnimating) return;  
+        _isAnimating = true;
+
         double targetEaten = _vm.KcalEaten;
         double targetBurnt = _vm.KcalBurnt;
 
@@ -4542,7 +4559,8 @@ public partial class MainPage : ContentPage
             start: 0,
             end: 1,
             easing: Easing.CubicOut
-        ).Commit(this, "AnimAll", 16, 1500);
+        ).Commit(this, "AnimAll", 16, 1500,
+                 finished: (_, _) => _isAnimating = false);
 
         AnimateMacros();
         AnimateKcalCircle();
@@ -4558,7 +4576,7 @@ public partial class MainPage : ContentPage
         _vm.FatProgress = 0;
         _vm.CbProgress = 0;
 
-        var animation = new Animation(
+        new Animation(
             callback: v =>
             {
                 _vm.PrProgress = v * targetPr;
@@ -4567,11 +4585,12 @@ public partial class MainPage : ContentPage
             },
             start: 0,
             end: 1,
-            easing: Easing.CubicOut 
-        );
-
-        animation.Commit(this, "MacrosAnim", 16, 1000);
+            easing: Easing.CubicOut
+        ).Commit(this, "MacrosAnim", 16, 1000);
     }
+
+    private const double CenterXY = 80;
+    private const double Radius = 80;
 
     private void AnimateKcalCircle()
     {
@@ -4579,21 +4598,21 @@ public partial class MainPage : ContentPage
         int targetKcalRes = _vm.KcalRes;
 
         progressBar.IsVisible = targetProgress != 0;
-        Arc.Point = new Point(67, 0);
+        Arc.Point = new Point(CenterXY, 0);
         Arc.IsLargeArc = false;
+        Arc.SweepDirection = SweepDirection.Clockwise;
         progressBar.Stroke = new SolidColorBrush(Colors.Green);
         KcalResLabel.Text = "0";
         KcalLeft.TextColor = Colors.Green;
 
-
-        var animation = new Animation(
+        new Animation(
             callback: v =>
             {
                 double currentProgress = Math.Min(v * targetProgress, 0.9999);
 
                 double angle = (Math.PI * 2 * currentProgress) - (Math.PI / 2);
-                double x = 67 + 67 * Math.Cos(angle);
-                double y = 67 + 67 * Math.Sin(angle);
+                double x = CenterXY + Radius * Math.Cos(angle);
+                double y = CenterXY + Radius * Math.Sin(angle);
 
                 Arc.Point = new Point(x, y);
                 Arc.IsLargeArc = currentProgress > 0.5;
@@ -4608,10 +4627,8 @@ public partial class MainPage : ContentPage
             },
             start: 0,
             end: 1,
-            easing: Easing.CubicOut 
-        );
-
-        animation.Commit(this, "KcalCircleAnim", 16, 1500);
+            easing: Easing.CubicOut
+        ).Commit(this, "KcalCircleAnim", 16, 1500);
     }
 }
 

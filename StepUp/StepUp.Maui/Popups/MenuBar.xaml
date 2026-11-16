@@ -6,46 +6,37 @@
     x:Class="StepUp.Maui.Popups.MenuBar"
     x:TypeArguments="enums:MenuAction"
     Background="Transparent">
-    <VerticalStackLayout>
+    <VerticalStackLayout
+        Padding="30">
         <Border
-            StrokeShape="RoundRectangle 20"
-            Stroke="{StaticResource Primary}"
-            BackgroundColor="{StaticResource PopupBackground}">
-
+            Style="{StaticResource PopupBorder}"
+            Padding="16">
             <VerticalStackLayout
-                Spacing="5"
-                Padding="20">
-
+                Spacing="8">
                 <Button
-                    Text="Измерение веса"
-                    Style="{StaticResource PopupMenuButton}"
+                    Text="Изменить вес"
+                    Style="{StaticResource MenuActionButton}"
                     Clicked="AddWeight_Clicked" />
-
                 <Button
                     Text="Завтрак"
-                    Style="{StaticResource PopupMenuButton}"
+                    Style="{StaticResource MenuActionButton}"
                     Clicked="AddBreakfast_Clicked" />
-
                 <Button
                     Text="Обед"
-                    Style="{StaticResource PopupMenuButton}"
+                    Style="{StaticResource MenuActionButton}"
                     Clicked="AddLunch_Clicked" />
-
                 <Button
                     Text="Ужин"
-                    Style="{StaticResource PopupMenuButton}"
+                    Style="{StaticResource MenuActionButton}"
                     Clicked="AddDinner_Clicked" />
-
                 <Button
                     Text="Перекус"
-                    Style="{StaticResource PopupMenuButton}"
+                    Style="{StaticResource MenuActionButton}"
                     Clicked="AddSnack_Clicked" />
-
                 <Button
                     Text="Физическая нагрузка"
-                    Style="{StaticResource PopupMenuButton}"
+                    Style="{StaticResource MenuActionButton}"
                     Clicked="AddSport_Clicked" />
-
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>

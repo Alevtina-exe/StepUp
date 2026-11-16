@@ -5,52 +5,67 @@
     xmlns:viewmodels="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
     xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
     x:Class="StepUp.Maui.Pages.SettingsPage"
-    x:DataType="viewmodels:SettingsViewModel" >
-    <sv:SettingsView
-        HasUnevenRows="true">
-        <sv:Section
-            Title="Мой профиль">
-            <sv:LabelCell
-                Title="Имя"
-                ValueText="{Binding Name}" />
-            <sv:LabelCell
-                Title="Пол"
-                ValueText="{Binding Gender}" />
-            <sv:LabelCell
-                Title="Возраст"
-                ValueText="{Binding Age, StringFormat='{0} лет'}" />
-            <sv:LabelCell
-                Title="Рост"
-                ValueText="{Binding Height, StringFormat='{0} см'}" />
-            <sv:LabelCell
-                Title="Вес"
-                ValueText="{Binding Weight, StringFormat='{0:F1} кг'}" />
-            <sv:LabelCell
-                Title="Дневная норма калорий"
-                ValueText="{Binding CaloriePlan, StringFormat='{0} ккал'}" />
-        </sv:Section>
+    x:DataType="viewmodels:SettingsViewModel">
 
-        <sv:Section
-            Title="Данные авторизации">
-            <sv:LabelCell
-                Title="Email"
-                ValueText="{Binding Email}" />
-            <sv:ButtonCell
-                Title="Сменить пароль"
-                TitleColor="Grey"
-                Command="{Binding ChangePasswordCommand}" />
-            <sv:ButtonCell
-                Title="Изменить данные пользователя"
-                TitleColor="Grey"
-                Command="{Binding ChangeAllCommand}" />
-            <sv:ButtonCell
-                Title="Выйти"
-                TitleColor="{StaticResource ErrorColor}"
-                Command="{Binding LogoutCommand}" />
-            <sv:ButtonCell
-                Title="Удалить аккаунт"
-                TitleColor="{StaticResource ErrorColor}"
-                Command="{Binding DeleteAccountCommand}" />
-        </sv:Section>
-    </sv:SettingsView>
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="0,24"
+            Spacing="16">
+            <Label
+                Text="Настройки"
+                Style="{StaticResource TitleLabel}"
+                Margin="0,0,0,8" />
+
+            <sv:SettingsView
+                HasUnevenRows="true"
+                CellBackgroundColor="Transparent"
+                BackgroundColor="Transparent">
+                <sv:Section
+                    
+                    Title="Мой профиль">
+                    <sv:LabelCell
+                        Title="Имя"
+                        ValueText="{Binding Name}" />
+                    <sv:LabelCell
+                        Title="Пол"
+                        ValueText="{Binding Gender}" />
+                    <sv:LabelCell
+                        Title="Возраст"
+                        ValueText="{Binding Age, StringFormat='{0} лет'}" />
+                    <sv:LabelCell
+                        Title="Рост"
+                        ValueText="{Binding Height, StringFormat='{0} см'}" />
+                    <sv:LabelCell
+                        Title="Вес"
+                        ValueText="{Binding Weight, StringFormat='{0:F1} кг'}" />
+                    <sv:LabelCell
+                        Title="Дневная норма"
+                        ValueText="{Binding CaloriePlan, StringFormat='{0} ккал'}" />
+                </sv:Section>
+
+                <sv:Section
+                    Title="Аккаунт">
+                    <sv:LabelCell
+                        Title="Email"
+                        ValueText="{Binding Email}" />
+                    <sv:ButtonCell
+                        Title="Сменить пароль"
+                        TitleColor="Grey"
+                        Command="{Binding ChangePasswordCommand}" />
+                    <sv:ButtonCell
+                        Title="Изменить данные"
+                        TitleColor="Grey"
+                        Command="{Binding ChangeAllCommand}" />
+                    <sv:ButtonCell
+                        Title="Выйти"
+                        TitleColor="{StaticResource ErrorColor}"
+                        Command="{Binding LogoutCommand}" />
+                    <sv:ButtonCell
+                        Title="Удалить аккаунт"
+                        TitleColor="{StaticResource ErrorColor}"
+                        Command="{Binding DeleteAccountCommand}" />
+                </sv:Section>
+            </sv:SettingsView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
