@@ -11,9 +11,9 @@ public static class AppRoutes
     public const string Graph = "GraphPage";
     public const string ViewMeal = "MealListPage";
     public const string SearchProduct = "SearchProductPage";
-    public const string EditProduct = "EditProductPage";
-    public const string AddProduct = "AddProductPage";
+    public const string EditProduct = "EditFoodItemPage";
+    public const string AddProduct = "AddFoodItemPage";
     public const string EditAccount = "EditAccountPage";
-    public const string BarcodeScanner = "BarcodeScanner";
+    public const string BarcodeScanner = "BarcodeScannerPage";
 
 }

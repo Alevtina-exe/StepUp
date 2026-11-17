@@ -6,119 +6,184 @@
     x:Class="StepUp.Maui.Pages.RegistrationPage"
     x:DataType="vm:RegistrationViewModel">
 
-    <VerticalStackLayout
-        Padding="30,20"
-        Spacing="15">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,30,30,40"
+            Spacing="16">
 
-        <Label
-            Text="Регистрация пользователя"
-            Style="{StaticResource TitleLabel}" />
+            <VerticalStackLayout
+                Spacing="6"
+                Margin="0,0,0,16">
+                <Label
+                    Text="Регистрация"
+                    Style="{StaticResource TitleLabel}" />
+                <Label
+                    Text="Создайте аккаунт, чтобы начать"
+                    Style="{StaticResource CaptionLabel}"
+                    HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
 
-        <Entry
-            x:Name="NameEntry"
-            Placeholder="Имя"
-            Text="{Binding Name, Mode=TwoWay}" />
-        <Label
-            x:Name="NameErrorLabel"
-            Text="Допустимы только буквы!"
-            Style="{StaticResource ErrorLabel}"
-            IsVisible="{Binding NameErrorVisible}" />
+            <VerticalStackLayout
+                Spacing="6">
+                <Label
+                    Text="Имя"
+                    Style="{StaticResource SectionLabel}" />
+                <Border
+                    Style="{StaticResource InputBorder}">
+                    <Entry
+                        x:Name="NameEntry"
+                        Placeholder="Ваше имя"
+                        Text="{Binding Name, Mode=TwoWay}" />
+                </Border>
+                <Label
+                    x:Name="NameErrorLabel"
+                    Text="Допустимы только буквы!"
+                    Style="{StaticResource ErrorLabel}"
+                    IsVisible="{Binding NameErrorVisible}" />
+            </VerticalStackLayout>
 
-        <Entry
-            x:Name="EmailEntry"
-            Placeholder="Email"
-            Text="{Binding Email, Mode=TwoWay}" />
-        <Label
-            x:Name="LoginErrorLabel"
-            Text="Неверный формат почты."
-            Margin="5,-12,0,0"
-            Style="{StaticResource ErrorLabel}"
-            IsVisible="{Binding EmailErrorVisible}" />
+            <VerticalStackLayout
+                Spacing="6">
+                <Label
+                    Text="Email"
+                    Style="{StaticResource SectionLabel}" />
+                <Border
+                    Style="{StaticResource InputBorder}">
+                    <Entry
+                        x:Name="EmailEntry"
+                        Placeholder="you@example.com"
+                        Keyboard="Email"
+                        Text="{Binding Email, Mode=TwoWay}" />
+                </Border>
+                <Label
+                    x:Name="LoginErrorLabel"
+                    Text="Неверный формат почты."
+                    Style="{StaticResource ErrorLabel}"
+                    IsVisible="{Binding EmailErrorVisible}" />
+            </VerticalStackLayout>
 
-        <Grid>
+            <VerticalStackLayout
+                Spacing="6">
+                <Label
+                    Text="Пароль"
+                    Style="{StaticResource SectionLabel}" />
+                <Border
+                    Style="{StaticResource InputBorder}"
+                    Padding="14,2,4,2">
+                    <Grid
+                        ColumnDefinitions="*,Auto">
+                        <Entry
+                            x:Name="PasswordEntry"
+                            Placeholder="Минимум 8 символов"
+                            IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                            Text="{Binding Password, Mode=TwoWay}"
+                            Grid.Column="0" />
+                        <ImageButton
+                            x:Name="ShowPasswordButton"
+                            Source="{Binding EyeIcon}"
+                            HeightRequest="36"
+                            WidthRequest="36"
+                            Padding="6"
+                            Margin="0,0,4,0"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center"
+                            Command="{Binding TogglePasswordVisibilityCommand}"
+                            BackgroundColor="Transparent"
+                            Grid.Column="1" />
+                    </Grid>
+                </Border>
+                <Label
+                    x:Name="PasswordCheckErrorLabel"
+                    Text="Минимум 8 символов, одна буква и одна цифра, без кириллицы."
+                    Style="{StaticResource ErrorLabel}"
+                    IsVisible="{Binding PasswordErrorVisible}" />
+            </VerticalStackLayout>
 
-            <Entry
-                x:Name="PasswordEntry"
-                Placeholder="Пароль"
-                IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
-                Text="{Binding Password, Mode=TwoWay}" />
-            <ImageButton
-                x:Name="ShowPasswordButton"
-                Source="{Binding EyeIcon}"
-                WidthRequest="30"
-                Padding="10"
-                Margin="0,0,-5,0"
-                HorizontalOptions="End"
-                Command="{Binding TogglePasswordVisibilityCommand}"
-                BackgroundColor="Transparent" />
-        </Grid>
-        <Label
-            x:Name="PasswordCheckErrorLabel"
-            Text="Пароль должен содержать минимум 8 символов, хотя бы одну букву и одну цифру, и не содержать кириллицу!"
-            Style="{StaticResource ErrorLabel}"
-            IsVisible="{Binding PasswordErrorVisible}" />
+            <VerticalStackLayout
+                Spacing="6">
+                <Label
+                    Text="Повторите пароль"
+                    Style="{StaticResource SectionLabel}" />
+                <Border
+                    Style="{StaticResource InputBorder}"
+                    Padding="14,2,4,2">
+                    <Grid
+                        ColumnDefinitions="*,Auto">
+                        <Entry
+                            x:Name="CheckPasswordEntry"
+                            Placeholder="Повторите пароль"
+                            IsPassword="{Binding IsCheckPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                            Text="{Binding CheckPassword, Mode=TwoWay}"
+                            Grid.Column="0" />
+                        <ImageButton
+                            x:Name="ShowCheckPasswordButton"
+                            Source="{Binding CheckEyeIcon}"
+                            HeightRequest="36"
+                            WidthRequest="36"
+                            Padding="6"
+                            Margin="0,0,4,0"
+                            HorizontalOptions="End"
+                            VerticalOptions="Center"
+                            Command="{Binding ToggleCheckPasswordVisibilityCommand}"
+                            BackgroundColor="Transparent"
+                            Grid.Column="1" />
+                    </Grid>
+                </Border>
+                <Label
+                    x:Name="PasswordErrorLabel"
+                    Text="Пароли не совпадают"
+                    Style="{StaticResource ErrorLabel}"
+                    IsVisible="{Binding CheckPasswordErrorVisible}" />
+            </VerticalStackLayout>
 
-        <Grid>
-            <Entry
-                x:Name="CheckPasswordEntry"
-                Placeholder="Повторите пароль"
-                IsPassword="{Binding IsCheckPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
-                Text="{Binding CheckPassword, Mode=TwoWay}" />
-            <ImageButton
-                x:Name="ShowCheckPasswordButton"
-                Source="{Binding CheckEyeIcon}"
-                Command="{Binding ToggleCheckPasswordVisibilityCommand}"
-                HeightRequest="30"
-                WidthRequest="30"
-                Padding="10"
-                Margin="0,0,-5,0"
-                HorizontalOptions="End"
-                BackgroundColor="Transparent" />
-        </Grid>
-        <Label
-            x:Name="PasswordErrorLabel"
-            Text="Пароли не совпадают"
-            Style="{StaticResource ErrorLabel}"
-            IsVisible="{Binding CheckPasswordErrorVisible}" />
+            <Grid
+                ColumnDefinitions="3*,2*"
+                ColumnSpacing="10"
+                Margin="0,4,0,0">
+                <Label
+                    Text="Дата рождения"
+                    Grid.Column="0"
+                    Style="{StaticResource SectionLabel}"
+                    VerticalTextAlignment="Center" />
+                <Border
+                    Style="{StaticResource InputBorder}"
+                    Grid.Column="1"
+                    Padding="8,2">
+                    <DatePicker
+                        x:Name="BirthDatePicker"
+                        HorizontalOptions="Center"
+                        Date="{Binding BirthDate, Mode=TwoWay}"
+                        MinimumDate="{Binding MinDate}"
+                        MaximumDate="{Binding MaxDate}" />
+                </Border>
+            </Grid>
 
-        <Grid
-            ColumnSpacing="5"
-            ColumnDefinitions="3*,2*">
+            <Border
+                Style="{StaticResource InputBorder}"
+                Padding="8,2">
+                <Picker
+                    x:Name="GenderPicker"
+                    Title="Выберите пол"
+                    SelectedItem="{Binding Gender, Mode=TwoWay}"
+                    ItemsSource="{Binding Genders}" />
+            </Border>
+
+            <Button
+                Text="Продолжить"
+                Command="{Binding ContinueCommand}"
+                Style="{StaticResource PrimaryButton}"
+                Margin="0,8,0,0" />
 
             <Label
-                Text=" Выберите дату рождения:"
-                FontSize="14"
-                Grid.Column="0"
-                VerticalTextAlignment="Center"
-                HorizontalTextAlignment="Start" />
-            <DatePicker
-                x:Name="BirthDatePicker"
-                Grid.Column="1"
-                HorizontalOptions="Center"
-                Date="{Binding BirthDate, Mode=TwoWay}"
-                MinimumDate="{Binding MinDate}"
-                MaximumDate="{Binding MaxDate}" />
-        </Grid>
-        <Picker
-            x:Name="GenderPicker"
-            Title="Выберите пол"
-            SelectedItem="{Binding Gender, Mode=TwoWay}"
-            ItemsSource="{Binding Genders}" />
-
-        <Button
-            Text="Продолжить"
-            Command="{Binding ContinueCommand}"
-            CornerRadius="30"
-            Opacity="0.8" />
-        <Label
-            IsVisible="{Binding ExistingEmailErrorVisible}"
-            HorizontalTextAlignment="Center"
-            Text="Пользователь с заданной почтой уже существует"
-            Style="{StaticResource ErrorLabel}" />
-        <Label
-            Text="Что-то пошло не так. Повторите попытку позже"
-            IsVisible="{Binding ErrorMessageVisible}"
-            HorizontalTextAlignment="Center"
-            Style="{StaticResource ErrorLabel}" />
-    </VerticalStackLayout>
+                IsVisible="{Binding ExistingEmailErrorVisible}"
+                HorizontalTextAlignment="Center"
+                Text="Пользователь с заданной почтой уже существует"
+                Style="{StaticResource ErrorLabel}" />
+            <Label
+                Text="Что-то пошло не так. Повторите попытку позже"
+                IsVisible="{Binding ErrorMessageVisible}"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource ErrorLabel}" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

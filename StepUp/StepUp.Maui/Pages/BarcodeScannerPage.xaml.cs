@@ -25,25 +25,29 @@ public partial class BarcodeScannerPage : ContentPage, IQueryAttributable
 #endif
     }
 
-    private async Task OnBarcodeDetected(object sender, BarcodeDetectionEventArgs e)
+    private async void OnBarcodeDetected(object sender, BarcodeDetectionEventArgs e)
     {
         var first = e.Results?.FirstOrDefault();
         if (first is null) return;
 
-        barcodeView.IsDetecting = false;
-
-        if (_date == null || _mealType == null)
+        MainThread.BeginInvokeOnMainThread(async () =>
         {
-            await Shell.Current.GoToAsync("..");
-            return;
-        }
+            barcodeView.IsDetecting = false;
 
-        await Shell.Current.GoToAsync(AppRoutes.SearchProduct,
-            new Dictionary<string, object>
+            if (_date == null || _mealType == null)
             {
-                {"Date", _date.Value },
-                {"MealType", _mealType.Value }
-            });
+                await Shell.Current.GoToAsync("..");
+                return;
+            }
+
+            await Shell.Current.GoToAsync(AppRoutes.AddProduct,
+                new Dictionary<string, object>
+                {
+                { "Date", _date.Value },
+                { "MealType", _mealType.Value },
+                { "FoodProductId", first.Value }
+                });
+        });
     }
 
 

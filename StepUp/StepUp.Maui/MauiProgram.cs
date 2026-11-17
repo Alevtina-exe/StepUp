@@ -60,6 +60,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
         builder.Services.AddSingleton<IDialogService, MauiDialogService>();
         builder.Services.AddSingleton<IPopupFactory, MauiPopupFactory>();
+		builder.Services.AddSingleton<ISessionStorage, MauiSessionStorage>();
 
 
         builder.Services.AddTransient<AddFoodItemPage>();
@@ -67,7 +68,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<BodyDataPage>();
 		builder.Services.AddTransient<EditAccountPage>();
         builder.Services.AddTransient<EditFoodItemPage>();
-		builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<LoadingPage>();
+        builder.Services.AddTransient<LoginPage>();
 		builder.Services.AddTransient<MainPage>();
 		builder.Services.AddTransient<MealListPage>();
         builder.Services.AddTransient<RegistrationPage>();
@@ -83,11 +85,26 @@ public static class MauiProgram
 #endif
 
 		var app = builder.Build();
+
         using (var scope = app.Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             db.Database.Migrate();
         }
+
+#if ANDROID
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+        {
+            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(
+                Android.Graphics.Color.Transparent);
+        });
+        Microsoft.Maui.Handlers.PickerHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+        {
+            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(
+                Android.Graphics.Color.Transparent);
+        });
+#endif
+
         return app;
 	}
 }

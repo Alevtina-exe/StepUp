@@ -2,10 +2,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
-    x:Class="StepUp.Maui.Pages.BarcodeScannerPage">
-    <Grid>
-        <BoxView
-            Color="#40000000" />
+    x:Class="StepUp.Maui.Pages.BarcodeScannerPage" >
+    <Grid >
+        <zxing:CameraBarcodeReaderView
+            x:Name="barcodeView"
+            IsDetecting="True"
+            BarcodesDetected="OnBarcodeDetected"
+            BackgroundColor="Transparent" />
         <Border
             HorizontalOptions="Center"
             VerticalOptions="Center"
@@ -15,13 +18,6 @@
             StrokeShape="Rectangle"
             HeightRequest="175"
             WidthRequest="300">
-            <zxing:CameraBarcodeReaderView
-                x:Name="barcodeView"
-                IsDetecting="True"
-                BarcodesDetected="OnBarcodeDetected"
-                HeightRequest="175"
-                WidthRequest="300"
-                BackgroundColor="Transparent" />
         </Border>
         <Border
             HorizontalOptions="Center"
@@ -45,7 +41,7 @@
             BackgroundColor="#80000000"
             WidthRequest="40"
             HeightRequest="40"
-            CornerRadius="20"
+            CornerRadius="30"
             HorizontalOptions="End"
             VerticalOptions="Start"
             Margin="20"

@@ -309,8 +309,8 @@ namespace StepUp.Data.Migrations
                             b1.Property<Guid>("FoodItemId")
                                 .HasColumnType("TEXT");
 
-                            b1.Property<double>("Calories")
-                                .HasColumnType("REAL")
+                            b1.Property<int>("Calories")
+                                .HasColumnType("INTEGER")
                                 .HasColumnName("kcal_100g");
 
                             b1.Property<double>("Carbohydrates")

@@ -1,0 +1,2676 @@
+﻿
+=== E:\Projects\StepUp\StepUp.Maui\App.xaml ===
+
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:StepUp.Maui.Converters"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:local="clr-namespace:StepUp.Maui"
+    x:Class="StepUp.Maui.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    x:Name="appColors"
+                    Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary
+                    x:Name="appStyles"
+                    Source="Resources/Styles/Styles.xaml" />
+                <ResourceDictionary
+                    Source="Resources/Styles/Icons.xaml" />
+                <ResourceDictionary>
+                    <converters:BmiCategoryToColorConverter
+                        x:Key="BmiCategoryToColor" />
+                    <converters:MacroRatioToColorConverter
+                        x:Key="MacroRatioToColor" />
+                    <converters:BoolToColorConverter
+                        x:Key="BoolToColor" />
+                    <converters:NutriscoreGradeToImageConverter
+                        x:Key="NutriscoreToImage" />
+                    <converters:NovaGroupToImageConverter
+                        x:Key="NovaToImage" />
+                    <converters:BoolToGreenRedConverter
+                        x:Key="BoolToGreenRed" />
+                </ResourceDictionary>
+
+                <ResourceDictionary>
+                    <LinearGradientBrush
+                        x:Key="GradientShadow">
+                        <GradientStop
+                            Color="Gray"
+                            Offset="0.0" />
+                        <GradientStop
+                            Color="Transparent"
+                            Offset="1.0" />
+                    </LinearGradientBrush>
+                </ResourceDictionary>
+                <material:StyleResource
+                    ColorsOverride="{x:Reference appColors}"
+                    BasedOn="{x:Reference appStyles}" />
+            </ResourceDictionary.MergedDictionaries>
+            <OnPlatform
+                x:Key="FontAwesomeSolid"
+                x:TypeArguments="x:String">
+                <On
+                    Platform="Android"
+                    Value="Font Awesome 6 Free-Solid-900.otf#Font Awesome 6 Free Solid" />
+            </OnPlatform>
+
+            <OnPlatform
+                x:Key="FontAwesomeRegular"
+                x:TypeArguments="x:String">
+                <On
+                    Platform="Android"
+                    Value="Font Awesome 6 Free-Regular-400.otf#Font Awesome 6 Free Regular" />
+            </OnPlatform>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
+
+=== E:\Projects\StepUp\StepUp.Maui\AppShell.xaml ===
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="StepUp.Maui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:StepUp.Maui.Pages"
+    Shell.FlyoutBehavior="Disabled"> 
+
+    <ShellContent
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate local:LoginPage}" />
+    
+    <ShellContent
+        Route="MainPage"
+        ContentTemplate="{DataTemplate local:MainPage}" />
+
+</Shell>
+
+=== E:\Projects\StepUp\StepUp.Maui\FormViews\FoodItemFormView.xaml ===
+
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:StepUp.Presentation.BaseViewModels;assembly=StepUp.Presentation"
+    xmlns:controls="clr-namespace:StepUp.Maui.Controls"
+    x:Class="StepUp.Maui.FormViews.FoodItemFormView"
+    x:DataType="vm:FoodItemBaseViewModel">
+    <Grid
+        RowDefinitions="*,Auto">
+        <ScrollView
+            Grid.Row="0">
+            <Grid
+                RowDefinitions="Auto,Auto,Auto,Auto,*"
+                BackgroundColor="{StaticResource PrimaryLight}">
+                <Image
+                    Source="{Binding ImageUrl}"
+                    MaximumHeightRequest="280"
+                    BackgroundColor="LightGray" />
+                <ScrollView
+                    VerticalOptions="End"
+                    Orientation="Horizontal">
+                    <Label
+                        Text="{Binding Name}"
+                        HorizontalTextAlignment="Center"
+                        FontSize="30"
+                        TextColor="White"
+                        Padding="0,0,0,5"
+                        Background="{StaticResource ImageOverlayGradient}" />
+
+                </ScrollView>
+
+                <ImageButton
+                    x:Name="favButton"
+                    Margin="0,5,5,0"
+                    Source="{StaticResource IconNotFavourite}"
+                    BackgroundColor="Transparent"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start" />
+                <Border
+                    Grid.Row="1"
+                    HorizontalOptions="Fill"
+                    Padding="10"
+                    StrokeShape="Rectangle"
+                    Stroke="{StaticResource PrimaryLight}"
+                    BackgroundColor="{StaticResource PrimaryLight}">
+                    <Border
+                        Style="{StaticResource WhiteCardFrame}"
+                        Padding="20">
+                        <VerticalStackLayout
+                            Spacing="10">
+                            <Grid
+                                ColumnDefinitions="Auto,*"
+                                RowDefinitions="Auto,*"
+                                ColumnSpacing="20"
+                                RowSpacing="10">
+
+                                <controls:MacroPieChart
+                                    ProteinPercent="{Binding ProteinPercent}"
+                                    FatPercent="{Binding FatPercent}"
+                                    CarbonPercent="{Binding CarbonPercent}"
+                                    WidthRequest="120"
+                                    HeightRequest="120"
+                                    Grid.Column="1"
+                                    HorizontalOptions="End"/>
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="5,0"
+                                    ColumnSpacing="5"
+                                    RowSpacing="5"
+                                    ColumnDefinitions="Auto,*,Auto"
+                                    RowDefinitions="*,*,*">
+
+                                    <Border
+                                        BackgroundColor="{StaticResource NutriProtein}"
+                                        Stroke="{StaticResource NutriProtein}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="Р‘РµР»РєРё" />
+                                    <Label
+                                        Grid.Column="2"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding TotalNutrients.Proteins,
+                                        StringFormat='{0:F1} Рі'}" />
+
+                                    <Border
+                                        Grid.Row="1"
+                                        BackgroundColor="{StaticResource NutriFat}"
+                                        Stroke="{StaticResource NutriFat}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Text="Р–РёСЂС‹" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding TotalNutrients.Fat,
+                                        StringFormat='{0:F1} Рі'}" />
+
+                                    <Border
+                                        Grid.Row="2"
+                                        BackgroundColor="{StaticResource NutriCarbon}"
+                                        Stroke="{StaticResource NutriCarbon}"
+                                        WidthRequest="10"
+                                        HeightRequest="10"
+                                        StrokeShape="RoundRectangle 10" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Text="РЈРіР»РµРІРѕРґС‹" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding TotalNutrients.Carbohydrates,
+                                        StringFormat='{0:F1} Рі'}" />
+                                </Grid>
+
+                                <VerticalStackLayout
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Margin="10,0,0,0">
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        FontFamily="impact"
+                                        FontSize="33"
+                                        TextColor="{StaticResource NutriKcal}"
+                                        Text="{Binding TotalNutrients.Calories, StringFormat='{0} РєРєР°Р»'}" />
+                                    <ProgressBar
+                                        Progress="{Binding Progress}"
+                                        ScaleY="1.5"
+                                        HorizontalOptions="Fill"
+                                        ProgressColor="{StaticResource NutriKcal}" />
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        Margin="0,2,0,0"
+                                        FontFamily="impact"
+                                        TextColor="{StaticResource NutriKcal}"
+                                        Text="{Binding DailyPercent, StringFormat='{0:F1}% РѕС‚ РґРЅРµРІРЅРѕР№ РЅРѕСЂРјС‹'}" />
+                                </VerticalStackLayout>
+                            </Grid>
+
+
+                        </VerticalStackLayout>
+                    </Border>
+                </Border>
+
+                <ScrollView
+                    Orientation="Horizontal"
+                    Grid.Row="2">
+
+                    <HorizontalStackLayout
+                        Spacing="20"
+                        Padding="20,10">
+                        <VerticalStackLayout
+                            Padding="0">
+                            <Image
+                                Source="{Binding NutriscoreGrade, Converter={StaticResource NutriscoreToImage}}"
+                                WidthRequest="60" />
+                            <Image
+                                Source="{Binding NovaGroup, Converter={StaticResource NovaToImage}}"
+                                WidthRequest="60" />
+
+                        </VerticalStackLayout>
+                        <VerticalStackLayout
+                            HorizontalOptions="Start">
+                            <Label
+                                Text="РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊ:"
+                                TextColor="{StaticResource TextSecondary}" />
+                            <Label
+                                Text="{Binding Brand}"
+                                FontSize="16"
+                                TextColor="{StaticResource TextSecondary}"
+                                FontAttributes="Bold" />
+                            <Label
+                                Text="РЁС‚СЂРёС…РєРѕРґ:"
+                                TextColor="{StaticResource TextSecondary}" />
+                            <Label
+                                Text="{Binding Barcode}"
+                                FontSize="16"
+                                TextColor="{StaticResource TextSecondary}"
+                                FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </ScrollView>
+
+                <StackLayout
+                    Orientation="Vertical"
+                    Grid.Row="4"
+                    Padding="20,10"
+                    VerticalOptions="End"
+                    Spacing="10"
+                    BackgroundColor="{StaticResource ProductBottomPanel}">
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="10"
+                        HorizontalOptions="Fill"
+                        HeightRequest="50">
+                        <Border
+                            Stroke="{StaticResource PrimaryDark}"
+                            BackgroundColor="Transparent"
+                            Padding="2"
+                            Grid.Column="0"
+                            StrokeShape="RoundRectangle 10">
+                            <Entry
+                                x:Name="entry"
+                                WidthRequest="60"
+                                Keyboard="Numeric"
+                                Text="{Binding Amount, Mode=TwoWay}"
+                                FontSize="20"
+                                VerticalTextAlignment="End"
+                                HorizontalTextAlignment="Center" />
+                        </Border>
+                        <Picker
+                            FontSize="18"
+                            SelectedItem="{Binding SelectedServing, Mode=TwoWay}"
+                            HorizontalOptions="Fill"
+                            Grid.Column="1"
+                            VerticalTextAlignment="Center"
+                            ItemsSource="{Binding Servings}" />
+                    </Grid>
+                    <Picker
+                        FontSize="18"
+                        Title="РџСЂРёС‘Рј РїРёС‰Рё"
+                        VerticalOptions="End"
+                        ItemsSource="{Binding MealOptions}"
+                        SelectedItem="{Binding SelectedMeal, Mode=TwoWay}" />
+                    <Button
+                        Text="{Binding SaveButtonText}"
+                        Command="{Binding SaveCommand}"
+                        IsEnabled="{Binding IsSaveButtonActive}"
+                        HorizontalOptions="Fill"
+                        CornerRadius="20" />
+                    <Button
+                        Text="РЈРґР°Р»РёС‚СЊ"
+                        IsVisible="{Binding IsDeleteVisible}"
+                        Command="{Binding DeleteCommand}"
+                        CornerRadius="20" />
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</ContentView>
+
+=== E:\Projects\StepUp\StepUp.Maui\FormViews\SportFormView.xaml ===
+
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="StepUp.Maui.FormViews.SportFormView">
+    <Grid
+        RowDefinitions="Auto,*,*,Auto,*"
+        RowSpacing="10"
+        Padding="15"
+        MinimumWidthRequest="200">
+        <Label
+            Margin="0,0,0,10"
+            x:Name="TitleLabel"
+            FontSize="16"
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Center"
+            TextColor="Black" />
+
+        <Border
+            Grid.Row="1"
+            BackgroundColor="{StaticResource White}"
+            Stroke="Transparent"
+            Opacity="0.6"
+            StrokeShape="RoundRectangle 20"
+            Padding="10,0">
+            <Entry
+                x:Name="NameEntry"
+                Placeholder="РќР°Р·РІР°РЅРёРµ"
+                TextChanged="OnEntryChanged"
+                PlaceholderColor="{StaticResource TextSecondary}" />
+        </Border>
+
+        <Border
+            Grid.Row="2"
+            BackgroundColor="{StaticResource White}"
+            Stroke="Transparent"
+            Opacity="0.6"
+            StrokeShape="RoundRectangle 30"
+            Padding="10,0">
+            <Entry
+                x:Name="KcalEntry"
+                Placeholder="РљРѕР»РёС‡РµСЃС‚РІРѕ РєР°Р»РѕСЂРёР№"
+                PlaceholderColor="{StaticResource TextSecondary}"
+                Keyboard="Numeric"
+                TextChanged="OnEntryChanged"/>
+        </Border>
+        <Label
+            Grid.Row="3"
+            x:Name="ErrorLabel"
+            TextColor="{StaticResource ErrorColor}"
+            HorizontalOptions="Center"
+            IsVisible="False" />
+
+        <Grid
+            Grid.Row="4"
+            ColumnDefinitions="*,*,Auto"
+            ColumnSpacing="5"
+            HorizontalOptions="Fill">
+
+            <Button
+                x:Name="SaveButton"
+                Text="OK"
+                Clicked="OnSaveClicked"
+                Style="{StaticResource PopupMenuButton}"
+                Grid.Column="0" />
+            <Button
+                x:Name="CancelButton"
+                Text="РћС‚РјРµРЅР°"
+                Clicked="OnCancelClicked"
+                Style="{StaticResource PopupMenuButton}"
+                Grid.Column="1" />
+
+            <Button
+                x:Name="DeleteButton"
+                Text="РЈРґР°Р»РёС‚СЊ"
+                Clicked="OnDeleteClicked"
+                Style="{StaticResource PopupMenuButton}"
+                Grid.Column="2"
+                IsVisible="False" />
+        </Grid>
+    </Grid>
+</ContentView>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\AddFoodItemPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:formviews="clr-namespace:StepUp.Maui.FormViews"
+    x:Class="StepUp.Maui.Pages.AddFoodItemPage"
+    BackgroundColor="White">
+
+    <formviews:FoodItemFormView
+        x:Name="Form" />
+    
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\BarcodeScannerPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+    x:Class="StepUp.Maui.Pages.BarcodeScannerPage" >
+    <Grid >
+        <zxing:CameraBarcodeReaderView
+            x:Name="barcodeView"
+            IsDetecting="True"
+            BarcodesDetected="OnBarcodeDetected"
+            BackgroundColor="Transparent" />
+        <Border
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Padding="0"
+            BackgroundColor="Transparent"
+            Stroke="White"
+            StrokeShape="Rectangle"
+            HeightRequest="175"
+            WidthRequest="300">
+        </Border>
+        <Border
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Padding="0"
+            BackgroundColor="Transparent"
+            Stroke="{StaticResource Primary}"
+            StrokeShape="Rectangle"
+            HeightRequest="125"
+            WidthRequest="250" />
+        <Label
+            Text="РџРѕРјРµСЃС‚РёС‚Рµ С€С‚СЂРёС…-РєРѕРґ РІ СЂР°РјРєСѓ"
+            TextColor="White"
+            FontSize="16"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            Margin="0,0,0,50" />
+        <Button
+            Text="вњ•"
+            TextColor="White"
+            BackgroundColor="#80000000"
+            WidthRequest="40"
+            HeightRequest="40"
+            CornerRadius="30"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            Margin="20"
+            Clicked="Button_Clicked" />
+    </Grid>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\BodyDataPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Pages.BodyDataPage"
+    x:DataType="vm:BodyDataViewModel">
+
+    <Grid
+        RowDefinitions="*">
+        <VerticalStackLayout
+            Padding="30"
+            Spacing="10">
+            <Label
+                Text="Введите данные"
+                Style="{StaticResource SubtitleLabel}" />
+
+            <Entry
+                Placeholder="Вес"
+                Keyboard="Numeric"
+                Text="{Binding WeightInput, Mode=TwoWay}" />
+            <Entry
+                Placeholder="Рост"
+                Keyboard="Numeric"
+                Text="{Binding HeightInput, Mode=TwoWay}" />
+
+            <Label
+                Text="Ваш ИМТ:"
+                FontSize="22"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="{Binding BmiResult.Value, StringFormat='ИМТ: {0:F1}'}"
+                IsVisible="{Binding IsFormValid}"
+                HorizontalOptions="Center" />
+
+            <Grid
+                x:Name="MyGrid"
+                ColumnSpacing="0"
+                HeightRequest="20"
+                ColumnDefinitions="10*,6*,5*,5*,5*,4*">
+                <BoxView
+                    BackgroundColor="{StaticResource BmiDeficit}"
+                    Grid.Column="0"
+                    Opacity="0.8" />
+                <BoxView
+                    BackgroundColor="{StaticResource BmiNormal}"
+                    Grid.Column="1"
+                    Opacity="0.8" />
+                <BoxView
+                    BackgroundColor="{StaticResource BmiOverweight}"
+                    Grid.Column="2"
+                    Opacity="0.8" />
+                <BoxView
+                    BackgroundColor="{StaticResource BmiObese1}"
+                    Grid.Column="3"
+                    Opacity="0.8" />
+                <BoxView
+                    BackgroundColor="{StaticResource BmiObese2}"
+                    Grid.Column="4"
+                    Opacity="0.8" />
+                <BoxView
+                    BackgroundColor="{StaticResource BmiObese3}"
+                    Grid.Column="5"
+                    Opacity="0.8" />
+
+                <BoxView
+                    x:Name="IMTIndicator"
+                    BackgroundColor="DarkSlateGray"
+                    WidthRequest="2"
+                    HeightRequest="22"
+                    IsVisible="{Binding IsFormValid}"
+                    HorizontalOptions="Start"
+                    Grid.Column="0" />
+            </Grid>
+
+            <Label
+                Text="{Binding BmiCategoryText}"
+                FontSize="20"
+                HorizontalOptions="Center" />
+
+            <Picker
+                Title="Выберите физ. нагрузку"
+                ItemsSource="{Binding SportLevels}"
+                SelectedItem="{Binding SelectedSportLevel, Mode=TwoWay}"
+                ItemDisplayBinding="{Binding DisplayName}" />
+
+            <VerticalStackLayout
+                IsVisible="{Binding IsStepTwo}"
+                Spacing="10">
+                <Label
+                    Text="Рекомендованное КБЖУ: "
+                    FontSize="22"
+                    HorizontalOptions="Center" />
+
+                <AbsoluteLayout
+                    HorizontalOptions="Center"
+                    HeightRequest="110">
+                    <Label
+                        Text="{Binding CaloriePlan}"
+                        FontSize="50"
+                        AbsoluteLayout.LayoutBounds="0,-5,1,1"
+                        AbsoluteLayout.LayoutFlags="SizeProportional"
+                        FontFamily="impact"
+                        HorizontalTextAlignment="Center"
+                        TextColor="SandyBrown">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding EditCaloriesCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label
+                        Text="ккал"
+                        TextColor="SandyBrown"
+                        FontSize="30"
+                        FontFamily="impact"
+                        AbsoluteLayout.LayoutBounds="0,50,1,35"
+                        AbsoluteLayout.LayoutFlags="WidthProportional"
+                        HorizontalTextAlignment="Center" />
+                    <Label
+                        Text="вы можете изменить калораж нажав на него"
+                        FontSize="12"
+                        TextColor="Gray"
+                        AbsoluteLayout.LayoutBounds="0,92,1,15"
+                        AbsoluteLayout.LayoutFlags="WidthProportional"
+                        HorizontalTextAlignment="Center" />
+                </AbsoluteLayout>
+
+                <Grid
+                    ColumnSpacing="5"
+                    HorizontalOptions="Center"
+                    ColumnDefinitions="*,40,*"
+                    RowDefinitions="Auto,Auto,Auto">
+                    <Label
+                        Text="белки:"
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        HorizontalTextAlignment="End"
+                        VerticalTextAlignment="Center" />
+                    <Entry
+                        Text="{Binding ProteinInput, Mode=TwoWay}"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Keyboard="Numeric"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
+                    <Label
+                        Text="%"
+                        Grid.Column="2"
+                        Grid.Row="0"
+                        VerticalTextAlignment="Center" />
+
+                    <Label
+                        Text="жиры:"
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        HorizontalTextAlignment="End"
+                        VerticalTextAlignment="Center" />
+                    <Entry
+                        Text="{Binding FatInput, Mode=TwoWay}"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Keyboard="Numeric"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
+                    <Label
+                        Text="%"
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        VerticalTextAlignment="Center" />
+
+                    <Label
+                        Text="углеводы:"
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        HorizontalTextAlignment="End"
+                        VerticalTextAlignment="Center" />
+                    <Entry
+                        Text="{Binding CarbonInput, Mode=TwoWay}"
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        Keyboard="Numeric"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
+                    <Label
+                        Text="%"
+                        Grid.Column="2"
+                        Grid.Row="2"
+                        VerticalTextAlignment="Center" />
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout
+            VerticalOptions="End"
+            Spacing="5"
+            Padding="30,0,30,10">
+            <Button
+                Text="Продолжить"
+                Command="{Binding ContinueCommand}"
+                CornerRadius="30"
+                Opacity="0.8" />
+            <Button
+                Text="Назад"
+                Command="{Binding BackCommand}"
+                CornerRadius="30"
+                Opacity="0.8" />
+            <Label
+                Text="Что-то пошло не так. Проверьте соединение"
+                IsVisible="{Binding ErrorMessageVisible}"
+                TextColor="Red"
+                HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\EditAccountPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    xmlns:converters="clr-namespace:StepUp.Maui.Converters"
+    x:Class="StepUp.Maui.Pages.EditAccountPage"
+    x:DataType="vm:EditAccountViewModel"
+    Title="Изменение данных профиля">
+
+    <Grid
+        RowDefinitions="*, Auto">
+        <ScrollView
+            Grid.Row="0">
+            <VerticalStackLayout>
+                <sv:SettingsView
+                    HasUnevenRows="true">
+                    <sv:Section
+                        Title="Личные данные">
+                        <sv:EntryCell
+                            Title="Имя"
+                            ValueText="{Binding Name, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsNameValid, Converter={StaticResource BoolToColor}}" />
+
+                        <sv:PickerCell
+                            Title="Пол"
+                            ItemsSource="{Binding Genders}"
+                            SelectedItem="{Binding Gender, Mode=TwoWay}"
+                            DisplayMember="DisplayName" />
+
+                        <sv:DatePickerCell
+                            Title="Дата рождения"
+                            MinimumDate="{Binding MinDate}"
+                            MaximumDate="{Binding MaxDate}"
+                            Date="{Binding Birthday, Mode=TwoWay}" />
+
+                        <sv:EntryCell
+                            Title="Рост"
+                            ValueText="{Binding Height, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsHeightValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+
+                        <sv:EntryCell
+                            Title="Вес"
+                            ValueText="{Binding Weight, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsWeightValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+                    </sv:Section>
+
+                    <sv:Section
+                        Title="КБЖУ">
+                        <sv:EntryCell
+                            Title="Дневная норма калорий"
+                            ValueText="{Binding CaloriePlan, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsCaloriePlanValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+
+                        <sv:EntryCell
+                            Title="Белки, %"
+                            ValueText="{Binding ProteinPercent, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsMacrosValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+
+                        <sv:EntryCell
+                            Title="Жиры, %"
+                            ValueText="{Binding FatPercent, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsMacrosValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+
+                        <sv:EntryCell
+                            Title="Углеводы, %"
+                            ValueText="{Binding CarbonPercent, Mode=TwoWay}"
+                            ValueTextColor="{Binding IsMacrosValid, Converter={StaticResource BoolToColor}}"
+                            Keyboard="Numeric" />
+                    </sv:Section>
+                </sv:SettingsView>
+
+                <Label
+                    Text="{Binding ErrorMessage}"
+                    IsVisible="{Binding IsErrorMessageVisible}"
+                    TextColor="{StaticResource ErrorColor}"
+                    Margin="20" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="10"
+            Margin="20">
+            <Button
+                Grid.Column="0"
+                Text="Сохранить изменения"
+                Command="{Binding SaveChangesCommand}" />
+            <Button
+                Grid.Column="1"
+                Text="Отмена"
+                TextColor="{StaticResource ErrorColor}"
+                Command="{Binding CancelCommand}" />
+        </Grid>
+    </Grid>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\EditFoodItemPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:formviews="clr-namespace:StepUp.Maui.FormViews"
+    x:Class="StepUp.Maui.Pages.EditFoodItemPage"
+    BackgroundColor="White">
+
+    <formviews:FoodItemFormView
+        x:Name="Form" BindingContext="{Binding .}"/>
+    
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\GraphPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="StepUp.Maui.Pages.GraphPage"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material">
+
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\LoginPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Pages.LoginPage"
+    x:DataType="vm:LoginViewModel">
+
+    <VerticalStackLayout
+        Padding="30,0,30,150"
+        Spacing="15"
+        VerticalOptions="Center">
+
+        <Label
+            Text="Вход в аккаунт:"
+            Style="{StaticResource TitleLabel}" />
+
+        <Entry
+            x:Name="EmailEntry"
+            Placeholder="Email"
+            Text="{Binding Email, Mode=TwoWay}" />
+        <Label
+            x:Name="EmailErrorLabel"
+            Text="Неверный формат почты."
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding EmailErrorVisible}" />
+
+        <Grid >
+
+            <Entry
+                x:Name="PasswordEntry"
+                Placeholder="Пароль"
+                IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                Text="{Binding Password, Mode=TwoWay}"
+                Grid.Column="0" />
+            <ImageButton
+                x:Name="ShowPasswordButton"
+                Source="{Binding EyeIcon}"
+                HeightRequest="30"
+                Padding="10"
+                Margin="0,0,-5,0"
+                HorizontalOptions="End"
+                Command="{Binding TogglePasswordVisibilityCommand}"
+                BackgroundColor="Transparent"
+                Grid.Column="1" />
+        </Grid>
+
+        <Button
+            Text="Войти"
+            Command="{Binding LoginCommand}"
+            CornerRadius="40"
+            HorizontalOptions="Fill" />
+
+        <Label
+            Text="Нет аккаунта? Создать новый"
+            TextColor="{StaticResource TextSecondary}"
+            HorizontalOptions="Center">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding GoToRegisterPageCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
+
+        <Label
+            IsVisible="{Binding NotExistingEmailErrorVisible}"
+            HorizontalTextAlignment="Center"
+            Text="Пользователя с заданной почтой не существует"
+            Style="{StaticResource ErrorLabel}" />
+        <Label
+            Text="{Binding ErrorMessage}"
+            IsVisible="{Binding ErrorMessageVisible}"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource ErrorLabel}" />
+    </VerticalStackLayout>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\MainPage.xaml ===
+
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    xmlns:enums="clr-namespace:StepUp.Domain.Enums;assembly=StepUp.Domain"
+    x:Class="StepUp.Maui.Pages.MainPage"
+    x:DataType="vm:MainViewModel">
+    <Grid
+        RowDefinitions="*">
+        <ScrollView>
+            <Grid
+                RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+                RowSpacing="5"
+                Background="{StaticResource MainPageGradient}">
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Grid.Row="0"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    Spacing="5"
+                    Margin="0,10,0,0">
+
+                    <ImageButton
+                        Source="calendar.png"
+                        HorizontalOptions="Center"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        Opacity="0.8"
+                        Clicked="DateButtonClicked" />
+                    <Label
+                        x:Name="DateLabel"
+                        VerticalTextAlignment="Center"
+                        FontSize="22"
+                        Text="{Binding DateString}"
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Tapped="DateButtonTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <DatePicker
+                        x:Name="datePicker"
+                        WidthRequest="1"
+                        HeightRequest="1"
+                        Format="dd.MM.yyyy"
+                        MaximumDate="{Binding MaxDate}"
+                        MinimumDate="{Binding MinDate}"
+                        Date="{Binding Date}" />
+                </StackLayout>
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Grid.Row="0"
+                    HorizontalOptions="Center"
+                    Margin="0,15,0,0"
+                    Spacing="10"
+                    Padding="0">
+
+                    <StackLayout
+                        Orientation="Vertical"
+                        VerticalOptions="Center"
+                        Spacing="0"
+                        Margin="0,20,0,0">
+
+                        <Label
+                            x:Name="KcalEaten"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            FontAttributes="Bold"
+                            FontSize="26"
+                            Text="{Binding KcalEaten}"
+                            TextColor="White" />
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="РїРѕС‚СЂРµР±Р»РµРЅРёРµ"
+                            TextColor="White" />
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Vertical"
+                        Margin="0,50,0,0"
+                        Spacing="5">
+
+                        <Grid
+                            HorizontalOptions="Center">
+                            <Ellipse
+                                WidthRequest="150"
+                                HeightRequest="150"
+                                Stroke="LightGray"
+                                StrokeThickness="16" />
+
+                            <Path
+                                x:Name="progressBar"
+                                WidthRequest="150"
+                                HeightRequest="150"
+                                Fill="Transparent"
+                                StrokeThickness="16">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure
+                                            StartPoint="67,0">
+                                            <ArcSegment
+                                                x:Name="Arc"
+                                                Size="67,67" />
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                            <Label
+                                x:Name="KcalResLabel"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                FontSize="36"
+                                FontAttributes="Bold" />
+                        </Grid>
+                        <Label
+                            x:Name="KcalLeft"
+                            Grid.Row="2"
+                            HorizontalOptions="Center"
+                            FontSize="24"
+                            Text="РєРєР°Р» РѕСЃС‚Р°Р»РѕСЃСЊ"
+                            TextColor="White" />
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Vertical"
+                        VerticalOptions="Center"
+                        Spacing="0"
+                        Margin="0,20,0,0">
+                        <Label
+                            x:Name="KcalSpent"
+                            HorizontalOptions="Center"
+                            WidthRequest="88.8"
+                            HorizontalTextAlignment="Center"
+                            FontAttributes="Bold"
+                            FontSize="26"
+                            Text="{Binding KcalBurnt}"
+                            TextColor="White">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding GoToSportsCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            HorizontalOptions="Center"
+                            WidthRequest="88.8"
+                            HorizontalTextAlignment="Center"
+                            Text="СЂР°СЃС…РѕРґ"
+                            TextColor="White" />
+                    </StackLayout>
+                </StackLayout>
+
+                <Border
+                    Grid.Row="1"
+                    VerticalOptions="Center"
+                    Margin="20,30,20,15"
+                    Padding="10,5"
+                    Style="{StaticResource DataFrame}">
+                    <Grid
+                        ColumnDefinitions="*,*,*"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        HeightRequest="80">
+                        <StackLayout
+                            Orientation="Vertical"
+                            Grid.Column="0"
+                            VerticalOptions="Center">
+                            <Label
+                                Text="Р±РµР»РєРё"
+                                HorizontalOptions="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="16"
+                                FontAttributes="Bold" />
+                            <ProgressBar
+                                Progress="{Binding PrProgress}"
+                                Margin="10,0"
+                                ProgressColor="{Binding PrProgress, Converter={StaticResource MacroRatioToColor}}" />
+                            <Label
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="12"
+                                Text="{Binding ProteinString}" />
+                        </StackLayout>
+
+                        <StackLayout
+                            Orientation="Vertical"
+                            Grid.Column="1"
+                            VerticalOptions="Center">
+                            <Label
+                                Text="Р¶РёСЂС‹"
+                                HorizontalOptions="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="16"
+                                FontAttributes="Bold" />
+                            <ProgressBar
+                                Progress="{Binding FatProgress}"
+                                Margin="10,0"
+                                ProgressColor="{Binding FatProgress, Converter={StaticResource MacroRatioToColor}}" />
+                            <Label
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="12"
+                                Text="{Binding FatString}" />
+                        </StackLayout>
+
+                        <StackLayout
+                            Orientation="Vertical"
+                            Grid.Column="2"
+                            VerticalOptions="Center">
+                            <Label
+                                Text="СѓРіР»РµРІРѕРґС‹"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="16"
+                                FontAttributes="Bold" />
+                            <ProgressBar
+                                Progress="{Binding CbProgress}"
+                                Margin="10,0"
+                                ProgressColor="{Binding CbProgress, Converter={StaticResource MacroRatioToColor}}" />
+                            <Label
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"
+                                FontSize="12"
+                                Text="{Binding CarbonString}" />
+                        </StackLayout>
+                    </Grid>
+                </Border>
+
+                <!--<Border
+                    Grid.Row="2"
+                    VerticalOptions="Center"
+                    HeightRequest="80"
+                    Margin="20,5,20,10"
+                    Padding="20,15,20,20"
+                    StrokeShape="RoundRectangle 40"
+                    Opacity="0.60"
+                    BorderColor="{StaticResource PrimaryDarker}"
+                    BackgroundColor="{StaticResource PrimaryDarker}"
+                    IsVisible="{Binding StepCounterIsVisible}">
+                    <Grid
+                        ColumnDefinitions="Auto,*"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Fill"
+                        HeightRequest="60">
+                        <Image
+                            Grid.Column="0"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            Margin="0,5,0,0"
+                            Source="steps.png" />
+                        <StackLayout
+                            Orientation="Vertical"
+                            Grid.Column="1">
+                            <Label
+                                x:Name="StepLabel"
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="End"
+                                BindingContext="{Binding StepModelView}"
+                                FontAttributes="Bold"
+                                FontSize="28"
+                                TextColor="White"
+                                Text="{Binding StepsText}" />
+                            <Label
+                                x:Name="StepKcalLabel"
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Start"
+                                BindingContext="{Binding StepModelView}"
+                                FontSize="18"
+                                TextColor="LightGray"
+                                Text="{Binding Calories}" />
+                        </StackLayout>
+                    </Grid>
+                </Border>-->
+
+                <Border
+                    Grid.Row="3"
+                    VerticalOptions="Center"
+                    Margin="15,15,15,5"
+                    Padding="0"
+                    Style="{StaticResource DataFrame}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding GoToMealCommand}"
+                            CommandParameter="{x:Static enums:MealType.Breakfast}" />
+                    </Border.GestureRecognizers>
+                    <StackLayout>
+                        <Label
+                            Style="{StaticResource PFCNameLabel}"
+                            Text="Р—Р°РІС‚СЂР°Рє" />
+                        <StackLayout
+                            Orientation="Horizontal"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="60"
+                            Padding="0"
+                            Spacing="16">
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding BrKcal, StringFormat='{0} РєРєР°Р»'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding BrPr, StringFormat='Р‘: {0:F1} Рі'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding BrFat, StringFormat='Р–: {0:F1} Рі'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding BrCb, StringFormat='РЈ: {0:F1} Рі'}" />
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+                <Border
+                    Grid.Row="4"
+                    VerticalOptions="Center"
+                    Margin="15,5"
+                    Padding="0"
+                    Style="{StaticResource DataFrame}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding GoToMealCommand}"
+                            CommandParameter="{x:Static enums:MealType.Lunch}" />
+                    </Border.GestureRecognizers>
+                    <StackLayout>
+                        <Label
+                            Style="{StaticResource PFCNameLabel}"
+                            Text="РћР±РµРґ" />
+                        <StackLayout
+                            Orientation="Horizontal"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="60"
+                            Padding="0"
+                            Spacing="16">
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding LnKcal, StringFormat='{0} РєРєР°Р»'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding LnPr, StringFormat='Р‘: {0:F1} Рі'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding LnFat, StringFormat='Р–: {0:F1} Рі'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding LnCb, StringFormat='РЈ: {0:F1} Рі'}" />
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+                <Border
+                    Grid.Row="5"
+                    VerticalOptions="Center"
+                    Margin="15,5"
+                    Padding="0"
+                    Style="{StaticResource DataFrame}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding GoToMealCommand}"
+                            CommandParameter="{x:Static enums:MealType.Dinner}" />
+                    </Border.GestureRecognizers>
+                    <StackLayout>
+                        <Label
+                            Style="{StaticResource PFCNameLabel}"
+                            Text="РЈР¶РёРЅ" />
+                        <StackLayout
+                            Orientation="Horizontal"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="60"
+                            Spacing="16"
+                            Padding="0">
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding DnKcal, StringFormat='{0} РєРєР°Р»'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding DnPr, StringFormat='Р‘: {0:F1} Рі'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding DnFat, StringFormat='Р–: {0:F1} Рі'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding DnCb, StringFormat='РЈ: {0:F1} Рі'}" />
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+
+                <Border
+                    Grid.Row="6"
+                    VerticalOptions="Center"
+                    Margin="15,5,15,80"
+                    Padding="0"
+                    Style="{StaticResource DataFrame}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding GoToMealCommand}"
+                            CommandParameter="{x:Static enums:MealType.Snack}" />
+                    </Border.GestureRecognizers>
+                    <StackLayout>
+                        <Label
+                            Style="{StaticResource PFCNameLabel}"
+                            Text="РџРµСЂРµРєСѓСЃ" />
+                        <StackLayout
+                            Orientation="Horizontal"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="60"
+                            Spacing="16"
+                            Padding="0">
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding SnKcal, StringFormat='{0} РєРєР°Р»'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding SnPr, StringFormat='Р‘: {0:F1} Рі'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding SnFat, StringFormat='Р–: {0:F1} Рі'}" />
+                            <Label
+                                Style="{StaticResource PFCLabel}"
+                                Text="{Binding SnCb, StringFormat='РЈ: {0:F1} Рі'}" />
+                        </StackLayout>
+                    </StackLayout>
+                </Border>
+            </Grid>
+        </ScrollView>
+
+        <Border
+            VerticalOptions="End"
+            HorizontalOptions="Fill"
+            Padding="0"
+            Stroke="Transparent"
+            BackgroundColor="Transparent">
+            <Grid
+                ColumnDefinitions="*,*,*"
+                ColumnSpacing="0"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill"
+                Padding="10">
+                <Grid.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Offset="5,5"
+                        Radius="10"
+                        Opacity="0.5" />
+                </Grid.Shadow>
+                <ImageButton
+                    x:Name="GraphBtn"
+                    Grid.Column="0"
+                    VerticalOptions="End"
+                    Source="{StaticResource IconGraph}"
+                    Style="{StaticResource ActionButton}"
+                    Command="{Binding GoToGraphCommand}" />
+                <ImageButton
+                    x:Name="AddBtn"
+                    Grid.Column="1"
+                    Source="{StaticResource IconAdd}"
+                    Style="{StaticResource ActionButton}"
+                    Command="{Binding GoToMenuCommand}" />
+                <ImageButton
+                    x:Name="SettingsBtn"
+                    Grid.Column="2"
+                    VerticalOptions="End"
+                    Source="{StaticResource IconSetting}"
+                    Style="{StaticResource ActionButton}"
+                    Command="{Binding GoToSettingsCommand}" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\MealListPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:StepUp.Domain.Entities;assembly=StepUp.Domain"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Pages.MealListPage"
+    x:DataType="vm:MealListViewModel">
+    <ScrollView>
+        <Grid
+            RowDefinitions="Auto,*">
+            <Label
+                Style="{StaticResource Header}"
+                HorizontalOptions="Center"
+                Text="{Binding MealName}" />
+            <CollectionView
+                ItemsSource="{Binding Dishes}" 
+                Grid.Row="1"
+                Margin="-5,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="models:FoodItem">
+                        <Border HeightRequest="80"
+                                StrokeShape="Rectangle">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealListViewModel}}, Path=EditFoodItemCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="*,Auto"
+                                Padding="30,50,20,50"
+                                HeightRequest="160">
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="20"
+                                    VerticalTextAlignment="Center"
+                                    FontAttributes="Bold"
+                                    Grid.Column="0" />
+                                <Label
+                                    Text="{Binding TotalNutrients.Calories, StringFormat='{0} РєРєР°Р»'}"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="End"
+                                    TextColor="Gray"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <VerticalStackLayout
+                Grid.Row="1"
+                HorizontalOptions="Center"
+                Margin="0,20,0,0" >
+                <Label
+                    IsVisible="{Binding IsMessageVisible}"
+                    TextColor="{StaticResource TextSecondary}"
+                    Text="{Binding MealName, StringFormat='{0} РїРѕРєР° РЅРµ РґРѕР±Р°РІР»РµРЅ.'}" />
+                <Label
+                    TextColor="{StaticResource SecondaryDarkText}"
+                    Text="Р”РѕР±Р°РІРёС‚СЊ"
+                    HorizontalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding GoToAddProductCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\RegistrationPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Pages.RegistrationPage"
+    x:DataType="vm:RegistrationViewModel">
+
+    <VerticalStackLayout
+        Padding="30,20"
+        Spacing="15">
+
+        <Label
+            Text="Регистрация пользователя"
+            Style="{StaticResource TitleLabel}" />
+
+        <Entry
+            x:Name="NameEntry"
+            Placeholder="Имя"
+            Text="{Binding Name, Mode=TwoWay}" />
+        <Label
+            x:Name="NameErrorLabel"
+            Text="Допустимы только буквы!"
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding NameErrorVisible}" />
+
+        <Entry
+            x:Name="EmailEntry"
+            Placeholder="Email"
+            Text="{Binding Email, Mode=TwoWay}" />
+        <Label
+            x:Name="LoginErrorLabel"
+            Text="Неверный формат почты."
+            Margin="5,-12,0,0"
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding EmailErrorVisible}" />
+
+        <Grid>
+
+            <Entry
+                x:Name="PasswordEntry"
+                Placeholder="Пароль"
+                IsPassword="{Binding IsPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                Text="{Binding Password, Mode=TwoWay}" />
+            <ImageButton
+                x:Name="ShowPasswordButton"
+                Source="{Binding EyeIcon}"
+                WidthRequest="30"
+                Padding="10"
+                Margin="0,0,-5,0"
+                HorizontalOptions="End"
+                Command="{Binding TogglePasswordVisibilityCommand}"
+                BackgroundColor="Transparent" />
+        </Grid>
+        <Label
+            x:Name="PasswordCheckErrorLabel"
+            Text="Пароль должен содержать минимум 8 символов, хотя бы одну букву и одну цифру, и не содержать кириллицу!"
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding PasswordErrorVisible}" />
+
+        <Grid>
+            <Entry
+                x:Name="CheckPasswordEntry"
+                Placeholder="Повторите пароль"
+                IsPassword="{Binding IsCheckPasswordReadable, Converter={toolkit:InvertedBoolConverter}}"
+                Text="{Binding CheckPassword, Mode=TwoWay}" />
+            <ImageButton
+                x:Name="ShowCheckPasswordButton"
+                Source="{Binding CheckEyeIcon}"
+                Command="{Binding ToggleCheckPasswordVisibilityCommand}"
+                HeightRequest="30"
+                WidthRequest="30"
+                Padding="10"
+                Margin="0,0,-5,0"
+                HorizontalOptions="End"
+                BackgroundColor="Transparent" />
+        </Grid>
+        <Label
+            x:Name="PasswordErrorLabel"
+            Text="Пароли не совпадают"
+            Style="{StaticResource ErrorLabel}"
+            IsVisible="{Binding CheckPasswordErrorVisible}" />
+
+        <Grid
+            ColumnSpacing="5"
+            ColumnDefinitions="3*,2*">
+
+            <Label
+                Text=" Выберите дату рождения:"
+                FontSize="14"
+                Grid.Column="0"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Start" />
+            <DatePicker
+                x:Name="BirthDatePicker"
+                Grid.Column="1"
+                HorizontalOptions="Center"
+                Date="{Binding BirthDate, Mode=TwoWay}"
+                MinimumDate="{Binding MinDate}"
+                MaximumDate="{Binding MaxDate}" />
+        </Grid>
+        <Picker
+            x:Name="GenderPicker"
+            Title="Выберите пол"
+            SelectedItem="{Binding Gender, Mode=TwoWay}"
+            ItemsSource="{Binding Genders}" />
+
+        <Button
+            Text="Продолжить"
+            Command="{Binding ContinueCommand}"
+            CornerRadius="30"
+            Opacity="0.8" />
+        <Label
+            IsVisible="{Binding ExistingEmailErrorVisible}"
+            HorizontalTextAlignment="Center"
+            Text="Пользователь с заданной почтой уже существует"
+            Style="{StaticResource ErrorLabel}" />
+        <Label
+            Text="Что-то пошло не так. Повторите попытку позже"
+            IsVisible="{Binding ErrorMessageVisible}"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource ErrorLabel}" />
+    </VerticalStackLayout>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\SearchProductPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:StepUp.Domain.Entities;assembly=StepUp.Domain"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Pages.SearchProductPage"
+    x:DataType="vm:SearchProductViewModel">
+    
+    <Grid
+        Padding="10"
+        RowDefinitions="Auto, *">
+        <Grid
+            ColumnDefinitions="*, Auto, Auto"
+            Row="0"
+            Margin="0,0,0,20">
+            <Entry
+                x:Name="SearchEntry"
+                Text="{Binding Query}"
+                Placeholder="Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РёР»Рё С€С‚СЂРёС…-РєРѕРґ"
+                Grid.Column="0" />
+            <ImageButton
+                Command="{Binding SearchCommand}"
+                Source="search_button.png"
+                WidthRequest="40"
+                HeightRequest="40"
+                Grid.Column="1" />
+            <ImageButton
+                Command="{Binding GoToBarcodeScannerCommand}"
+                Source="barcode_scanner.png"
+                WidthRequest="40"
+                HeightRequest="40"
+                Grid.Column="2" />
+        </Grid>
+        <CollectionView
+            ItemsSource="{Binding Products}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+            Grid.Row="1"
+            Margin="-15,0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="models:FoodProduct">
+                    <Border
+                        HeightRequest="80"
+                        StrokeShape="Rectangle">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource 
+                                AncestorType={x:Type vm:SearchProductViewModel}}, 
+                                Path=GoToAddProductCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            Padding="20" >
+                            <Label
+                                Text="{Binding Name}"
+                                FontSize="20"
+                                VerticalTextAlignment="Center"
+                                FontAttributes="Bold"
+                                LineBreakMode="TailTruncation"
+                                Grid.Column="0" />
+                            <Label
+                                Text="{Binding NutrientsPer100g.Calories, StringFormat='{0} РєРєР°Р»'}"
+                                FontSize="18"
+                                HorizontalTextAlignment="End"
+                                TextColor="Gray"
+                                Grid.Column="1"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!-- 
+        <Label
+            x:Name="favDishes"
+            Grid.Row="1"
+            Opacity="0.8"
+            Text="РР»Рё РІС‹Р±РµСЂРёС‚Рµ РїСЂРѕРґСѓРєС‚ РёР· СЃРїРёСЃРєР° РёР·Р±СЂР°РЅРЅС‹С…"
+            TextColor="{StaticResource Primary}"
+            FontSize="24"
+            HorizontalTextAlignment="Center"
+            VerticalOptions="Start"
+            HorizontalOptions="Center"
+            Padding="20,0">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="TapGestureRecognizer_Tapped" />
+            </Label.GestureRecognizers>
+        </Label> -->
+        <Label
+            x:Name="SearchError"
+            Text="Р РµР·СѓР»СЊС‚Р°С‚С‹ РЅРµ РЅР°Р№РґРµРЅС‹"
+            TextColor="{StaticResource TextSecondary}"
+            FontSize="20"
+            Grid.Row="1"
+            HorizontalTextAlignment="Center"
+            Margin="0,30,10,0"
+            IsVisible="{Binding SearchErrorVisible}" /> 
+    </Grid>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\SettingsPage.xaml ===
+
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    xmlns:sv="clr-namespace:AiForms.Settings;assembly=SettingsView"
+    x:Class="StepUp.Maui.Pages.SettingsPage"
+    x:DataType="viewmodels:SettingsViewModel" >
+    <sv:SettingsView
+        HasUnevenRows="true">
+        <sv:Section
+            Title="РњРѕР№ РїСЂРѕС„РёР»СЊ">
+            <sv:LabelCell
+                Title="РРјСЏ"
+                ValueText="{Binding Name}" />
+            <sv:LabelCell
+                Title="РџРѕР»"
+                ValueText="{Binding Gender}" />
+            <sv:LabelCell
+                Title="Р’РѕР·СЂР°СЃС‚"
+                ValueText="{Binding Age, StringFormat='{0} Р»РµС‚'}" />
+            <sv:LabelCell
+                Title="Р РѕСЃС‚"
+                ValueText="{Binding Height, StringFormat='{0} СЃРј'}" />
+            <sv:LabelCell
+                Title="Р’РµСЃ"
+                ValueText="{Binding Weight, StringFormat='{0:F1} РєРі'}" />
+            <sv:LabelCell
+                Title="Р”РЅРµРІРЅР°СЏ РЅРѕСЂРјР° РєР°Р»РѕСЂРёР№"
+                ValueText="{Binding CaloriePlan, StringFormat='{0} РєРєР°Р»'}" />
+        </sv:Section>
+
+        <sv:Section
+            Title="Р”Р°РЅРЅС‹Рµ Р°РІС‚РѕСЂРёР·Р°С†РёРё">
+            <sv:LabelCell
+                Title="Email"
+                ValueText="{Binding Email}" />
+            <sv:ButtonCell
+                Title="РЎРјРµРЅРёС‚СЊ РїР°СЂРѕР»СЊ"
+                TitleColor="Grey"
+                Command="{Binding ChangePasswordCommand}" />
+            <sv:ButtonCell
+                Title="РР·РјРµРЅРёС‚СЊ РґР°РЅРЅС‹Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ"
+                TitleColor="Grey"
+                Command="{Binding ChangeAllCommand}" />
+            <sv:ButtonCell
+                Title="Р’С‹Р№С‚Рё"
+                TitleColor="{StaticResource ErrorColor}"
+                Command="{Binding LogoutCommand}" />
+            <sv:ButtonCell
+                Title="РЈРґР°Р»РёС‚СЊ Р°РєРєР°СѓРЅС‚"
+                TitleColor="{StaticResource ErrorColor}"
+                Command="{Binding DeleteAccountCommand}" />
+        </sv:Section>
+    </sv:SettingsView>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Pages\SportListPage.xaml ===
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:StepUp.Domain.Entities;assembly=StepUp.Domain"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Pages.SportListPage"
+    x:DataType="vm:SportListViewModel">
+    <ScrollView>
+        <Grid
+            RowDefinitions="Auto,*"
+            RowSpacing="10">
+            <Label
+                Style="{StaticResource Header}"
+                HorizontalOptions="Center"
+                Text="РўСЂРµРЅРёСЂРѕРІРєРё Р·Р° СЃРµРіРѕРґРЅСЏ" />
+            <CollectionView
+                Grid.Row="1"
+                Margin="-5"
+                ItemsSource="{Binding Sports}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="models:Sport">
+                        <Border
+                            StrokeShape="Rectangle">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SportListViewModel}}, Path=EditSportCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                Padding="20,10"
+                                HeightRequest="80">
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="20"
+                                    VerticalTextAlignment="Center"
+                                    FontAttributes="Bold"
+                                    Grid.Column="0" />
+                                <Label
+                                    Text="{Binding BurntKcals}"
+                                    FontSize="18"
+                                    HorizontalTextAlignment="End"
+                                    TextColor="Gray"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+
+=== E:\Projects\StepUp\StepUp.Maui\Popups\AddSportPopup.xaml ===
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:formviews="clr-namespace:StepUp.Maui.FormViews"
+    xmlns:models="clr-namespace:StepUp.Presentation.Models;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Popups.AddSportPopup"
+    x:TypeArguments="models:SportResult"
+    BackgroundColor="Transparent">
+
+    <Border
+        Style="{StaticResource PopupBorder}">
+        <formviews:SportFormView
+            x:Name="FormView" />
+    </Border>
+</toolkit:Popup>
+
+=== E:\Projects\StepUp\StepUp.Maui\Popups\ChangePasswordPopup.xaml ===
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:popups="clr-namespace:StepUp.Maui.Popups"
+    x:Class="StepUp.Maui.Popups.ChangePasswordPopup"
+    x:TypeArguments="system:String"
+    x:DataType="popups:ChangePasswordPopup"
+    BackgroundColor="Transparent">
+
+    <Border
+        Style="{StaticResource PopupBorder}">
+        <VerticalStackLayout
+            Spacing="5">
+            <Label
+                x:Name="TitleLabel"
+                Text="РР·РјРµРЅРёС‚СЊ РїР°СЂРѕР»СЊ"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                TextColor="Black" />
+
+            <Entry
+                x:Name="Password"
+                Placeholder="Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Р№ РїР°СЂРѕР»СЊ"
+                TextChanged="OnEntryChanged"
+                PlaceholderColor="Black" />
+
+            <Label
+                x:Name="ErrorLabel"
+                IsVisible="False"
+                TextColor="{StaticResource ErrorColor}"
+                HorizontalOptions="Center"/>
+            
+            <Grid
+                ColumnDefinitions="*,*,*"
+                ColumnSpacing="5"
+                HorizontalOptions="Center">
+
+                <Button
+                    x:Name="SaveButton"
+                    Text="OK"
+                    IsEnabled="False"
+                    Clicked="OnSaveClicked"
+                    Style="{StaticResource PopupMenuButton}"
+                    Grid.Column="0" />
+                
+                <Button
+                    x:Name="CancelButton"
+                    Text="РћС‚РјРµРЅР°"
+                    Clicked="OnCancelClicked"
+                    Style="{StaticResource PopupMenuButton}"
+                    Grid.Column="1" />
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+    
+</toolkit:Popup>
+
+=== E:\Projects\StepUp\StepUp.Maui\Popups\EditSportPopup.xaml ===
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:formviews="clr-namespace:StepUp.Maui.FormViews"
+    xmlns:models="clr-namespace:StepUp.Presentation.Models;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Popups.EditSportPopup"
+    x:TypeArguments="models:SportResult"
+    BackgroundColor="Transparent">
+
+    <Border
+        Style="{StaticResource PopupBorder}" >
+        <formviews:SportFormView
+            x:Name="FormView" />
+    </Border>
+</toolkit:Popup>
+
+=== E:\Projects\StepUp\StepUp.Maui\Popups\MenuBar.xaml ===
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:enums="clr-namespace:StepUp.Presentation.Enums;assembly=StepUp.Presentation"
+    x:Class="StepUp.Maui.Popups.MenuBar"
+    x:TypeArguments="enums:MenuAction"
+    Background="Transparent">
+    <VerticalStackLayout>
+        <Border
+            StrokeShape="RoundRectangle 20"
+            Stroke="{StaticResource Primary}"
+            BackgroundColor="{StaticResource PopupBackground}">
+
+            <VerticalStackLayout
+                Spacing="5"
+                Padding="20">
+
+                <Button
+                    Text="РР·РјРµСЂРµРЅРёРµ РІРµСЃР°"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddWeight_Clicked" />
+
+                <Button
+                    Text="Р—Р°РІС‚СЂР°Рє"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddBreakfast_Clicked" />
+
+                <Button
+                    Text="РћР±РµРґ"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddLunch_Clicked" />
+
+                <Button
+                    Text="РЈР¶РёРЅ"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddDinner_Clicked" />
+
+                <Button
+                    Text="РџРµСЂРµРєСѓСЃ"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddSnack_Clicked" />
+
+                <Button
+                    Text="Р¤РёР·РёС‡РµСЃРєР°СЏ РЅР°РіСЂСѓР·РєР°"
+                    Style="{StaticResource PopupMenuButton}"
+                    Clicked="AddSport_Clicked" />
+
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</toolkit:Popup>
+
+=== E:\Projects\StepUp\StepUp.Maui\Resources\Styles\Colors.xaml ===
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Base Colors -->
+    <Color
+        x:Key="Primary">#512BD4</Color>
+    <Color
+        x:Key="PrimaryDark">#562fc2</Color>
+    <Color
+        x:Key="PrimaryDarker">#3d0cc4</Color>
+    <Color
+        x:Key="PrimaryLight">#baa4f5</Color>
+    <Color
+        x:Key="Secondary">#DFD8F7</Color>
+    <Color
+        x:Key="SecondaryDarkText">#9880e5</Color>
+    <Color
+        x:Key="Tertiary">#2B0B98</Color>
+
+    <!-- Backgrounds -->
+    <Color
+        x:Key="White">White</Color>
+    <Color
+        x:Key="Black">Black</Color>
+    <Color
+        x:Key="OffBlack">#1f1f1f</Color>
+    <Color
+        x:Key="ProductBottomPanel">#d4c4ff</Color>
+    <Color
+        x:Key="PopupBackground">#ccbbfc</Color>
+    <Color
+        x:Key="CardBackground">#E6FFFFFF</Color>
+    <!-- Semi-transparent white -->
+
+    <!-- Text Colors -->
+    <Color
+        x:Key="TextPrimary">#212121</Color>
+    <Color
+        x:Key="TextSecondary">#5d5d5d</Color>
+    <Color
+        x:Key="TextLight">White</Color>
+    <Color
+        x:Key="PlaceholderColor">#c8c8c8</Color>
+    <Color
+        x:Key="ErrorColor">Red</Color>
+    <Color
+        x:Key="AcceptColor">Green</Color>
+
+    <!-- Grays -->
+    <Color
+        x:Key="Gray100">#E1E1E1</Color>
+    <Color
+        x:Key="Gray200">#C8C8C8</Color>
+    <Color
+        x:Key="Gray300">#ACACAC</Color>
+    <Color
+        x:Key="Gray400">#919191</Color>
+    <Color
+        x:Key="Gray500">#6E6E6E</Color>
+    <Color
+        x:Key="Gray600">#404040</Color>
+    <Color
+        x:Key="Gray900">#212121</Color>
+    <Color
+        x:Key="Gray950">#141414</Color>
+
+    <!-- Nutrition Colors (Product Diagram) -->
+    <Color
+        x:Key="NutriProtein">#9fd5bd</Color>
+    <Color
+        x:Key="NutriFat">#fceda8</Color>
+    <Color
+        x:Key="NutriCarbon">#e79bc3</Color>
+    <Color
+        x:Key="NutriKcal">#b09a6d</Color>
+
+    <!-- BMI Colors -->
+    <Color
+        x:Key="BmiDeficit">RoyalBlue</Color>
+    <Color
+        x:Key="BmiNormal">Green</Color>
+    <Color
+        x:Key="BmiOverweight">Yellow</Color>
+    <Color
+        x:Key="BmiObese1">Orange</Color>
+    <Color
+        x:Key="BmiObese2">Red</Color>
+    <Color
+        x:Key="BmiObese3">DarkRed</Color>
+
+    <!-- Other -->
+    <Color
+        x:Key="Magenta">#D600AA</Color>
+    <Color
+        x:Key="MidnightBlue">#190649</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush
+        x:Key="PrimaryBrush"
+        Color="{StaticResource Primary}" />
+    <SolidColorBrush
+        x:Key="SecondaryBrush"
+        Color="{StaticResource Secondary}" />
+    <SolidColorBrush
+        x:Key="TertiaryBrush"
+        Color="{StaticResource Tertiary}" />
+    <SolidColorBrush
+        x:Key="WhiteBrush"
+        Color="{StaticResource White}" />
+    <SolidColorBrush
+        x:Key="BlackBrush"
+        Color="{StaticResource Black}" />
+
+    <SolidColorBrush
+        x:Key="Gray100Brush"
+        Color="{StaticResource Gray100}" />
+    <SolidColorBrush
+        x:Key="Gray200Brush"
+        Color="{StaticResource Gray200}" />
+    <SolidColorBrush
+        x:Key="Gray300Brush"
+        Color="{StaticResource Gray300}" />
+    <SolidColorBrush
+        x:Key="Gray400Brush"
+        Color="{StaticResource Gray400}" />
+    <SolidColorBrush
+        x:Key="Gray500Brush"
+        Color="{StaticResource Gray500}" />
+    <SolidColorBrush
+        x:Key="Gray600Brush"
+        Color="{StaticResource Gray600}" />
+    <SolidColorBrush
+        x:Key="Gray900Brush"
+        Color="{StaticResource Gray900}" />
+    <SolidColorBrush
+        x:Key="Gray950Brush"
+        Color="{StaticResource Gray950}" />
+
+    <!-- Gradients -->
+    <LinearGradientBrush
+        x:Key="MainPageGradient"
+        StartPoint="1,0"
+        EndPoint="0,1">
+        <GradientStop
+            Color="{StaticResource PrimaryLight}"
+            Offset="0.1" />
+        <GradientStop
+            Color="{StaticResource PrimaryDark}"
+            Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush
+        x:Key="ImageOverlayGradient"
+        StartPoint="0,0"
+        EndPoint="0,1">
+        <GradientStop
+            Color="Transparent"
+            Offset="0.1" />
+        <GradientStop
+            Color="Gray"
+            Offset="1.0" />
+    </LinearGradientBrush>
+</ResourceDictionary>
+
+=== E:\Projects\StepUp\StepUp.Maui\Resources\Styles\Icons.xaml ===
+
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+
+    <FontImageSource x:Key="IconClose" 
+        Color="{StaticResource Primary}"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf00d;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <FontImageSource x:Key="IconSetting" 
+        Color="White"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf013;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <FontImageSource x:Key="IconAdd" 
+        Color="White"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf0fe;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <FontImageSource x:Key="IconGraph" 
+        Color="White"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf1fe;"
+        Size="{StaticResource SizeTabIcon}" />
+
+
+    <FontImageSource x:Key="IconDetail" 
+        Color="Black"
+        FontFamily="FontAwesomeSolid"
+        Glyph="&#xf105;"
+        Size="{StaticResource SizeTabIcon}" />
+
+    <ImageSource x:Key="IconFavourite" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>heart_solid.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="IconNotFavourite" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>heart_regular.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="ANutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_a.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="BNutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_b.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="CNutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_c.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="DNutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_d.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="ENutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_e.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="UKNutriscore" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nutriscore_uk.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    
+    <ImageSource x:Key="Nova1" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_1.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="Nova2" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_2.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="Nova3" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_3.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="Nova4" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_4.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="NovaUK" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>nova_uk.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="Еуе" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>еуе.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+    <ImageSource x:Key="ЕуеOff" x:FactoryMethod="FromFile">
+        <x:Arguments>
+            <x:String>eye_off.svg</x:String>
+        </x:Arguments>
+    </ImageSource>
+
+</ResourceDictionary>
+
+=== E:\Projects\StepUp\StepUp.Maui\Resources\Styles\Styles.xaml ===
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Sizes -->
+    <x:Double
+        x:Key="SizeTabIcon">24</x:Double>
+    <Thickness
+        x:Key="PageMargin">20, 20, 20, 20</Thickness>
+
+    <!-- App-wide Default Styles -->
+    <Style
+        TargetType="ContentPage"
+        ApplyToDerivedTypes="True">
+        <Setter
+            Property="Shell.NavBarIsVisible"
+            Value="False" />
+    </Style>
+    
+    <Style
+        TargetType="Page"
+        ApplyToDerivedTypes="True">
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="BackgroundColor"
+            Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}" />
+    </Style>
+
+    <Style
+        TargetType="Label">
+        <Setter
+            Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource White}}" />
+        <Setter
+            Property="BackgroundColor"
+            Value="Transparent" />
+        <Setter
+            Property="FontFamily"
+            Value="OpenSansRegular" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+    </Style>
+
+    <Style
+        TargetType="Entry">
+        <Setter
+            Property="TextColor"
+            Value="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource White}}" />
+        <Setter
+            Property="BackgroundColor"
+            Value="Transparent" />
+        <Setter
+            Property="FontFamily"
+            Value="OpenSansRegular" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+        <Setter
+            Property="PlaceholderColor"
+            Value="{StaticResource PlaceholderColor}" />
+        <Setter
+            Property="MinimumHeightRequest"
+            Value="44" />
+        <Setter
+            Property="MinimumWidthRequest"
+            Value="44" />
+    </Style>
+
+    <Style
+        TargetType="Button">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource White}" />
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource PrimaryDark}" />
+        <Setter
+            Property="FontFamily"
+            Value="OpenSansRegular" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+        <Setter
+            Property="BorderWidth"
+            Value="0" />
+        <Setter
+            Property="CornerRadius"
+            Value="8" />
+        <Setter
+            Property="Padding"
+            Value="10,5" />
+        <Setter
+            Property="MinimumWidthRequest"
+            Value="44" />
+        <Setter
+            Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup
+                    x:Name="CommonStates">
+                    <VisualState
+                        x:Name="Normal" />
+                    <VisualState
+                        x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter
+                                Property="TextColor"
+                                Value="{StaticResource Gray200}" />
+                            <Setter
+                                Property="BackgroundColor"
+                                Value="{StaticResource Gray600}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style
+        TargetType="Border">
+        <Setter
+            Property="Stroke"
+            Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter
+            Property="StrokeShape"
+            Value="RoundRectangle 8" />
+    </Style>
+
+    <Style
+        TargetType="Picker">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource TextPrimary}" />
+        <Setter
+            Property="TitleColor"
+            Value="{StaticResource PlaceholderColor}" />
+        <Setter
+            Property="BackgroundColor"
+            Value="Transparent" />
+        <Setter
+            Property="FontFamily"
+            Value="OpenSansRegular" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+        <Setter
+            Property="MinimumHeightRequest"
+            Value="44" />
+        <Setter
+            Property="MinimumWidthRequest"
+            Value="44" />
+    </Style>
+
+    <Style
+        TargetType="ImageButton">
+        <Setter
+            Property="Opacity"
+            Value="1" />
+        <Setter
+            Property="BorderColor"
+            Value="Transparent" />
+        <Setter
+            Property="BorderWidth"
+            Value="0" />
+        <Setter
+            Property="CornerRadius"
+            Value="0" />
+        <Setter
+            Property="MinimumHeightRequest"
+            Value="44" />
+        <Setter
+            Property="MinimumWidthRequest"
+            Value="44" />
+    </Style>
+
+    <!-- Custom Reusable Styles -->
+    <Style
+        TargetType="Label"
+        x:Key="TitleLabel">
+        <Setter
+            Property="FontSize"
+            Value="32" />
+        <Setter
+            Property="HorizontalOptions"
+            Value="Center" />
+        <Setter
+            Property="HorizontalTextAlignment"
+            Value="Center" />
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource TextPrimary}" />
+    </Style>
+
+    <Style
+        TargetType="Label"
+        x:Key="ErrorLabel">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource ErrorColor}" />
+    </Style>
+
+    <Style
+        TargetType="Label"
+        x:Key="SubtitleLabel">
+        <Setter
+            Property="FontSize"
+            Value="22" />
+        <Setter
+            Property="HorizontalOptions"
+            Value="Center" />
+        <Setter
+            Property="HorizontalTextAlignment"
+            Value="Center" />
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource TextPrimary}" />
+    </Style>
+
+    <Style
+        TargetType="Border"
+        x:Key="DataFrame">
+
+        <Setter
+            Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle
+                    CornerRadius="10" />
+            </Setter.Value>
+        </Setter>
+
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource White}" />
+        <Setter
+            Property="Opacity"
+            Value="0.60" />
+
+        <Setter
+            Property="StrokeThickness"
+            Value="0" />
+    </Style>
+
+    <Style
+        TargetType="Border"
+        x:Key="WhiteCardFrame">
+
+        <Setter
+            Property="Padding" 
+            Value="30"/>
+        <Setter
+            Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle
+                    CornerRadius="30" />
+            </Setter.Value>
+        </Setter>
+
+        <Setter
+            Property="Stroke"
+            Value="{StaticResource PrimaryLight}" />
+        <Setter
+            Property="StrokeThickness"
+            Value="1" />
+
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource White}" />
+        <Setter
+            Property="Opacity"
+            Value="0.8" />
+        <Setter
+            Property="Padding"
+            Value="10" />
+        <Setter
+            Property="Margin"
+            Value="5,5" />
+    </Style>
+
+    <Style
+        TargetType="Label"
+        x:Key="PFCLabel">
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource PrimaryDarker}" />
+        <Setter
+            Property="FontAttributes"
+            Value="Bold" />
+        <Setter
+            Property="FontSize"
+            Value="18" />
+        <Setter
+            Property="VerticalTextAlignment"
+            Value="Center" />
+    </Style>
+
+    <Style
+        TargetType="Label"
+        x:Key="PFCNameLabel">
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource PrimaryDark}" />
+        <Setter
+            Property="TextColor"
+            Value="{StaticResource White}" />
+        <Setter
+            Property="FontSize"
+            Value="16" />
+        <Setter
+            Property="HorizontalTextAlignment"
+            Value="Center" />
+    </Style>
+
+    <Style
+        TargetType="ImageButton"
+        x:Key="ActionButton">
+        <Setter
+            Property="HorizontalOptions"
+            Value="Center" />
+        <Setter
+            Property="VerticalOptions"
+            Value="Start" />
+        <Setter
+            Property="Margin"
+            Value="0" />
+        <Setter
+            Property="BackgroundColor"
+            Value="Transparent" />
+        <Setter
+            Property="HeightRequest"
+            Value="30" />
+        <Setter
+            Property="WidthRequest"
+            Value="30" />
+    </Style>
+
+    <Style
+        TargetType="Label"
+        x:Key="Header">
+        <Setter
+            Property="TextTransform"
+            Value="Uppercase" />
+        <Setter
+            Property="FontSize"
+            Value="22" />
+        <Setter
+            Property="Padding"
+            Value="0, 10, 0, 5" />
+    </Style>
+
+    <Style
+        x:Key="PopupMenuButton"
+        TargetType="Button">
+        <Setter
+            Property="CornerRadius"
+            Value="30" />
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource PrimaryDark}" />
+        <Setter
+            Property="TextColor"
+            Value="White" />
+        <Setter
+            Property="FontAttributes"
+            Value="Bold" />
+        <Setter
+            Property="Opacity"
+            Value="0.6" />
+        <Setter
+            Property="Padding"
+            Value="14,12" />
+    </Style>
+
+    <Style
+        x:Key="PopupBorder"
+        TargetType="Border">
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource PopupBackground}" />
+        <Setter
+            Property="Stroke"
+            Value="{StaticResource PopupBackground}" />
+        <Setter
+            Property="StrokeShape"
+            Value="RoundRectangle 20" />
+    </Style>
+
+</ResourceDictionary>

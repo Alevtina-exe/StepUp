@@ -51,6 +51,7 @@ namespace StepUp.Presentation.ViewModels
                 {
                     Servings.Add(Serving.Grams(1));
                 }
+                Amount = "1";
             }
             else 
             {

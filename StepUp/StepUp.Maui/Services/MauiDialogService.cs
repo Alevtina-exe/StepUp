@@ -28,7 +28,10 @@ public class MauiDialogService : IDialogService
                 nameof(popup));
 
         var result = await Shell.Current.ShowPopupAsync<TResult>(
-            mauiPopup, PopupOptions.Empty, ct);
+            mauiPopup, new PopupOptions
+            {
+                Shape = null
+            }, ct);
 
         if (result.WasDismissedByTappingOutsideOfPopup)
             return default;

@@ -14,8 +14,8 @@ namespace StepUp.Presentation.ViewModels
         private FoodProduct? _product;
         private Guid _foodItemId;
 
-        public override string SaveButtonText => "Добавить";
-        public override bool IsDeleteVisible => false;
+        public override string SaveButtonText => "Изменить";
+        public override bool IsDeleteVisible => true;
 
         public async Task InitializeAsync(DateTime? date, MealType? mealType, Guid? foodItemId)
         {

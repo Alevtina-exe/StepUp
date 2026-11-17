@@ -15,6 +15,7 @@ namespace StepUp.Presentation
             services.AddTransient<MainViewModel>();
             services.AddTransient<MealListViewModel>();
             services.AddTransient<RegistrationViewModel>();
+            services.AddTransient<SearchProductViewModel>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SportListViewModel>();
 

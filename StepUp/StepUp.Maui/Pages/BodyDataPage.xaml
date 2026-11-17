@@ -6,208 +6,263 @@
     x:DataType="vm:BodyDataViewModel">
 
     <Grid
-        RowDefinitions="*">
-        <VerticalStackLayout
-            Padding="30"
-            Spacing="10">
-            <Label
-                Text="Введите данные"
-                Style="{StaticResource SubtitleLabel}" />
-
-            <Entry
-                Placeholder="Вес"
-                Keyboard="Numeric"
-                Text="{Binding WeightInput, Mode=TwoWay}" />
-            <Entry
-                Placeholder="Рост"
-                Keyboard="Numeric"
-                Text="{Binding HeightInput, Mode=TwoWay}" />
-
-            <Label
-                Text="Ваш ИМТ:"
-                FontSize="22"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="{Binding BmiResult.Value, StringFormat='ИМТ: {0:F1}'}"
-                IsVisible="{Binding IsFormValid}"
-                HorizontalOptions="Center" />
-
-            <Grid
-                x:Name="MyGrid"
-                ColumnSpacing="0"
-                HeightRequest="20"
-                ColumnDefinitions="10*,6*,5*,5*,5*,4*">
-                <BoxView
-                    BackgroundColor="{StaticResource BmiDeficit}"
-                    Grid.Column="0"
-                    Opacity="0.8" />
-                <BoxView
-                    BackgroundColor="{StaticResource BmiNormal}"
-                    Grid.Column="1"
-                    Opacity="0.8" />
-                <BoxView
-                    BackgroundColor="{StaticResource BmiOverweight}"
-                    Grid.Column="2"
-                    Opacity="0.8" />
-                <BoxView
-                    BackgroundColor="{StaticResource BmiObese1}"
-                    Grid.Column="3"
-                    Opacity="0.8" />
-                <BoxView
-                    BackgroundColor="{StaticResource BmiObese2}"
-                    Grid.Column="4"
-                    Opacity="0.8" />
-                <BoxView
-                    BackgroundColor="{StaticResource BmiObese3}"
-                    Grid.Column="5"
-                    Opacity="0.8" />
-
-                <BoxView
-                    x:Name="IMTIndicator"
-                    BackgroundColor="DarkSlateGray"
-                    WidthRequest="2"
-                    HeightRequest="22"
-                    IsVisible="{Binding IsFormValid}"
-                    HorizontalOptions="Start"
-                    Grid.Column="0" />
-            </Grid>
-
-            <Label
-                Text="{Binding BmiCategoryText}"
-                FontSize="20"
-                HorizontalOptions="Center" />
-
-            <Picker
-                Title="Выберите физ. нагрузку"
-                ItemsSource="{Binding SportLevels}"
-                SelectedItem="{Binding SelectedSportLevel, Mode=TwoWay}"
-                ItemDisplayBinding="{Binding DisplayName}" />
-
+        RowDefinitions="*,Auto">
+        <ScrollView>
             <VerticalStackLayout
-                IsVisible="{Binding IsStepTwo}"
-                Spacing="10">
-                <Label
-                    Text="Рекомендованное КБЖУ: "
-                    FontSize="22"
-                    HorizontalOptions="Center" />
+                Padding="30,30,30,20"
+                Spacing="16">
 
-                <AbsoluteLayout
-                    HorizontalOptions="Center"
-                    HeightRequest="110">
-                    <Label
-                        Text="{Binding CaloriePlan}"
-                        FontSize="50"
-                        AbsoluteLayout.LayoutBounds="0,-5,1,1"
-                        AbsoluteLayout.LayoutFlags="SizeProportional"
-                        FontFamily="impact"
-                        HorizontalTextAlignment="Center"
-                        TextColor="SandyBrown">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding EditCaloriesCommand}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <Label
-                        Text="ккал"
-                        TextColor="SandyBrown"
-                        FontSize="30"
-                        FontFamily="impact"
-                        AbsoluteLayout.LayoutBounds="0,50,1,35"
-                        AbsoluteLayout.LayoutFlags="WidthProportional"
-                        HorizontalTextAlignment="Center" />
-                    <Label
-                        Text="вы можете изменить калораж нажав на него"
-                        FontSize="12"
-                        TextColor="Gray"
-                        AbsoluteLayout.LayoutBounds="0,92,1,15"
-                        AbsoluteLayout.LayoutFlags="WidthProportional"
-                        HorizontalTextAlignment="Center" />
-                </AbsoluteLayout>
+                <Label
+                    Text="Введите данные"
+                    Style="{StaticResource TitleLabel}"
+                    Margin="0,0,0,8" />
+
+                <Border
+                    Style="{StaticResource Card}">
+                    <VerticalStackLayout
+                        Spacing="12">
+                        <VerticalStackLayout
+                            Spacing="6">
+                            <Label
+                                Text="Вес"
+                                Style="{StaticResource SectionLabel}" />
+                            <Border
+                                Style="{StaticResource InputBorder}">
+                                <Entry
+                                    Placeholder="кг"
+                                    Keyboard="Numeric"
+                                    Text="{Binding WeightInput, Mode=TwoWay}" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout
+                            Spacing="6">
+                            <Label
+                                Text="Рост"
+                                Style="{StaticResource SectionLabel}" />
+                            <Border
+                                Style="{StaticResource InputBorder}">
+                                <Entry
+                                    Placeholder="см"
+                                    Keyboard="Numeric"
+                                    Text="{Binding HeightInput, Mode=TwoWay}" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label
+                    Text="Ваш ИМТ"
+                    Style="{StaticResource SubtitleLabel}"
+                    Margin="0,8,0,0" />
+                <Label
+                    Text="{Binding BmiResult.Value, StringFormat='{0:F1}'}"
+                    IsVisible="{Binding IsFormValid}"
+                    Style="{StaticResource DisplayLabel}"
+                    TextColor="{StaticResource Primary}" />
 
                 <Grid
-                    ColumnSpacing="5"
-                    HorizontalOptions="Center"
-                    ColumnDefinitions="*,40,*"
-                    RowDefinitions="Auto,Auto,Auto">
-                    <Label
-                        Text="белки:"
+                    x:Name="MyGrid"
+                    ColumnSpacing="0"
+                    HeightRequest="16"
+                    ColumnDefinitions="10*,6*,5*,5*,5*,4*">
+                    <BoxView
+                        BackgroundColor="{StaticResource BmiDeficit}"
                         Grid.Column="0"
-                        Grid.Row="0"
-                        HorizontalTextAlignment="End"
-                        VerticalTextAlignment="Center" />
-                    <Entry
-                        Text="{Binding ProteinInput, Mode=TwoWay}"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Keyboard="Numeric"
-                        HorizontalTextAlignment="Center"
-                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
-                    <Label
-                        Text="%"
-                        Grid.Column="2"
-                        Grid.Row="0"
-                        VerticalTextAlignment="Center" />
+                        CornerRadius="8,0,0,8" />
+                    <BoxView
+                        BackgroundColor="{StaticResource BmiNormal}"
+                        Grid.Column="1" />
+                    <BoxView
+                        BackgroundColor="{StaticResource BmiOverweight}"
+                        Grid.Column="2" />
+                    <BoxView
+                        BackgroundColor="{StaticResource BmiObese1}"
+                        Grid.Column="3" />
+                    <BoxView
+                        BackgroundColor="{StaticResource BmiObese2}"
+                        Grid.Column="4" />
+                    <BoxView
+                        BackgroundColor="{StaticResource BmiObese3}"
+                        Grid.Column="5"
+                        CornerRadius="0,8,8,0" />
 
-                    <Label
-                        Text="жиры:"
-                        Grid.Column="0"
-                        Grid.Row="1"
-                        HorizontalTextAlignment="End"
-                        VerticalTextAlignment="Center" />
-                    <Entry
-                        Text="{Binding FatInput, Mode=TwoWay}"
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        Keyboard="Numeric"
-                        HorizontalTextAlignment="Center"
-                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
-                    <Label
-                        Text="%"
-                        Grid.Column="2"
-                        Grid.Row="1"
-                        VerticalTextAlignment="Center" />
-
-                    <Label
-                        Text="углеводы:"
-                        Grid.Column="0"
-                        Grid.Row="2"
-                        HorizontalTextAlignment="End"
-                        VerticalTextAlignment="Center" />
-                    <Entry
-                        Text="{Binding CarbonInput, Mode=TwoWay}"
-                        Grid.Column="1"
-                        Grid.Row="2"
-                        Keyboard="Numeric"
-                        HorizontalTextAlignment="Center"
-                        TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
-                    <Label
-                        Text="%"
-                        Grid.Column="2"
-                        Grid.Row="2"
-                        VerticalTextAlignment="Center" />
+                    <BoxView
+                        x:Name="IMTIndicator"
+                        BackgroundColor="{AppThemeBinding Light=Black, Dark=White}"
+                        WidthRequest="3"
+                        HeightRequest="22"
+                        CornerRadius="2"
+                        IsVisible="{Binding IsFormValid}"
+                        HorizontalOptions="Start"
+                        Grid.Column="0" />
                 </Grid>
+
+                <Label
+                    Text="{Binding BmiCategoryText}"
+                    Style="{StaticResource SubtitleLabel}"
+                    FontSize="18" />
+
+                <Border
+                    Style="{StaticResource InputBorder}"
+                    Padding="10,2">
+                    <Picker
+                        Title="Выберите физ. нагрузку"
+                        ItemsSource="{Binding SportLevels}"
+                        SelectedItem="{Binding SelectedSportLevel, Mode=TwoWay}"
+                        ItemDisplayBinding="{Binding DisplayName}" />
+                </Border>
+
+                <VerticalStackLayout
+                    IsVisible="{Binding IsStepTwo}"
+                    Spacing="14"
+                    Margin="0,8,0,0">
+                    <Label
+                        Text="Рекомендованное КБЖУ"
+                        Style="{StaticResource SubtitleLabel}" />
+
+                    <Border
+                        Style="{StaticResource Card}"
+                        Padding="16">
+                        <AbsoluteLayout
+                            HorizontalOptions="Center"
+                            HeightRequest="140"
+                            WidthRequest="220">
+                            <Label
+                                Text="{Binding CaloriePlan}"
+                                FontSize="54"
+                                AbsoluteLayout.LayoutBounds="0,0,1,70"
+                                AbsoluteLayout.LayoutFlags="WidthProportional"
+                                FontFamily="impact"
+                                HorizontalTextAlignment="Center"
+                                TextColor="{StaticResource Primary}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding EditCaloriesCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label
+                                Text="ккал"
+                                TextColor="{StaticResource Primary}"
+                                FontSize="24"
+                                FontFamily="impact"
+                                AbsoluteLayout.LayoutBounds="0,72,1,30"
+                                AbsoluteLayout.LayoutFlags="WidthProportional"
+                                HorizontalTextAlignment="Center" />
+                            <Label
+                                Text="нажмите, чтобы изменить"
+                                FontSize="11"
+                                Style="{StaticResource CaptionLabel}"
+                                AbsoluteLayout.LayoutBounds="0,110,1,20"
+                                AbsoluteLayout.LayoutFlags="WidthProportional"
+                                HorizontalTextAlignment="Center" />
+                        </AbsoluteLayout>
+                    </Border>
+
+                    <Border
+                        Style="{StaticResource CardFlat}">
+                        <Grid
+                            ColumnDefinitions="*,64,*"
+                            RowDefinitions="Auto,Auto,Auto"
+                            ColumnSpacing="6"
+                            RowSpacing="8">
+                            <Label
+                                Text="Белки"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
+                                Style="{StaticResource BodyLabel}" />
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource InputBorder}"
+                                Padding="8,0">
+                                <Entry
+                                    Text="{Binding ProteinInput, Mode=TwoWay}"
+                                    Keyboard="Numeric"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
+                            </Border>
+                            <Label
+                                Text="%"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                VerticalTextAlignment="Center"
+                                Style="{StaticResource CaptionLabel}" />
+
+                            <Label
+                                Text="Жиры"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
+                                Style="{StaticResource BodyLabel}" />
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Style="{StaticResource InputBorder}"
+                                Padding="8,0">
+                                <Entry
+                                    Text="{Binding FatInput, Mode=TwoWay}"
+                                    Keyboard="Numeric"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
+                            </Border>
+                            <Label
+                                Text="%"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                VerticalTextAlignment="Center"
+                                Style="{StaticResource CaptionLabel}" />
+
+                            <Label
+                                Text="Углеводы"
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
+                                Style="{StaticResource BodyLabel}" />
+                            <Border
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Style="{StaticResource InputBorder}"
+                                Padding="8,0">
+                                <Entry
+                                    Text="{Binding CarbonInput, Mode=TwoWay}"
+                                    Keyboard="Numeric"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="{Binding IsPfcValid, Converter={StaticResource BoolToGreenRed}}" />
+                            </Border>
+                            <Label
+                                Text="%"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                VerticalTextAlignment="Center"
+                                Style="{StaticResource CaptionLabel}" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
             </VerticalStackLayout>
-        </VerticalStackLayout>
+        </ScrollView>
 
         <VerticalStackLayout
+            Grid.Row="1"
             VerticalOptions="End"
-            Spacing="5"
-            Padding="30,0,30,10">
+            Spacing="8"
+            Padding="30,8,30,20">
             <Button
                 Text="Продолжить"
                 Command="{Binding ContinueCommand}"
-                CornerRadius="30"
-                Opacity="0.8" />
+                Style="{StaticResource PrimaryButton}" />
             <Button
                 Text="Назад"
                 Command="{Binding BackCommand}"
-                CornerRadius="30"
-                Opacity="0.8" />
+                Style="{StaticResource GhostButton}" />
             <Label
                 Text="Что-то пошло не так. Проверьте соединение"
                 IsVisible="{Binding ErrorMessageVisible}"
-                TextColor="Red"
+                Style="{StaticResource ErrorLabel}"
                 HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
     </Grid>

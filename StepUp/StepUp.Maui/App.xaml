@@ -1,11 +1,12 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Application
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:StepUp.Maui.Converters"
     xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:local="clr-namespace:StepUp.Maui"
-    x:Class="StepUp.Maui.App">
+    x:Class="StepUp.Maui.App"
+    UserAppTheme="Unspecified">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -30,23 +31,14 @@
                         x:Key="NovaToImage" />
                     <converters:BoolToGreenRedConverter
                         x:Key="BoolToGreenRed" />
-                </ResourceDictionary>
-
-                <ResourceDictionary>
-                    <LinearGradientBrush
-                        x:Key="GradientShadow">
-                        <GradientStop
-                            Color="Gray"
-                            Offset="0.0" />
-                        <GradientStop
-                            Color="Transparent"
-                            Offset="1.0" />
-                    </LinearGradientBrush>
+                    <converters:CaloriesToColorConverter
+                        x:Key="CaloriesToColor" />
                 </ResourceDictionary>
                 <material:StyleResource
                     ColorsOverride="{x:Reference appColors}"
                     BasedOn="{x:Reference appStyles}" />
             </ResourceDictionary.MergedDictionaries>
+
             <OnPlatform
                 x:Key="FontAwesomeSolid"
                 x:TypeArguments="x:String">
@@ -54,7 +46,6 @@
                     Platform="Android"
                     Value="Font Awesome 6 Free-Solid-900.otf#Font Awesome 6 Free Solid" />
             </OnPlatform>
-
             <OnPlatform
                 x:Key="FontAwesomeRegular"
                 x:TypeArguments="x:String">

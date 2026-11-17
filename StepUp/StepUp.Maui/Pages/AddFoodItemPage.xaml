@@ -2,11 +2,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:formviews="clr-namespace:StepUp.Maui.FormViews"
-    x:Class="StepUp.Maui.Pages.AddFoodItemPage"
-    BackgroundColor="White">
-
+    x:Class="StepUp.Maui.Pages.AddFoodItemPage">
     <formviews:FoodItemFormView
-        x:Name="Form" 
-        BindingContext="{Binding .}"/>
-    
+        x:Name="Form" />
 </ContentPage>

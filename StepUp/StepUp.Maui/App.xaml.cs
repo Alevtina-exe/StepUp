@@ -1,4 +1,6 @@
-﻿namespace StepUp.Maui;
+﻿using StepUp.Application.Interfaces.Services;
+
+namespace StepUp.Maui;
 
 public partial class App : Microsoft.Maui.Controls.Application
 {
@@ -14,5 +16,15 @@ public partial class App : Microsoft.Maui.Controls.Application
     {
         var shell = _services.GetRequiredService<AppShell>();
         return new Window(shell);
+    }
+    private async Task LoadSessionAsync(AppShell shell)
+    {
+        var currentUser = _services.GetRequiredService<ICurrentUserProvider>();
+        await currentUser.EnsureLoadedAsync();
+
+        if (currentUser.IsAuthenticated)
+            await shell.GoToAsync("//MainPage");
+        else
+            await shell.GoToAsync("//LoginPage");
     }
 }

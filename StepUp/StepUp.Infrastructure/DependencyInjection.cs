@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
 using StepUp.Application.Interfaces;
 using StepUp.Application.Interfaces.Services;
 using StepUp.Infrastructure.OpenFoodFacts;
@@ -22,6 +23,16 @@ namespace StepUp.Infrastructure
             {
                 client.BaseAddress = new Uri(baseUrl);
                 client.Timeout = TimeSpan.FromSeconds(30);
+            })
+            .AddStandardResilienceHandler(options =>
+            {
+                options.Retry.MaxRetryAttempts = 3;
+                options.Retry.BackoffType = DelayBackoffType.Exponential;
+                options.Retry.UseJitter = true;
+                options.Retry.ShouldHandle = new PredicateBuilder<HttpResponseMessage>()
+                    .Handle<HttpRequestException>()
+                    .HandleResult(r => (int)r.StatusCode >= 500);   
+                options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(60);
             });
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
             services.AddSingleton<IClock, SystemClock>();

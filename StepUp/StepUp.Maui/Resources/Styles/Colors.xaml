@@ -4,7 +4,6 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Base Colors -->
     <Color
         x:Key="Primary">#512BD4</Color>
     <Color
@@ -14,90 +13,155 @@
     <Color
         x:Key="PrimaryLight">#baa4f5</Color>
     <Color
+        x:Key="PrimaryLighter">#d4c7f7</Color>
+    <Color
+        x:Key="PrimarySubtle">#ECE6FB</Color>
+
+    <Color
         x:Key="Secondary">#DFD8F7</Color>
     <Color
         x:Key="SecondaryDarkText">#9880e5</Color>
     <Color
         x:Key="Tertiary">#2B0B98</Color>
+    <Color
+        x:Key="ButtonViolet">#724fdd</Color>
 
-    <!-- Backgrounds -->
+    <!-- ========== LIGHT SURFACES ========== -->
     <Color
-        x:Key="White">White</Color>
+        x:Key="BackgroundLight">#F7F5FB</Color>
     <Color
-        x:Key="Black">Black</Color>
+        x:Key="SurfaceLight">#FFFFFF</Color>
     <Color
-        x:Key="OffBlack">#1f1f1f</Color>
+        x:Key="SurfaceVariantLight">#F2EDFA</Color>
     <Color
-        x:Key="ProductBottomPanel">#d4c4ff</Color>
+        x:Key="BorderLight">#E5DFF0</Color>
     <Color
-        x:Key="PopupBackground">#ccbbfc</Color>
+        x:Key="TextPrimaryLight">#1C1B22</Color>
     <Color
-        x:Key="CardBackground">#E6FFFFFF</Color>
-    <!-- Semi-transparent white -->
+        x:Key="TextSecondaryLight">#5D5A68</Color>
+    <Color
+        x:Key="TextTertiaryLight">#8B8696</Color>
+    <Color
+        x:Key="ShadowLight">#14000000</Color>
 
-    <!-- Text Colors -->
-    <Color
-        x:Key="TextPrimary">#212121</Color>
-    <Color
-        x:Key="TextSecondary">#5d5d5d</Color>
-    <Color
-        x:Key="TextLight">White</Color>
-    <Color
-        x:Key="PlaceholderColor">#c8c8c8</Color>
-    <Color
-        x:Key="ErrorColor">Red</Color>
-    <Color
-        x:Key="AcceptColor">Green</Color>
 
-    <!-- Grays -->
     <Color
-        x:Key="Gray100">#E1E1E1</Color>
+        x:Key="BackgroundDark">#0F0E14</Color>
     <Color
-        x:Key="Gray200">#C8C8C8</Color>
+        x:Key="SurfaceDark">#1A1722</Color>
     <Color
-        x:Key="Gray300">#ACACAC</Color>
+        x:Key="SurfaceVariantDark">#24202E</Color>
     <Color
-        x:Key="Gray400">#919191</Color>
+        x:Key="BorderDark">#352F44</Color>
     <Color
-        x:Key="Gray500">#6E6E6E</Color>
+        x:Key="TextPrimaryDark">#F2F0F6</Color>
     <Color
-        x:Key="Gray600">#404040</Color>
+        x:Key="TextSecondaryDark">#A09AAA</Color>
     <Color
-        x:Key="Gray900">#212121</Color>
+        x:Key="TextTertiaryDark">#7A7584</Color>
     <Color
-        x:Key="Gray950">#141414</Color>
+        x:Key="ShadowDark">#50000000</Color>
 
-    <!-- Nutrition Colors (Product Diagram) -->
-    <Color
-        x:Key="NutriProtein">#9fd5bd</Color>
-    <Color
-        x:Key="NutriFat">#fceda8</Color>
-    <Color
-        x:Key="NutriCarbon">#e79bc3</Color>
-    <Color
-        x:Key="NutriKcal">#b09a6d</Color>
 
-    <!-- BMI Colors -->
     <Color
-        x:Key="BmiDeficit">RoyalBlue</Color>
+        x:Key="Error">#E04B4B</Color>
     <Color
-        x:Key="BmiNormal">Green</Color>
+        x:Key="ErrorLight">#F28B8B</Color>
     <Color
-        x:Key="BmiOverweight">Yellow</Color>
+        x:Key="Success">#2FB86A</Color>
     <Color
-        x:Key="BmiObese1">Orange</Color>
+        x:Key="SuccessLight">#7FDCA6</Color>
     <Color
-        x:Key="BmiObese2">Red</Color>
+        x:Key="Warning">#F59E0B</Color>
     <Color
-        x:Key="BmiObese3">DarkRed</Color>
+        x:Key="Orange">#F97316</Color>
 
-    <!-- Other -->
+    <Color
+        x:Key="ErrorColor">#E04B4B</Color>
+    <Color
+        x:Key="AcceptColor">#2FB86A</Color>
+
+
+    <Color
+        x:Key="White">#FFFFFF</Color>
+    <Color
+        x:Key="Black">#000000</Color>
+    <Color
+        x:Key="OffBlack">#0F0E14</Color>
+    <Color
+        x:Key="PlaceholderColor">#9CA0AD</Color>
+    <Color
+        x:Key="TextPrimary">#1C1B22</Color>
+    <Color
+        x:Key="TextSecondary">#5D5A68</Color>
+    <Color
+        x:Key="TextLight">#FFFFFF</Color>
+    <Color
+        x:Key="CardBackground">#FFFFFF</Color>
+    <Color
+        x:Key="ProductBottomPanel">#ECE6FB</Color>
+    <Color
+        x:Key="PopupBackground">#FFFFFF</Color>
+
+
+    <Color
+        x:Key="Gray100">#F3F4F6</Color>
+    <Color
+        x:Key="Gray200">#E5E7EB</Color>
+    <Color
+        x:Key="Gray300">#D1D5DB</Color>
+    <Color
+        x:Key="Gray400">#9CA3AF</Color>
+    <Color
+        x:Key="Gray500">#6B7280</Color>
+    <Color
+        x:Key="Gray600">#4B5563</Color>
+    <Color
+        x:Key="Gray900">#111827</Color>
+    <Color
+        x:Key="Gray950">#030712</Color>
+
+
+    <Color
+        x:Key="NutriProtein">#7ECCA0</Color>
+    <Color
+        x:Key="NutriFat">#F1D57C</Color>
+    <Color
+        x:Key="NutriCarbon">#E9A2C5</Color>
+    <Color
+        x:Key="NutriKcal">#C9A96B</Color>
+
+
+    <Color
+        x:Key="BmiDeficit">#4C7FDC</Color>
+    <Color
+        x:Key="BmiNormal">#2FB86A</Color>
+    <Color
+        x:Key="BmiOverweight">#E0B23C</Color>
+    <Color
+        x:Key="BmiObese1">#E07A3C</Color>
+    <Color
+        x:Key="BmiObese2">#E04B4B</Color>
+    <Color
+        x:Key="BmiObese3">#8B2C2C</Color>
+
+
     <Color
         x:Key="Magenta">#D600AA</Color>
     <Color
         x:Key="MidnightBlue">#190649</Color>
 
-    <!-- Brushes -->
+
+    <Color
+        x:Key="GlassLight">#E6FFFFFF</Color>
+    <Color
+        x:Key="GlassStrokeLight">#33FFFFFF</Color>
+    <Color
+        x:Key="GlassDark">#B31A1722</Color>
+    <Color
+        x:Key="GlassStrokeDark">#33FFFFFF</Color>
+
+
     <SolidColorBrush
         x:Key="PrimaryBrush"
         Color="{StaticResource Primary}" />
@@ -113,7 +177,6 @@
     <SolidColorBrush
         x:Key="BlackBrush"
         Color="{StaticResource Black}" />
-
     <SolidColorBrush
         x:Key="Gray100Brush"
         Color="{StaticResource Gray100}" />
@@ -139,28 +202,53 @@
         x:Key="Gray950Brush"
         Color="{StaticResource Gray950}" />
 
-    <!-- Gradients -->
+
     <LinearGradientBrush
         x:Key="MainPageGradient"
         StartPoint="1,0"
         EndPoint="0,1">
         <GradientStop
-            Color="{StaticResource PrimaryLight}"
-            Offset="0.1" />
+            Offset="0.10"
+            Color="{StaticResource PrimaryLight}" />
         <GradientStop
-            Color="{StaticResource PrimaryDark}"
-            Offset="1.0" />
+            Offset="1.0"
+            Color="{StaticResource PrimaryDark}" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush
+        x:Key="MainPageGradientDark"
+        StartPoint="1,0"
+        EndPoint="0,1">
+        <GradientStop
+            Offset="0.10"
+            Color="#4A3585" />
+        <GradientStop
+            Offset="1.0"
+            Color="#1F1740" />
+    </LinearGradientBrush>
+
+    <!-- Оверлей для картинки в карточке продукта -->
     <LinearGradientBrush
         x:Key="ImageOverlayGradient"
         StartPoint="0,0"
         EndPoint="0,1">
         <GradientStop
             Color="Transparent"
-            Offset="0.1" />
+            Offset="0.25" />
+        <GradientStop
+            Color="#99000000"
+            Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush
+        x:Key="GradientShadow"
+        StartPoint="0,0"
+        EndPoint="1,1">
         <GradientStop
             Color="Gray"
+            Offset="0.0" />
+        <GradientStop
+            Color="Transparent"
             Offset="1.0" />
     </LinearGradientBrush>
 </ResourceDictionary>
