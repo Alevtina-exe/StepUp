@@ -79,6 +79,7 @@
                                 BackgroundColor="{Binding TotalNutrients.Calories,
                                 Converter={StaticResource CaloriesToColor}}"
                                 Grid.Column="1"
+                                Grid.RowSpan="2"
                                 VerticalOptions="Center">
                                 <Label
                                     Text="{Binding TotalNutrients.Calories, 

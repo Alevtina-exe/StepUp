@@ -35,4 +35,19 @@ public class DayResultRepository(AppDbContext db) : IDayResultRepository
         _db.DayResults
             .Where(d => d.Id == dayId)
             .ExecuteDeleteAsync(ct);
+
+    public Task<List<DayResult>> GetRangeAsync(Guid userId, 
+        DateTime from, DateTime to, CancellationToken ct = default) =>
+        _db.DayResults
+            .AsNoTracking()                         
+            .Where(d => d.UserId == userId && d.Date >= from.Date && d.Date <= to.Date)
+            .OrderBy(d => d.Date)
+            .ToListAsync(ct);
+
+    public Task<DayResult?> GetLastCreatedInRangeAsync(Guid userId, 
+        DateTime from, DateTime to, CancellationToken ct = default) =>
+         _db.DayResults
+            .Where(d => d.UserId == userId && d.Date >= from.Date && d.Date <= to.Date)
+            .OrderByDescending(d => d.Date)
+            .FirstOrDefaultAsync(ct);
 }

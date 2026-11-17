@@ -31,7 +31,7 @@ public partial class MainViewModel : ObservableObject
         WeakReferenceMessenger.Default.Register<DayChangedMessage>(this, (r, m) =>
         {
             if (m.Value.Date == Date.Date)
-                _ = InitializeAsync();
+                _ = LoadDayAsync(Date);
         });
     }
 
@@ -175,7 +175,15 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            CurrDayRes = await _dayService.GetOrCreateDayAsync(date);
+            var newDay = await _dayService.GetOrCreateDayAsync(date);
+            if (ReferenceEquals(newDay, CurrDayRes))
+            {
+                OnCurrDayResChanged(newDay);   
+            }
+            else
+            {
+                CurrDayRes = newDay;
+            }
         }
         catch (Exception ex)
         {

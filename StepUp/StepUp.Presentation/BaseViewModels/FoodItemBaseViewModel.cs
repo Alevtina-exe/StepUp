@@ -162,6 +162,7 @@ namespace StepUp.Presentation.BaseViewModels
             ProteinPercent = Protein;
             FatPercent = Fat;
             CarbonPercent = Carbon;
+
             return product;
         }
 

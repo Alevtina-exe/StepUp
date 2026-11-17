@@ -8,5 +8,9 @@
         Task AddAsync(DayResult dayRes, CancellationToken ct = default);
         Task DeleteAsync(Guid id, CancellationToken ct = default);
         Task UpdateAsync(DayResult dayRes, CancellationToken ct = default);
+        Task<List<DayResult>> GetRangeAsync(Guid userId, DateTime from, DateTime to, 
+            CancellationToken ct = default);
+        Task<DayResult?> GetLastCreatedInRangeAsync(Guid userId, 
+            DateTime from, DateTime to, CancellationToken ct = default);
     }
 }

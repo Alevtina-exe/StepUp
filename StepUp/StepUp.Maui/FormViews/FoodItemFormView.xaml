@@ -15,10 +15,15 @@
 
                 <Grid>
                     <Image
+                        Source="no_image.jpeg"
+                        Aspect="AspectFit" />
+                    <Image
+                        BackgroundColor="Transparent"
                         Source="{Binding ImageUrl}"
                         HeightRequest="280"
-                        Aspect="AspectFill"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceVariantLight}, Dark={StaticResource SurfaceVariantDark}}" />
+                        Aspect="AspectFill">
+                    </Image>
+                        
 
                     <ScrollView
                         VerticalOptions="End"

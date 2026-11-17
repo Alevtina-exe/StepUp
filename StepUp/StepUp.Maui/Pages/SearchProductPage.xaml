@@ -69,13 +69,15 @@
                                 LineBreakMode="TailTruncation" />
                             <Border
                                 Style="{StaticResource Chip}"
+                                Opacity="0.7"
+                                BackgroundColor="{Binding NutrientsPer100g.Calories, Converter={StaticResource CaloriesToColor}}"
                                 Grid.Column="1"
                                 VerticalOptions="Center">
                                 <Label
                                     Text="{Binding NutrientsPer100g.Calories, StringFormat='{0} ккал'}"
                                     FontSize="13"
                                     FontAttributes="Bold"
-                                    TextColor="{StaticResource Primary}" />
+                                    TextColor="{StaticResource White}" />
                             </Border>
                         </Grid>
                     </Border>
