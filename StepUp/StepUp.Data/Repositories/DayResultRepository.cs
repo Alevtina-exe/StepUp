@@ -19,12 +19,14 @@ public class DayResultRepository(AppDbContext db) : IDayResultRepository
 
     public async Task AddAsync(DayResult day, CancellationToken ct = default)
     {
+        day.RecalculateCache();
         _db.DayResults.Add(day);
         await _db.SaveChangesAsync(ct);
     }
 
     public async Task UpdateAsync(DayResult day, CancellationToken ct = default)
     {
+        day.RecalculateCache();
         if (_db.Entry(day).State == EntityState.Detached)
             _db.DayResults.Update(day);
 

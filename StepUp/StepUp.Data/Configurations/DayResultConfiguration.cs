@@ -20,7 +20,9 @@ namespace StepUp.Data.Configurations
             b.Property(d => d.UserId).HasColumnName("user_id").IsRequired();
             b.Property(d => d.Date).HasColumnName("date").IsRequired();
             b.Property(d => d.CaloriePlan).HasColumnName("calorie_plan").IsRequired();
-            b.Property(d => d.Weight).HasColumnName("weight");
+            b.Property(d => d.Weight).HasColumnName("weight").IsRequired();
+            b.Property(d => d.KcalEatenCache).HasColumnName("kcal_eaten").IsRequired();
+            b.Property(d => d.KcalBurntCache).HasColumnName("kcal_burnt").IsRequired();
 
             b.HasIndex(d => new { d.UserId, d.Date })
              .IsUnique()

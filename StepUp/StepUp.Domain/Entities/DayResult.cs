@@ -31,7 +31,11 @@ namespace StepUp.Domain.Entities
         public double Weight { get; private set; }
 
         public int KcalBurnt => Sports.Sum(i => i.BurntKcals);
-        public int KcalEaten => Breakfast.TotalKcal + Lunch.TotalKcal + Dinner.TotalKcal + Snack.TotalKcal; 
+        public int KcalEaten => Meals.Sum(m => m.TotalKcal);
+
+        public int KcalEatenCache { get; private set; }
+        public int KcalBurntCache { get; private set; }
+
 
         public double TotalProtein =>
             _meals.Sum(m => m.TotalProtein);
@@ -108,6 +112,12 @@ namespace StepUp.Domain.Entities
                     "Дневная норма калорий не может быть меньше 1300.");
             CaloriePlan = newCaloriePlan;
         }
-    }
 
+
+        public void RecalculateCache()
+        {
+            KcalEatenCache = KcalEaten;
+            KcalBurntCache = KcalBurnt;
+        }
+    }
 }
