@@ -30,6 +30,14 @@ namespace StepUp.Data.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("date");
 
+                    b.Property<int>("KcalBurntCache")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("kcal_burnt");
+
+                    b.Property<int>("KcalEatenCache")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("kcal_eaten");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("TEXT")
                         .HasColumnName("user_id");

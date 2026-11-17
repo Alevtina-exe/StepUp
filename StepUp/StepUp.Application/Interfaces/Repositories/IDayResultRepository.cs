@@ -1,4 +1,6 @@
-﻿namespace StepUp.Application.Interfaces.Repositories
+﻿using StepUp.Application.Dtos;
+
+namespace StepUp.Application.Interfaces.Repositories
 {
     public interface IDayResultRepository
     {
@@ -8,6 +10,8 @@
         Task AddAsync(DayResult dayRes, CancellationToken ct = default);
         Task DeleteAsync(Guid id, CancellationToken ct = default);
         Task UpdateAsync(DayResult dayRes, CancellationToken ct = default);
+        Task<List<DayResultChartDto>> GetRangeForChartAsync(Guid userId,
+            DateTime from, DateTime to, CancellationToken ct = default);
         Task<DayResult?> GetLastCreatedInRangeAsync(Guid userId, 
             DateTime from, DateTime to, CancellationToken ct = default);
     }

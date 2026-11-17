@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StepUp.Application.Dtos;
 using StepUp.Application.Interfaces.Repositories;
 
 namespace StepUp.Data.Repositories;
@@ -45,4 +46,12 @@ public class DayResultRepository(AppDbContext db) : IDayResultRepository
             .OrderByDescending(d => d.Date)
             .FirstOrDefaultAsync(ct);
 
+    public Task<List<DayResultChartDto>> GetRangeForChartAsync(Guid userId, 
+        DateTime from, DateTime to, CancellationToken ct = default) =>
+        _db.DayResults
+            .AsNoTracking()
+            .Where(d => d.UserId == userId && d.Date >= from.Date && d.Date <= to.Date)
+            .OrderBy(d => d.Date)
+            .Select(d => new DayResultChartDto(d.Date, d.Weight, d.KcalEatenCache, d.KcalBurntCache))
+            .ToListAsync(ct);
 }
