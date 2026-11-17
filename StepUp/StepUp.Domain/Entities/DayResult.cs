@@ -31,7 +31,7 @@ namespace StepUp.Domain.Entities
         public double Weight { get; private set; }
 
         public int KcalBurnt => Sports.Sum(i => i.BurntKcals);
-        public int KcalEaten => Breakfast.TotalKcal + Lunch.TotalKcal + Dinner.TotalKcal + Snack.TotalKcal; 
+        public int KcalEaten => Meals.Sum(m => m.TotalKcal);
 
         public double TotalProtein =>
             _meals.Sum(m => m.TotalProtein);
