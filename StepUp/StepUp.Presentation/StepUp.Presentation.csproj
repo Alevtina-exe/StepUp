@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Compile Remove="ViewModels\DatabaseViewModel.cs" />
-    <Compile Remove="ViewModels\GraphViewModel.cs" />
     <Compile Remove="ViewModels\ProductBaseViewModel.cs" />
     <Compile Remove="ViewModels\ProductPageViewModel.cs" />
     <Compile Remove="ViewModels\StepViewModel.cs" />

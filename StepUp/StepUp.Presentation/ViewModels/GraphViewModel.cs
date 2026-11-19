@@ -1,162 +1,144 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microcharts;
-using SkiaSharp;
-using System.Windows.Input;
-using WeightTracker.Models;
+﻿using StepUp.Application.Interfaces.Services;
+using StepUp.Presentation.Models;
+using System.Collections.ObjectModel;
 
-namespace WeightTracker;
-
-public partial class GraphViewModel : ObservableObject
+namespace StepUp.Presentation.ViewModels
 {
-    private Dictionary<string, float> weekMonthDict;
-    private Dictionary<string, float> yearDict;
-
-    private DateTime _firstDay;
-    private DateTime _lastDay;
-    private DateTime _regDay = DTWork.FromId(UserModel.MainUser.RegistrationDate);
-
-    public ICommand RightButtonCommand { get; }
-    public ICommand LeftButtonCommand { get; }
-
-    [ObservableProperty]
-    private string range;
-    [ObservableProperty]
-    LineChart chartData;
-    [ObservableProperty]
-    bool rightEnabled = false;
-    [ObservableProperty]
-    bool leftEnabled = true;
-    [ObservableProperty]
-    public string selectedInterval = "Неделя";
-
-    public GraphViewModel(Dictionary<string, float> weekMonthDict, Dictionary<string, float> yearDict)
+    public partial class GraphViewModel(ICurrentUserService user,
+        DayResultService dayService, IClock clock) : ObservableObject
     {
-        this.weekMonthDict = weekMonthDict;
-        this.yearDict = yearDict;
-        RightButtonCommand = new Command(OnRight);
-        LeftButtonCommand = new Command(OnLeft);
-    }
-    public void CreateGraph (DateTime lastDay)
-    {
-        _lastDay = lastDay;
-        double y_value = UserModel.MainUser.Weight - 1;
-        List<ChartEntry> entries = new List<ChartEntry>();
-        DateTime date = lastDay;
-        if (SelectedInterval == "Год")
+        private DateTime _registrationDate;
+        [ObservableProperty]
+        private ObservableCollection<DoubleChartPoint> _weightPoints = [];
+        [ObservableProperty]
+        private ObservableCollection<IntChartPoint> _kcalEatenPoints = [];
+        [ObservableProperty]
+        private ObservableCollection<IntChartPoint> _kcalBurntPoints = [];
+
+        public List<TimeRange> Ranges { get; } = TimeRange.All;
+        [ObservableProperty]
+        public TimeRange _weightRange = TimeRange.Week;
+        [ObservableProperty]
+        public TimeRange _kcalRange = TimeRange.Week;
+
+        private DateTime _weightTo = clock.Today;
+        private DateTime _kcalTo = clock.Today;
+
+        [ObservableProperty]
+        private bool _weightNextEnabled = false;
+        [ObservableProperty]
+        private bool _weightPrevEnabled = true;
+        [ObservableProperty]
+        private bool _kcalNextEnabled = false;
+        [ObservableProperty]
+        private bool _kcalPrevEnabled = true;
+
+
+        private List<DoubleChartPoint> _weightPointsCache = [];
+        private List<IntChartPoint> _kcalEatenPointsCache = []; 
+        private List<IntChartPoint> _kcalBurntPointsCache = []; 
+
+        public async Task InitializeAsync()
         {
-            do
+            var today = clock.Today;
+            _registrationDate = 
+                (await user.GetOrLoadAsync()).RegistrationDate.Date;
+            var dtos = await dayService.GetRangeForChart(_registrationDate, today);
+            _weightPointsCache = dtos
+                .Select(p => new DoubleChartPoint(p.Date, p.Weight))
+                .ToList();
+            _kcalEatenPointsCache = dtos 
+                .Select(p => new IntChartPoint(p.Date, p.KcalEaten)) 
+                .ToList();
+            _kcalEatenPointsCache = dtos
+                .Select(p => new IntChartPoint(p.Date, p.KcalBurnt))
+                .ToList();
+            ChangeWeightPoints(WeightRange.DurationInDays);
+            ChangeKcalPoints(KcalRange.DurationInDays);
+        }
+
+        private void ChangeWeightPoints(int range)
+        {
+            WeightPrevEnabled = true;
+            var to = _weightTo;
+            var from = to.AddDays(-range);
+            WeightPoints = new ObservableCollection<DoubleChartPoint>
+                (_weightPointsCache.Where(p => p.Date <= to && p.Date >= from));
+            if(WeightPoints.Count < range)
             {
-                string str_date = date.ToString("MMM, yyyy");
-                y_value = Math.Min(y_value, yearDict[str_date] - 1);
-                entries.Add(new ChartEntry(yearDict[str_date])
+                WeightPrevEnabled = false;
+                for(int i = 0; WeightPoints.Count < range; from.AddDays(1), i++)
                 {
-                    Label = str_date,
-                    ValueLabel = yearDict[str_date].ToString(),
-                    Color = SKColor.Parse("#3BBD1E")
-                });
-                date = (new DateTime(date.Year, date.Month, 1)).AddDays(-1);
-            } while (date.Year != lastDay.Year - 1 &&
-            date.Date >= _regDay.Date);
-            _firstDay = DTWork.Max(new DateTime(lastDay.Year, 1, 1), _regDay); 
-            Range = lastDay.Year.ToString() + " год";
+                    WeightPoints.Insert(i, new DoubleChartPoint(from, null));
+                }
+            }
         }
-        else if(SelectedInterval == "Месяц")
+        private void ChangeKcalPoints(int range)
         {
-            do
+            KcalPrevEnabled = true;
+            var to = _kcalTo;
+            var from = to.AddDays(-range);
+            KcalEatenPoints = new ObservableCollection<IntChartPoint>
+                (_kcalEatenPointsCache.Where(p => p.Date <= to &&  to.Date >= from));
+            KcalBurntPoints = new ObservableCollection<IntChartPoint>
+                (_kcalBurntPointsCache.Where(p => p.Date <= to && to.Date >= from));
+            if (KcalEatenPoints.Count < range)
             {
-                string str_date = DTWork.DateId(date);
-                y_value = Math.Min(y_value, weekMonthDict[str_date] - 1);
-                entries.Add(new ChartEntry(weekMonthDict[str_date])
+                KcalPrevEnabled = false;
+                for (int i = 0; KcalEatenPoints.Count < range; from.AddDays(1), i++)
                 {
-                    Label = date.Day.ToString(),
-                    ValueLabel = weekMonthDict[str_date].ToString(),
-                    Color = SKColor.Parse("#3BBD1E")
-                });
-                date = date.AddDays(-1);
-            } while (date.Month != lastDay.Month - 1 &&
-            date.Date >= _regDay.Date);
-            _firstDay = DTWork.Max(new DateTime(lastDay.Year, lastDay.Month, 1), _regDay);
-            Range = lastDay.ToString("MMMM");
+                    KcalEatenPoints.Insert(i, new IntChartPoint(from, null));
+                    KcalBurntPoints.Insert(i, new IntChartPoint(from, null));
+                }
+            }
         }
-        else if (SelectedInterval == "Неделя")
+        partial void OnWeightRangeChanged(TimeRange value)
         {
-            do
+            ChangeWeightPoints(value.DurationInDays);
+        }
+        partial void OnKcalRangeChanged(TimeRange value)
+        {
+            ChangeKcalPoints(value.DurationInDays);
+        }
+        [RelayCommand]
+        private void OnWeightNext()
+        {
+            if(_weightTo.AddDays(WeightRange.DurationInDays) >= clock.Today)
             {
-                string str_date = DTWork.DateId(date);
-                y_value = Math.Min(y_value, weekMonthDict[str_date] - 1);
-                entries.Add(new ChartEntry(weekMonthDict[str_date])
-                {
-                    Label = date.ToString("ddd, dd MMM"),
-                    ValueLabel = weekMonthDict[str_date].ToString(),
-                    Color = SKColor.Parse("#3BBD1E")
-                });
-                date = date.AddDays(-1);
-            } while (date.DayOfWeek != DayOfWeek.Sunday &&
-            date.Date >= _regDay.Date);
-            date = date.AddDays(1);
-            _firstDay = date;
-            Range = date.ToString("dd MMM") + " - " + lastDay.ToString("dd MMM");
+                _weightTo = clock.Today;
+                WeightNextEnabled = false;
+            }
+            else _weightTo = _weightTo.AddDays(WeightRange.DurationInDays);
+            ChangeWeightPoints(WeightRange.DurationInDays);
         }
-        entries.Reverse();
-        LeftEnabled = true;
-        RightEnabled = true;
-        if(_firstDay.Date == _regDay.Date) LeftEnabled = false;
-        if(_lastDay.Date == DateTime.Now.Date) RightEnabled = false;
-        ChartData = new LineChart
+        [RelayCommand]
+        private void OnKcalNext()
         {
-            MinValue = (int)y_value,
-            ValueLabelOption = ValueLabelOption.TopOfElement,
-            LabelColor = SKColors.Black,
-            ValueLabelTextSize = 30,
-            LabelTextSize = 20,
-            ValueLabelOrientation = Orientation.Horizontal,
-            Entries = entries
-        };
-    }
-
-    private float _zoomLevel = 1.0f;
-    public float ZoomLevel
-    {
-        get => _zoomLevel;
-        set
-        {
-            _zoomLevel = value;
-            OnPropertyChanged();
-            UpdateChartScale();
+            if(_kcalTo.AddDays(KcalRange.DurationInDays) >= clock.Today)
+            {
+                _kcalTo = clock.Today;
+                KcalNextEnabled = false;
+            }
+            else _kcalTo = _kcalTo.AddDays(KcalRange.DurationInDays);
+            ChangeKcalPoints(KcalRange.DurationInDays);
         }
-    }
-    public void OnRight()
-    {
-        DateTime date;
-        switch(SelectedInterval)
+        [RelayCommand]
+        private void OnWeightPrev()
         {
-            case "Неделя":
-                date = _lastDay.AddDays(7);
-                break;
-            case "Месяц":
-                date = _lastDay.AddDays(1).AddMonths(1).AddDays(-1);
-                break;
-            case "Год":
-                date = new DateTime(_lastDay.Year, 12, 31);
-                break;
-            default:
-                date = DateTime.Now;
-                break;
+            _weightTo = _weightTo.AddDays(-WeightRange.DurationInDays);
+            ChangeWeightPoints(WeightRange.DurationInDays);
+            if(_weightTo.AddDays(-WeightRange.DurationInDays -1) <= _registrationDate)
+                WeightPrevEnabled = false;
+            else _weightTo = _weightTo.AddDays(WeightRange.DurationInDays);
         }
-        CreateGraph(DTWork.Min(date, DateTime.Now));
-
-    }
-    public void OnLeft()
-    {
-        CreateGraph(_firstDay.AddDays(-1));
-    }
-    private void UpdateChartScale()
-    {
-        if (ChartData is LineChart lineChart)
+        [RelayCommand]
+        private void OnKcalPrev()
         {
-            lineChart.LabelTextSize = 12 * ZoomLevel;
-            lineChart.ValueLabelTextSize = 12 * ZoomLevel;
-            lineChart.LineSize = 3 * ZoomLevel;
+            _kcalTo = _kcalTo.AddDays(-KcalRange.DurationInDays);
+            ChangeKcalPoints(KcalRange.DurationInDays);
+            if(_kcalTo.AddDays(-KcalRange.DurationInDays -1) <= _registrationDate)
+                KcalPrevEnabled = false;
+            else _kcalTo = _kcalTo.AddDays(KcalRange.DurationInDays);
         }
     }
 }

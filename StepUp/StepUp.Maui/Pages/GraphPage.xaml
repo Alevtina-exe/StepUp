@@ -1,7 +1,70 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:StepUp.Maui.Controls"
+    xmlns:vm="clr-namespace:StepUp.Presentation.ViewModels;assembly=StepUp.Presentation"
     x:Class="StepUp.Maui.Pages.GraphPage"
-    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material">
+    x:DataType="vm:GraphViewModel">
+    <ScrollView>
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            Padding="15,0"
+            Spacing="10">
+            <Label
+                Text="Ваши успехи"
+                HorizontalOptions="Center"
+                Style="{StaticResource Header}" />
+            <controls:LineChartView
+                HeightRequest="400"
+                ItemsSource="{Binding WeightPoints}"
+                LineColor="{StaticResource PrimaryLighter}" />
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Margin="0,0,0,20">
+                <Button
+                    Text="&lt;"
+                    Style="{StaticResource PillButton}"
+                    IsEnabled="{Binding WeightPrevEnabled}"
+                    Command="{Binding WeightPrevCommand}" />
+                <Border
+                    Style="{StaticResource InputBorder}">
+                    <Picker
+                        ItemsSource="{Binding Ranges}"
+                        SelectedItem="{Binding KcalRange, 
+                    Mode=TwoWay}" />
+                </Border>
+                <Button
+                    Text="&gt;"
+                    CornerRadius="30"
+                    IsEnabled="{Binding WeightNextEnabled}"
+                    Command="{Binding WeightNextCommand}" />
+            </HorizontalStackLayout>
+
+            <controls:ColumnChartView
+                HeightRequest="400"
+                KcalBurntSeries="{Binding KcalBurntPoints}"
+                KcalEatenSeries="{Binding KcalEatenPoints}"
+                FirstColumnColor="{StaticResource NutriProtein}"
+                SecondColumnColor="{StaticResource NutriCarbon}" />
+            <HorizontalStackLayout
+                HorizontalOptions="Center">
+                <Button
+                    Text="&lt;"
+                    IsEnabled="{Binding KcalPrevEnabled}"
+                    Command="{Binding KcalPrevCommand}" />
+                <Border
+                    Style="{StaticResource InputBorder}">
+                    <Picker
+                        ItemsSource="{Binding Ranges}"
+                        SelectedItem="{Binding KcalRange, 
+                    Mode=TwoWay}" />
+                </Border>
+                <Button
+                    Text="&gt;"
+                    IsEnabled="{Binding KcalNextEnabled}"
+                    Command="{Binding KcalNextCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

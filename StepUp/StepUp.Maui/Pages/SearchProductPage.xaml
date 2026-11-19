@@ -59,19 +59,26 @@
                         </Border.GestureRecognizers>
                         <Grid
                             ColumnDefinitions="*,Auto"
+                            RowDefinitions="Auto,Auto"
                             ColumnSpacing="12">
                             <Label
                                 Text="{Binding Name}"
                                 FontSize="16"
                                 FontAttributes="Bold"
-                                VerticalTextAlignment="Center"
                                 Grid.Column="0"
                                 LineBreakMode="TailTruncation" />
+                            <Label
+                                Text="{Binding Brands}"
+                                Margin="5,0,0,0"
+                                FontAttributes="Italic"
+                                FontSize="12"
+                                Grid.Row="1"/>
                             <Border
                                 Style="{StaticResource Chip}"
                                 Opacity="0.7"
                                 BackgroundColor="{Binding NutrientsPer100g.Calories, Converter={StaticResource CaloriesToColor}}"
                                 Grid.Column="1"
+                                Grid.RowSpan="2"
                                 VerticalOptions="Center">
                                 <Label
                                     Text="{Binding NutrientsPer100g.Calories, StringFormat='{0} ккал'}"

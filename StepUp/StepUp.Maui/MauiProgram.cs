@@ -1,18 +1,19 @@
 ﻿using AiForms.Settings;
 using CommunityToolkit.Maui;
+using LiveChartsCore.SkiaSharpView.Maui;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 using StepUp.Application;
 using StepUp.Application.Interfaces.Services;
 using StepUp.Data;
 using StepUp.Infrastructure;
-using StepUp.Maui.Services;
 using StepUp.Maui.Pages;
+using StepUp.Maui.Services;
 using StepUp.Presentation;
 using StepUp.Presentation.Interfaces;
 using System.Reflection;
-using UraniumUI;
 using ZXing.Net.Maui.Controls;
 
 namespace StepUp.Maui;
@@ -26,9 +27,9 @@ public static class MauiProgram
         builder
 			.UseMauiApp<App>()
 		    .UseMauiCommunityToolkit()
-			.UseUraniumUI()
-			.UseUraniumUIMaterial()
-			.UseBarcodeReader()
+            .UseSkiaSharp()
+            .UseLiveCharts()
+            .UseBarcodeReader()
             .ConfigureMauiHandlers(handlers =>
 			{
 				handlers.AddSettingsViewHandler();

@@ -26,6 +26,10 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
 
             return MapProduct(root.GetProperty("product"), barcode);
         }
+        catch (Polly.Timeout.TimeoutRejectedException)
+        {
+            return null;
+        }
         catch (HttpRequestException)
         {
             return null;
@@ -86,6 +90,7 @@ public class OpenFoodFactsClient(HttpClient httpClient) : IFoodProductClient
             }
             return result;
         }
+        catch (Polly.Timeout.TimeoutRejectedException) { return []; }
         catch (HttpRequestException) { return []; }
         catch (JsonException) { return []; }
         catch (OperationCanceledException) { throw; }

@@ -1,4 +1,5 @@
-﻿using StepUp.Application.Exceptions;
+﻿using StepUp.Application.Dtos;
+using StepUp.Application.Exceptions;
 using StepUp.Application.Interfaces.Repositories;
 using StepUp.Application.Interfaces.Services;
 using StepUp.Domain.Enums;
@@ -167,5 +168,41 @@ public class DayResultService(IDayResultRepository dayResults,
         await dayResults.UpdateAsync(todayResult, ct);
 
         return todayResult ;
+    }
+
+    public async Task<List<DayResultChartDto>> GetRangeForChart(DateTime from, DateTime to,
+        CancellationToken ct = default)
+    {
+        var user = await userService.GetOrLoadAsync(ct) ??
+            throw new UserNotFoundException();
+        var fromDate = from.Date < user.RegistrationDate ? user.RegistrationDate : from.Date;
+        var toDate = to.Date > clock.Today ? clock.Today : to.Date;
+        var dtoList = await dayResults.GetRangeForChartAsync(user.Id, fromDate, toDate, ct);
+        double initialWeight;
+        var dtoListCount = dtoList.Count;
+        if(dtoListCount == 0 || dtoList[0].Date.Date != fromDate)
+        {
+            var lastBefore = await dayResults.GetLastCreatedInRangeAsync(user.Id, 
+                user.RegistrationDate.Date, from.AddDays(-1), ct);
+            initialWeight = lastBefore?.Weight ?? user.Weight;
+        }
+        else initialWeight = dtoList[0].Weight;
+
+        var resList = new List<DayResultChartDto>();
+        for (int i = 0, j = 0; i <= (toDate - fromDate).Days; i++)
+        {
+            var currentDate = fromDate.AddDays(i);
+            if (j < dtoListCount &&
+                dtoList[j].Date.Date == currentDate)
+            {
+                resList.Add(dtoList[j]);
+                initialWeight = dtoList[j++].Weight;
+            }
+            else
+            {
+                resList.Add(new DayResultChartDto(currentDate, initialWeight, 0, 0));
+            }
+        }
+        return resList;
     }
 }

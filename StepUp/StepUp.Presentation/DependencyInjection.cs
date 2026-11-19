@@ -11,6 +11,7 @@ namespace StepUp.Presentation
             services.AddTransient<BodyDataViewModel>();
             services.AddTransient<EditAccountViewModel>();
             services.AddTransient<EditFoodItemViewModel>();
+            services.AddTransient<GraphViewModel>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<MealListViewModel>();

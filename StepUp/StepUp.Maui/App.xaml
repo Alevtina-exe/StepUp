@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:StepUp.Maui.Converters"
-    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
     xmlns:local="clr-namespace:StepUp.Maui"
     x:Class="StepUp.Maui.App"
     UserAppTheme="Unspecified">
@@ -34,9 +33,6 @@
                     <converters:CaloriesToColorConverter
                         x:Key="CaloriesToColor" />
                 </ResourceDictionary>
-                <material:StyleResource
-                    ColorsOverride="{x:Reference appColors}"
-                    BasedOn="{x:Reference appStyles}" />
             </ResourceDictionary.MergedDictionaries>
 
             <OnPlatform
